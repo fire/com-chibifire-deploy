@@ -27,7 +27,7 @@ execute 'generate_ssh_key' do
 end
 
 execute 'add_key_to_authorized' do
-  command 'cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys'
+  command 'cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys'
   user 'vagrant'
   group 'vagrant'
   action :nothing
@@ -38,26 +38,35 @@ execute 'set_git_username_and_email' do
   user 'vagrant'
   group 'vagrant'
   action :nothing
+  environment 'HOME' => '/home/vagrant'
 end
 
 file '/home/vagrant/.ssh_key.lock' do
   action :create_if_missing
-  notifies :run, 'execute[generate_ssh_key]', :immediately
-  notifies :run, 'execute[add_key_to_authorized]', :immediately
-  notifies :run, 'execute[set_git_username_and_email]', :immediately
+  notifies :run, 'execute[generate_ssh_key]', :delayed
+  notifies :run, 'execute[add_key_to_authorized]', :delayed
+  notifies :run, 'execute[set_git_username_and_email]', :delayed
   user 'vagrant'
   group 'vagrant'
 end
 
 execute 'gradle_build_product' do
   command '/home/vagrant/snappydata/gradlew product'
-  cwd '/vagrant/snappydata'
+  cwd '/home/vagrant/snappydata'
   user 'vagrant'
   group 'vagrant'
 end
 
-execute 'start_snappydata_server' do
-  command '/home/vagrant/snappydata/sbin/snappy-start-all.sh'
-  user 'vagrant'
-  group 'vagrant'
+cookbook_file "/etc/init/snappydata.conf" do
+  source "snappydata.conf"
+  owner "root"
+  group "root"
+  mode 00644
+  action :create
+end
+
+service "snappydata" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true
+  action [:enable,:start]
 end
