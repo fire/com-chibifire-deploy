@@ -2,7 +2,7 @@
 # Cookbook Name:: main
 # Recipe:: default
 #
-# Copyright (C) 2016 YOUR_NAME
+# Copyright (C) 2016 K. S. Ernest (iFire) Lee
 #
 # All rights reserved - Do Not Redistribute
 #
