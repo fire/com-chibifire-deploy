@@ -14,6 +14,7 @@ git '/vagrant/snappydata' do
   enable_submodules true
   user 'vagrant'
   group 'vagrant'
+  timeout 3600
 end
 
 execute 'gradle_build_product' do
