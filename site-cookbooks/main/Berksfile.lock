@@ -6,6 +6,8 @@ DEPENDENCIES
     metadata: true
   snappydata
     path: ../../cookbooks/snappydata
+  snappydata-ycsb
+    path: ../../cookbooks/snappydata-ycsb
 
 GRAPH
   apt (3.0.0)
@@ -14,4 +16,7 @@ GRAPH
     apt (>= 0.0.0)
     apt-upgrade-once (>= 0.0.0)
     snappydata (>= 0.0.0)
+    snappydata-ycsb (>= 0.0.0)
   snappydata (0.1.0)
+    snappydata-ycsb (>= 0.0.0)
+  snappydata-ycsb (0.1.0)

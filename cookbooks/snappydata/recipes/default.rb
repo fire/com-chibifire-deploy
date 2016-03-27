@@ -89,7 +89,6 @@ cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/l
   action :create
 end
 
-
 cookbook_file "/etc/hosts" do
   source "hosts"
   owner "root"
@@ -103,3 +102,5 @@ service "snappydata" do
   supports :restart => true
   action [:enable,:restart]
 end
+
+include_recipe 'snappydata-ycsb::default'

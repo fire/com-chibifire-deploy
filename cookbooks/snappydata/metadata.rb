@@ -7,3 +7,5 @@ long_description 'Installs/Configures snappydata'
 
 version          '0.1.0'
 
+
+depends 'snappydata-ycsb'
