@@ -50,19 +50,25 @@ file '/home/vagrant/.ssh_key.lock' do
   group 'vagrant'
 end
 
-execute 'gradle_build_product' do
-  command '/home/vagrant/snappydata/gradlew product'
-  cwd '/home/vagrant/snappydata'
-  user 'vagrant'
-  group 'vagrant'
-end
-
 cookbook_file "/etc/init/snappydata.conf" do
   source "snappydata.conf"
   owner "root"
   group "root"
   mode 00644
   action :create
+end
+
+service "snappydata" do
+  provider Chef::Provider::Service::Upstart
+  supports :restart => true
+  action [:enable,:stop]
+end
+
+execute 'gradle_build_product' do
+  command '/home/vagrant/snappydata/gradlew product'
+  cwd '/home/vagrant/snappydata'
+  user 'vagrant'
+  group 'vagrant'
 end
 
 cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/servers" do
@@ -100,7 +106,7 @@ end
 service "snappydata" do
   provider Chef::Provider::Service::Upstart
   supports :restart => true
-  action [:enable,:restart]
+  action [:enable,:start]
 end
 
 include_recipe 'snappydata-ycsb::default'
