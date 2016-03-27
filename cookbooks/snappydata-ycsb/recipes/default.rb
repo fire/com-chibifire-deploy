@@ -38,11 +38,13 @@ end
 
 bash "apply-snappydata-ycsb-patch" do
   code <<-EOH
-     git apply /home/vagrant/YCSB/ycsb-0.8.0-SNAPSHOT-snappystore-01.patch
+    cd /home/vagrant/YCSB
+    if [ ! -d /home/vagrant/YCSB/snappystore ]; then
+      git apply ycsb-0.8.0-SNAPSHOT-snappystore-01.patch
+    fi
   EOH
   user 'vagrant'
   group 'vagrant'
-  cwd '/home/vagrant/YCSB'
 end
 
 package 'maven' do
@@ -51,11 +53,11 @@ end
 
 bash "compile-ycsb" do
   code <<-EOH
-    "mvn -pl com.yahoo.ycsb:snappystore-binding -am clean package"
+    cd /home/vagrant/YCSB
+    mvn -pl com.yahoo.ycsb:snappystore-binding -am clean package
   EOH
   user 'vagrant'
   group 'vagrant'
-  cwd '/home/vagrant/YCSB'
 end
 
 execute "create-ycsb-tables" do
@@ -66,14 +68,14 @@ execute "create-ycsb-tables" do
 end
 
 execute "load-ycsb" do
-  command "./bin/ycsb load snappystore -P workloads/workloada -s -threads 4 -p recordcount=500000"
+  command "./bin/ycsb load snappystore -P workloads/workloada -s -threads 4 -p recordcount=50000"
   user 'vagrant'
   group 'vagrant'
   cwd '/home/vagrant/YCSB'
 end
 
-execute "load-ycsb" do
-  command "./bin/ycsb run snappystore -P workloads/workloada -s -threads 4 -p operationcount=500000 -p requestdistribution=zipfian"
+execute "run-ycsb" do
+  command "./bin/ycsb run snappystore -P workloads/workloada -s -threads 4 -p operationcount=50000 -p requestdistribution=zipfian"
   user 'vagrant'
   group 'vagrant'
   cwd '/home/vagrant/YCSB'
