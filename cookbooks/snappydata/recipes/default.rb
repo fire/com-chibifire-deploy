@@ -43,9 +43,9 @@ end
 
 file '/home/vagrant/.ssh_key.lock' do
   action :create_if_missing
-  notifies :run, 'execute[generate_ssh_key]', :delayed
-  notifies :run, 'execute[add_key_to_authorized]', :delayed
-  notifies :run, 'execute[set_git_username_and_email]', :delayed
+  notifies :run, 'execute[generate_ssh_key]', :immediate
+  notifies :run, 'execute[add_key_to_authorized]', :immediate
+  notifies :run, 'execute[set_git_username_and_email]', :immediate
   user 'vagrant'
   group 'vagrant'
 end
@@ -65,8 +65,41 @@ cookbook_file "/etc/init/snappydata.conf" do
   action :create
 end
 
+cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/servers" do
+  source "servers"
+  owner "vagrant"
+  group "vagrant"
+  mode 00755
+  action :create
+end
+
+cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/leads" do
+  source "leads"
+  owner "vagrant"
+  group "vagrant"
+  mode 00755
+  action :create
+end
+
+cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/locators" do
+  source "locators"
+  owner "vagrant"
+  group "vagrant"
+  mode 00755
+  action :create
+end
+
+
+cookbook_file "/etc/hosts" do
+  source "hosts"
+  owner "root"
+  group "root"
+  mode 00755
+  action :create
+end
+
 service "snappydata" do
   provider Chef::Provider::Service::Upstart
   supports :restart => true
-  action [:enable,:start]
+  action [:enable,:restart]
 end
