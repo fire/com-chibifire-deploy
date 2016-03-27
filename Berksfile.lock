@@ -1,0 +1,12 @@
+DEPENDENCIES
+  apt-upgrade-once (~> 0.2.1)
+  snappydata
+    path: snappydata
+  snappydata-chef
+    path: .
+    metadata: true
+
+GRAPH
+  apt-upgrade-once (0.2.1)
+  snappydata (0.1.0)
+  snappydata-chef (0.1.0)
