@@ -11,7 +11,7 @@ include_recipe 'apt-upgrade-once::default'
 
 apt_repository 'webupd8team-java' do
   uri          'ppa:webupd8team/java'
-  distribution 'trusty'
+  distribution 'xenial'
 end
 
 bash 'accept_java_license' do
