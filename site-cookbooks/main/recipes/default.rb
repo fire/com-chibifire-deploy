@@ -31,4 +31,8 @@ package 'git' do
   action :upgrade
 end
 
+package 'openssh-server' do
+  action :upgrade
+end
+
 include_recipe 'snappydata::default'

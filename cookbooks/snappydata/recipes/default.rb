@@ -7,13 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 
-git '/home/vagrant/snappydata' do
+git '/home/' + node['snappydata']['user'] + '/snappydata' do
   repository 'https://github.com/SnappyDataInc/snappydata.git'
   revision 'v0.2.1-preview'
   action :sync
   enable_submodules true
-  user 'vagrant'
-  group 'vagrant'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
   timeout 3600
 end
 
@@ -21,41 +21,41 @@ end
 
 execute 'generate_ssh_key' do
   command 'cat /dev/zero | ssh-keygen -t rsa -q -N ""'
-  user 'vagrant'
-  group 'vagrant'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
   action :nothing
 end
 
 execute 'add_key_to_authorized' do
-  command 'cat /home/vagrant/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys'
-  user 'vagrant'
-  group 'vagrant'
+  command 'cat /home/' + node['snappydata']['user'] + '/.ssh/id_rsa.pub >> /home/'+ node['snappydata']['user'] + '/.ssh/authorized_keys'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
   action :nothing
 end
 
 execute 'set_git_username_and_email' do
   command 'git config --global user.email "vagrant@snappydata.example.com" && git config --global user.name "Snappydata Vagrant"'
-  user 'vagrant'
-  group 'vagrant'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
   action :nothing
-  environment 'HOME' => '/home/vagrant'
+  environment 'HOME' => '/home/' + node['snappydata']['user']
 end
 
-file '/home/vagrant/.ssh_key.lock' do
+file '/home/' + node['snappydata']['user'] + '/.ssh_key_git_config.lock' do
   action :create_if_missing
   notifies :run, 'execute[generate_ssh_key]', :immediate
   notifies :run, 'execute[add_key_to_authorized]', :immediate
   notifies :run, 'execute[set_git_username_and_email]', :immediate
-  user 'vagrant'
-  group 'vagrant'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
 end
 
-cookbook_file "/etc/systemd/system/snappydata.service" do
-  source "snappydata.service"
+template "/etc/systemd/system/snappydata.service" do
+  source "snappydata.service.erb"
   owner "root"
   group "root"
   mode 00644
-  action :create
+  notifies :reload, "service[snappydata]"
 end
 
 service "snappydata" do
@@ -65,32 +65,32 @@ service "snappydata" do
 end
 
 execute 'gradle_build_product' do
-  command '/home/vagrant/snappydata/gradlew product'
-  cwd '/home/vagrant/snappydata'
-  user 'vagrant'
-  group 'vagrant'
+  command '/home/' + node['snappydata']['user'] + '/snappydata/gradlew product'
+  cwd '/home/' + node['snappydata']['user'] + '/snappydata'
+  user node['snappydata']['user']
+  group node['snappydata']['group']
 end
 
-cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/servers" do
+cookbook_file '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/servers' do
   source "servers"
-  owner "vagrant"
-  group "vagrant"
+  owner node['snappydata']['user']
+  group node['snappydata']['group']
   mode 00755
   action :create
 end
 
-cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/leads" do
+cookbook_file "/home/" + node['snappydata']['user'] + "/snappydata/build-artifacts/scala-2.10/snappy/conf/leads" do
   source "leads"
-  owner "vagrant"
-  group "vagrant"
+  owner node['snappydata']['user']
+  group node['snappydata']['group']
   mode 00755
   action :create
 end
 
-cookbook_file "/home/vagrant/snappydata/build-artifacts/scala-2.10/snappy/conf/locators" do
+cookbook_file "/home/" + node['snappydata']['user'] + "/snappydata/build-artifacts/scala-2.10/snappy/conf/locators" do
   source "locators"
-  owner "vagrant"
-  group "vagrant"
+  owner node['snappydata']['user']
+  group node['snappydata']['group']
   mode 00755
   action :create
 end

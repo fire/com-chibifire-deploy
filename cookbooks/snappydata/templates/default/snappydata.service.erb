@@ -1,0 +1,13 @@
+[Unit]
+Description=SnappyData: OLTP + OLAP Database built on Apache Spark http://www.snappydata.io
+
+[Service]
+Type=oneshot
+ExecStart=/home/<%= node['snappydata']['user'] %>/snappydata/build-artifacts/scala-2.10/snappy/sbin/snappy-start-all.sh
+ExecStop=/home/<%= node['snappydata']['user'] %>/snappydata/build-artifacts/scala-2.10/snappy/sbin/snappy-stop-all.sh
+RemainAfterExit=yes
+User=<%= node['snappydata']['user'] %>
+Group=<%= node['snappydata']['user'] %>
+
+[Install]
+WantedBy=network-online.target
