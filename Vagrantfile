@@ -28,6 +28,4 @@ Vagrant.configure("2") do |config|
     end
   end
   config.vm.network "private_network", ip: "192.168.55.4", auto_config: false
-  #Bugfix https://github.com/mitchellh/vagrant/issues/7155
-  config.vm.provision 'shell', inline: "ifconfig lxcbr0 192.168.55.4"
 end
