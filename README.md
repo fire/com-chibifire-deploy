@@ -19,4 +19,4 @@ Install:
 * `vagrant plugin install vagrant-berkshelf`
 * `vagrant up`
 
-Point your sql client to `vagrant-ubuntu-trusty-64.192.168.55.4.xip.io`.
+Point your sql client to `vagrant-ubuntu-xenial-64.192.168.55.4.xip.io`.

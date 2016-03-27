@@ -50,8 +50,8 @@ file '/home/vagrant/.ssh_key.lock' do
   group 'vagrant'
 end
 
-cookbook_file "/etc/init/snappydata.conf" do
-  source "snappydata.conf"
+cookbook_file "/etc/systemd/system/snappydata.service" do
+  source "snappydata.service"
   owner "root"
   group "root"
   mode 00644
@@ -59,7 +59,7 @@ cookbook_file "/etc/init/snappydata.conf" do
 end
 
 service "snappydata" do
-  provider Chef::Provider::Service::Upstart
+  provider Chef::Provider::Service::Systemd
   supports :restart => true
   action [:enable,:stop]
 end
@@ -104,9 +104,10 @@ cookbook_file "/etc/hosts" do
 end
 
 service "snappydata" do
-  provider Chef::Provider::Service::Upstart
+  provider Chef::Provider::Service::Systemd
   supports :restart => true
-  action [:enable,:start]
+  supports :status => true
+  action [:enable, :start]
 end
 
 include_recipe 'snappydata-ycsb::default'

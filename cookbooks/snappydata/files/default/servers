@@ -22,4 +22,4 @@
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
 # localhost   -dir=/tmp/data/server (config args)
-vagrant-ubuntu-trusty-64 -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
+vagrant-ubuntu-xenial-64 -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
