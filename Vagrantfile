@@ -27,4 +27,8 @@ Vagrant.configure("2") do |config|
       vb.memory = `wmic OS get TotalVisibleMemorySize`.split("\n")[2].to_i / 1024 /4
     end
   end
+
+  config.vm.synced_folder ".", "/vagrant", type: "nfs"
+  # A private dhcp network is required for NFS to work (on Windows hosts, at least)
+  config.vm.network "private_network", type: "dhcp"
 end

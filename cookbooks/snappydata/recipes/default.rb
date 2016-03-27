@@ -17,6 +17,22 @@ git '/vagrant/snappydata' do
   timeout 3600
 end
 
+file 'ssh_key.lock' do
+  action :create_if_missing
+  notifies :run, 'execute[generate_ssh_key]', :immediately
+  notifies :run, 'execute[add_key_to_authorized]', :immediately
+  notifies :run, 'execute[set_git_username_and_email]', :immediately
+  user 'vagrant'
+  group 'vagrant'
+end
+
+execute 'set_git_username_and_email' do
+  command 'git config --global user.email "vagrant@snappydata.example.com" && git config --global user.name "Snappydata Vagrant"'
+  user 'vagrant'
+  group 'vagrant'
+  action :nothing
+end
+
 execute 'gradle_build_product' do
   command '/vagrant/snappydata/gradlew product'
   cwd '/vagrant/snappydata'
@@ -25,14 +41,6 @@ execute 'gradle_build_product' do
 end
 
 # https://unix.stackexchange.com/questions/69314/automated-ssh-keygen-without-passphrase-how
-
-file 'ssh_key.lock' do
-  action :create_if_missing
-  notifies :run, 'execute[generate_ssh_key]', :immediately
-  notifies :run, 'execute[add_key_to_authorized]', :immediately
-  user 'vagrant'
-  group 'vagrant'
-end
 
 execute 'generate_ssh_key' do
   command 'cat /dev/zero | ssh-keygen -t rsa -q -N ""'
