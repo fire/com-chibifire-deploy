@@ -7,16 +7,15 @@
 # All rights reserved - Do Not Redistribute
 #
 
-git '/vagrant/snappydata' do
+git '/home/vagrant/snappydata' do
   repository 'https://github.com/SnappyDataInc/snappydata.git'
   revision 'v0.2.1-preview'
-  action :checkout
+  action :sync
   enable_submodules true
   user 'vagrant'
   group 'vagrant'
   timeout 3600
 end
-
 
 # https://unix.stackexchange.com/questions/69314/automated-ssh-keygen-without-passphrase-how
 
@@ -51,14 +50,14 @@ file '/home/vagrant/.ssh_key.lock' do
 end
 
 execute 'gradle_build_product' do
-  command '/vagrant/snappydata/gradlew product'
+  command '/home/vagrant/snappydata/gradlew product'
   cwd '/vagrant/snappydata'
   user 'vagrant'
   group 'vagrant'
 end
 
 execute 'start_snappydata_server' do
-  command '/vagrant/snappydata/sbin/snappy-start-all.sh'
+  command '/home/vagrant/snappydata/sbin/snappy-start-all.sh'
   user 'vagrant'
   group 'vagrant'
 end
