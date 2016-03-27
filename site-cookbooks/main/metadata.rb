@@ -1,4 +1,4 @@
-name             'snappydata-chef'
+name             'main'
 maintainer       'K. S. Ernest (iFire) Lee'
 maintainer_email 'ernest.lee@chibifire.com'
 license          'All rights reserved'
@@ -7,3 +7,5 @@ long_description 'Installs/Configures snappydata'
 
 version          '0.1.0'
 
+depends 'snappydata'
+depends 'apt-upgrade-once'
