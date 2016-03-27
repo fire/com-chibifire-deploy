@@ -1,4 +1,5 @@
 DEPENDENCIES
+  apt (~> 3.0.0)
   apt-upgrade-once (~> 0.2.1)
   main
     path: .
@@ -7,8 +8,10 @@ DEPENDENCIES
     path: ../../cookbooks/snappydata
 
 GRAPH
+  apt (3.0.0)
   apt-upgrade-once (0.2.1)
   main (0.1.0)
+    apt (>= 0.0.0)
     apt-upgrade-once (>= 0.0.0)
     snappydata (>= 0.0.0)
   snappydata (0.1.0)

@@ -9,9 +9,22 @@ Vagrant.configure("2") do |config|
     chef.roles_path = "roles"
     chef.add_recipe "main::default"
   end
+  host = RbConfig::CONFIG['host_os']
   config.vm.provider :virtualbox do |vb|
     vb.name = "snappydata-ubuntu-kitchen"
     vb.gui = false
-    vb.memory = "16384"
+    # https://github.com/actuallymentor/vagrant-smus/blob/master/Vagrantfile
+    # Give VM 1/4 system memory & access to all cpu cores on the host
+    if host =~ /darwin/
+      vb.cpus = `sysctl -n hw.ncpu`.to_i
+      # sysctl returns Bytes and we need to convert to MB
+      vb.memory = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
+    elsif host =~ /linux/
+      vb.cpus = `nproc`.to_i
+      vb.memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
+    elsif host =~ /mingw*/
+      vb.cpus = `wmic cpu get NumberOfCores`.split("\n")[2].to_i
+      vb.memory = `wmic OS get TotalVisibleMemorySize`.split("\n")[2].to_i / 1024 /4
+    end
   end
 end

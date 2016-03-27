@@ -6,3 +6,4 @@ metadata
 
 cookbook 'snappydata', path: '../../cookbooks/snappydata'
 cookbook 'apt-upgrade-once', '~> 0.2.1'
+cookbook 'apt', '~> 3.0.0'
