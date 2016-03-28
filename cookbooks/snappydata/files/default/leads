@@ -22,4 +22,4 @@
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
 # localhost   -dir=/tmp/data/lead (config args)
-ubuntu-xenial -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
+ubuntu-xenial.192.168.55.4.xip.io -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
