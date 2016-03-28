@@ -100,6 +100,13 @@ template '/etc/hosts' do
   mode 00644
 end
 
+execute 'write_hostname' do
+  command 'sudo hostnamectl set-hostname ' + node['snappydata']['hostname']
+  user 'root'
+  group 'root'
+end
+
+
 service "snappydata" do
   provider Chef::Provider::Service::Systemd
   supports :restart => true

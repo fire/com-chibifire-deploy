@@ -22,4 +22,4 @@
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
 # localhost   -dir=/tmp/data/server (config args)
-<%= node['snappydata']['hostname'] %> -client-bind-address=<%= node['snappydata']['ip'] %> -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
+<%= node['snappydata']['fqdn'] %> -client-bind-address=<%= node['snappydata']['ip'] %> -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
