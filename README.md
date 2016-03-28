@@ -27,3 +27,5 @@ Point your sql client to `vagrant-ubuntu-xenial-64.192.168.55.4.xip.io`.
 ## Notes
 
 The YCSB SnappyStore driver hard codes the hostname. Patches accepted for this.
+
+Must manually patch https://github.com/mitchellh/vagrant/commit/0505771481222b4893daa5454ff6c9c16f471fa4 to avoid bug with private networks.

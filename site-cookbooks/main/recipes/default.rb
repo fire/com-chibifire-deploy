@@ -7,11 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-#Bugfix https://github.com/mitchellh/vagrant/issues/7155
-ifconfig '192.168.55.4' do
-  device 'lxcbr0'
-end
-
 include_recipe 'apt-upgrade-once::default'
 
 apt_repository 'webupd8team-java' do

@@ -27,5 +27,5 @@ Vagrant.configure("2") do |config|
       vb.memory = `wmic OS get TotalVisibleMemorySize`.split("\n")[2].to_i / 1024 /4
     end
   end
-  config.vm.network "private_network", ip: "192.168.55.4", auto_config: false
+  config.vm.network "private_network", ip: "192.168.55.4"
 end
