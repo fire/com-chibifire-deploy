@@ -22,7 +22,7 @@ Install:
 * `vagrant up`
 * `vagrant provision`
 
-Point your sql client to `vagrant-ubuntu-xenial-64.192.168.55.4.xip.io`.
+Point your sql client to `ubuntu-xenial.192.168.55.4.xip.io`.
 
 ## Notes
 
