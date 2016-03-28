@@ -111,7 +111,7 @@ service "snappydata" do
   provider Chef::Provider::Service::Systemd
   supports :restart => true
   supports :status => true
-  action [:enable, :start]
+  action [:start]
 end
 
 include_recipe 'snappydata-ycsb::default'
