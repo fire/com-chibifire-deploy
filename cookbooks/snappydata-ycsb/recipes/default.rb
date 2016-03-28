@@ -49,14 +49,14 @@ execute "dos2unix-snappydata-ycsb-patch" do
 end
 
 unless Dir.exist? "/home/" + node['snappydata-ycsb']['user'] + "/YCSB/snappystore"
-  execute "apply-snappydata-ycsb-patch" do
-    command "git apply ycsb-0.8.0-SNAPSHOT-snappystore-01.patch"
+  execute "revert-to-python-2.7-patch" do
+    command "patch -p1 < revert-to-python-2.7.patch"
     user node['snappydata-ycsb']['user']
     group node['snappydata-ycsb']['group']
     cwd "/home/" + node['snappydata-ycsb']['user'] + "/YCSB"
   end
-  execute "revert-to-python-2.7-patch" do
-    command "git apply revert-to-python-2.7.patch"
+  execute "apply-snappydata-ycsb-patch" do
+    command "git apply ycsb-0.8.0-SNAPSHOT-snappystore-01.patch"
     user node['snappydata-ycsb']['user']
     group node['snappydata-ycsb']['group']
     cwd "/home/" + node['snappydata-ycsb']['user'] + "/YCSB"
