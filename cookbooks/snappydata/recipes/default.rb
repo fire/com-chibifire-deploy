@@ -71,36 +71,33 @@ execute 'gradle_build_product' do
   group node['snappydata']['group']
 end
 
-cookbook_file '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/servers' do
-  source "servers"
+template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/leads' do
+  source "leads.erb"
   owner node['snappydata']['user']
   group node['snappydata']['group']
-  mode 00755
-  action :create
+  mode 00644
 end
 
-cookbook_file "/home/" + node['snappydata']['user'] + "/snappydata/build-artifacts/scala-2.10/snappy/conf/leads" do
-  source "leads"
+
+template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/servers' do
+  source "servers.erb"
   owner node['snappydata']['user']
   group node['snappydata']['group']
-  mode 00755
-  action :create
+  mode 00644
 end
 
-cookbook_file "/home/" + node['snappydata']['user'] + "/snappydata/build-artifacts/scala-2.10/snappy/conf/locators" do
-  source "locators"
+template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/locators' do
+  source "locators.erb"
   owner node['snappydata']['user']
   group node['snappydata']['group']
-  mode 00755
-  action :create
+  mode 00644
 end
 
-cookbook_file "/etc/hosts" do
-  source "hosts"
-  owner "root"
-  group "root"
-  mode 00755
-  action :create
+template '/etc/hosts' do
+  source "hosts.erb"
+  owner 'root'
+  group 'root'
+  mode 00644
 end
 
 service "snappydata" do

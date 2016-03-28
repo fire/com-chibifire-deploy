@@ -15,11 +15,11 @@
 # limitations under the License.
 #
 
-# Specify the host name on which a Snappy server will be started. Also
+# Specify the host name on which a Snappy lead will be started. Also
 # specify the startup directory where the logs and configuration files
-# for that server instance are kept. Apart from these two things, snappy
+# for that lead instance are kept. Apart from these two things, snappy
 # specific properties can also be passed. If the directory and properties
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
-# localhost   -dir=/tmp/data/server (config args)
-ubuntu-xenial.192.168.55.4.xip.io -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
+# localhost   -dir=/tmp/data/lead (config args)
+<%= node['snappydata']['hostname'] %> -client-bind-address=<%= node['snappydaya']['ip'] %> -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true
