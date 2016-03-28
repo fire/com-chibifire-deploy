@@ -25,6 +25,14 @@ cookbook_file "/home/" + node['snappydata-ycsb']['user'] + "/YCSB/ycsb-0.8.0-SNA
   action :create
 end
 
+cookbook_file "/home/" + node['snappydata-ycsb']['user'] + "/YCSB/revert-to-python-2.7.patch" do
+  source "revert-to-python-2.7.patch"
+  owner node['snappydata-ycsb']['user']
+  group node['snappydata-ycsb']['group']
+  mode 00755
+  action :create
+end
+
 package 'dos2unix' do
   action :upgrade
 end
