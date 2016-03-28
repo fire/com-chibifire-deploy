@@ -16,6 +16,7 @@ Install:
 
 * ChefDK https://downloads.chef.io/chef-dk
 * Vagrant https://www.vagrantup.com/downloads.html
+* Must manually patch https://github.com/mitchellh/vagrant/commit/505771481222b4893daa5454ff6c9c16f471fa4 to avoid bug with private networks.
 * Install VirtualBox https://www.virtualbox.org/wiki/Downloads
 * `vagrant plugin install vagrant-berkshelf`
 * `vagrant plugin install vagrant-vbguest`
@@ -27,5 +28,3 @@ Point your sql client to `ubuntu-xenial.192.168.55.4.xip.io`.
 ## Notes
 
 The YCSB SnappyStore driver hard codes the hostname. Patches accepted for this.
-
-Must manually patch https://github.com/mitchellh/vagrant/commit/0505771481222b4893daa5454ff6c9c16f471fa4 to avoid bug with private networks.
