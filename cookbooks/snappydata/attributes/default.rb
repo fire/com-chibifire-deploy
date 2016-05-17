@@ -1,5 +1,5 @@
-default["snappydata"]["user"] = 'ubuntu'
-default["snappydata"]["group"] = 'ubuntu'
+default["snappydata"]["user"] = 'vagrant'
+default["snappydata"]["group"] = 'vagrant'
 default["snappydata"]["fqdn"] = 'ubuntu-xenial.192.168.55.4.xip.io'
 default["snappydata"]["hostname"] = 'ubuntu-xenial'
 default["snappydata"]["ip"] = '192.168.55.4'

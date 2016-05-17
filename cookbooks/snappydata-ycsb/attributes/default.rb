@@ -1,2 +1,2 @@
-default["snappydata-ycsb"]["user"] = 'ubuntu'
-default["snappydata-ycsb"]["group"] = 'ubuntu'
+default["snappydata-ycsb"]["user"] = 'vagrant'
+default["snappydata-ycsb"]["group"] = 'vagrant'

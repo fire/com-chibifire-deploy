@@ -28,3 +28,8 @@ Point your sql client to `ubuntu-xenial.192.168.55.4.xip.io`.
 ## Notes
 
 The YCSB SnappyStore driver hard codes the hostname. Patches accepted for this.
+
+```
+./bin/ycsb load snappystore -P workloads/workloada -s -threads 36 -p recordcount=2000000
+./bin/ycsb run snappystore -P workloads/workloada -s -threads 36 -p operationcount=500000 -p requestdistribution=zipfian
+```

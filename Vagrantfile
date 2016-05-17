@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "geerlingguy/ubuntu1604"
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = "site-cookbooks/main/Berksfile"
   config.vm.provision "chef_zero" do |chef|

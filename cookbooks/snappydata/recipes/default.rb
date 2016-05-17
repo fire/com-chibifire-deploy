@@ -9,7 +9,7 @@
 
 git '/home/' + node['snappydata']['user'] + '/snappydata' do
   repository 'https://github.com/SnappyDataInc/snappydata.git'
-  revision 'v0.2.1-preview'
+  revision 'v0.3-preview'
   action :sync
   enable_submodules true
   user node['snappydata']['user']
@@ -105,7 +105,6 @@ execute 'write_hostname' do
   user 'root'
   group 'root'
 end
-
 
 service "snappydata" do
   provider Chef::Provider::Service::Systemd
