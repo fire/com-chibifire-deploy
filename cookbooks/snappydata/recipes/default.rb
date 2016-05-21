@@ -110,7 +110,13 @@ service "snappydata" do
   provider Chef::Provider::Service::Systemd
   supports :restart => true
   supports :status => true
-  action [:start]
+  action [ :enable, :start ]
+end
+
+execute 'enable_snappydata' do
+  command 'systemctl enable snappydata'
+  user 'root'
+  group 'root'
 end
 
 include_recipe 'snappydata-ycsb::default'
