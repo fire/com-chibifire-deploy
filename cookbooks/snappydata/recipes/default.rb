@@ -9,7 +9,7 @@
 
 git '/home/' + node['snappydata']['user'] + '/snappydata' do
   repository 'https://github.com/SnappyDataInc/snappydata.git'
-  revision 'v0.3-preview'
+  revision 'master'
   action :sync
   enable_submodules true
   user node['snappydata']['user']
