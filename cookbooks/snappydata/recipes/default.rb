@@ -55,13 +55,6 @@ template "/etc/systemd/system/snappydata.service" do
   owner "root"
   group "root"
   mode 00644
-  notifies :reload, "service[snappydata]"
-end
-
-service "snappydata" do
-  provider Chef::Provider::Service::Systemd
-  supports :restart => true
-  action [:enable,:stop]
 end
 
 execute 'gradle_build_product' do
@@ -78,6 +71,9 @@ template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/sc
   mode 00644
 end
 
+service "snappydata" do
+  action [ :enable, :stop ]
+end
 
 template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/scala-2.10/snappy/conf/servers' do
   source "servers.erb"
