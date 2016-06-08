@@ -107,16 +107,7 @@ execute 'write_hostname' do
 end
 
 service "snappydata" do
-  provider Chef::Provider::Service::Systemd
-  supports :restart => true
-  supports :status => true
   action [ :enable, :start ]
-end
-
-execute 'enable_snappydata' do
-  command 'systemctl enable snappydata'
-  user 'root'
-  group 'root'
 end
 
 include_recipe 'snappydata-ycsb::default'
