@@ -1,14 +1,13 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "geerlingguy/ubuntu1604"
   config.berkshelf.enabled = true
-  config.berkshelf.berksfile_path = "site-cookbooks/main/Berksfile"
+  config.berkshelf.berksfile_path = "cookbooks/snappydata/Berksfile"
   config.vm.provision "chef_zero" do |chef|
-    chef.cookbooks_path = [ 'cookbooks', 'site-cookbooks' ]
+    chef.cookbooks_path = [ 'cookbooks' ]
     chef.data_bags_path = "data_bags"
     chef.nodes_path = "nodes"
     chef.roles_path = "roles"
     chef.add_role("server")
-    chef.add_recipe "main::default"
   end
   host = RbConfig::CONFIG['host_os']
   config.vm.provider :virtualbox do |vb|

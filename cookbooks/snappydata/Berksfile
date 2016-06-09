@@ -6,3 +6,5 @@ metadata
 
 cookbook 'snappydata-ycsb', path: '../snappydata-ycsb'
 cookbook 'hostsfile'
+cookbook 'apt-upgrade-once'
+cookbook 'apt'

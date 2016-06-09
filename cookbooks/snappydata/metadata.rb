@@ -5,9 +5,9 @@ license          'All rights reserved'
 description      'Installs/Configures snappydata'
 long_description 'Installs/Configures snappydata'
 
-version          '0.1.0'
-
+version          '0.2.0'
 
 depends 'snappydata-ycsb'
 depends 'hostsfile'
-
+depends 'apt-upgrade-once'
+depends 'apt'

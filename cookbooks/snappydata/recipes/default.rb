@@ -7,6 +7,18 @@
 # All rights reserved - Do Not Redistribute
 #
 
+package 'openjdk-8-jdk' do
+  action :upgrade
+end
+
+package 'git' do
+  action :upgrade
+end
+
+package 'openssh-server' do
+  action :upgrade
+end
+
 user node['snappydata']['user'] do
   supports :manage_home => true
   comment 'User ' + node['snappydata']['user']
