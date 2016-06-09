@@ -878,7 +878,7 @@ index 0000000..b8442cd
 +          //  String s = "No network locator endpoints found";
 +            //throw new PerfTestException(s);
 +        //}
-+        String url = PROTOCOL + "//" + "ubuntu-xenial:1527/;route-query=false";
++        String url = PROTOCOL + "//" + "snappydata:1527/;route-query=false";
 +        Properties p = new Properties();
 +
 +        /*Properties p = ThinClientHelper.getConnectionProperties();
