@@ -89,11 +89,24 @@ template '/home/' + node['snappydata']['user'] + '/snappydata/build-artifacts/sc
   mode 00644
 end
 
-template '/etc/hosts' do
-  source "hosts.erb"
-  owner 'root'
-  group 'root'
-  mode 00644
+hostsfile_entry '192.168.50.51' do
+  hostname  'broker1'
+  action    :create_if_missing
+end
+
+hostsfile_entry '192.168.50.52' do
+  hostname  'broker2'
+  action    :create_if_missing
+end
+
+hostsfile_entry '192.168.50.53' do
+  hostname  'broker3'
+  action    :create_if_missing
+end
+
+hostsfile_entry '192.168.50.11' do
+  hostname  'zk1'
+  action    :create_if_missing
 end
 
 execute 'write_hostname' do

@@ -5,3 +5,4 @@ source "https://supermarket.chef.io"
 metadata
 
 cookbook 'snappydata-ycsb', path: '../snappydata-ycsb'
+cookbook 'hostsfile'

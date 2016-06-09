@@ -1,6 +1,7 @@
 DEPENDENCIES
   apt (~> 3.0.0)
   apt-upgrade-once (~> 0.2.1)
+  hostsfile
   main
     path: .
     metadata: true
@@ -12,11 +13,14 @@ DEPENDENCIES
 GRAPH
   apt (3.0.0)
   apt-upgrade-once (0.2.1)
+  hostsfile (2.4.5)
   main (0.1.0)
     apt (>= 0.0.0)
     apt-upgrade-once (>= 0.0.0)
+    hostsfile (>= 0.0.0)
     snappydata (>= 0.0.0)
     snappydata-ycsb (>= 0.0.0)
   snappydata (0.1.0)
+    hostsfile (>= 0.0.0)
     snappydata-ycsb (>= 0.0.0)
   snappydata-ycsb (0.1.0)

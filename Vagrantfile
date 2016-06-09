@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
       # sysctl returns Bytes and we need to convert to MB
       vb.memory = `sysctl -n hw.memsize`.to_i / 1024 / 1024 / 4
     elsif host =~ /linux/
-      vb.cpus = `nproc`.to_i
+      vb.cpus = `nproc`.to_i / 2
       vb.memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
     elsif host =~ /mingw*/
       vb.cpus = `wmic cpu get NumberOfCores`.split("\n")[2].to_i
