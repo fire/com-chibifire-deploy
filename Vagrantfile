@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
     chef.data_bags_path = "data_bags"
     chef.nodes_path = "nodes"
     chef.roles_path = "roles"
+    chef.add_role("server")
     chef.add_recipe "main::default"
   end
   host = RbConfig::CONFIG['host_os']
