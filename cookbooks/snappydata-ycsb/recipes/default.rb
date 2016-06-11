@@ -46,13 +46,6 @@ package 'dos2unix' do
   action :upgrade
 end
 
-package 'epel-release' do
-end
-
-package 'python2.7-minimal' do
-  action :upgrade
-end
-
 execute "dos2unix-snappydata-ycsb-patch" do
   command "dos2unix " + node['snappydata-ycsb']['dir'] + "/ycsb-0.8.0-SNAPSHOT-snappystore-01.patch"
   user node['snappydata-ycsb']['user']
@@ -61,12 +54,6 @@ execute "dos2unix-snappydata-ycsb-patch" do
 end
 
 unless Dir.exist? node['snappydata-ycsb']['dir'] + "/snappystore"
-  execute "revert-to-python-2.7-patch" do
-    command "patch -p1 < revert-to-python-2.7.patch"
-    user node['snappydata-ycsb']['user']
-    group node['snappydata-ycsb']['group']
-    cwd node['snappydata-ycsb']['dir']
-  end
   execute "apply-snappydata-ycsb-patch" do
     command "git apply ycsb-0.8.0-SNAPSHOT-snappystore-01.patch"
     user node['snappydata-ycsb']['user']
