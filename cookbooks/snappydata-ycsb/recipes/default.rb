@@ -46,6 +46,9 @@ package 'dos2unix' do
   action :upgrade
 end
 
+package 'epel-release' do
+end
+
 package 'python2.7-minimal' do
   action :upgrade
 end
