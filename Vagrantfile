@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "geerlingguy/ubuntu1604"
+  config.vm.box = "geerlingguy/centos7"
   config.berkshelf.enabled = true
   config.berkshelf.berksfile_path = "cookbooks/snappydata/Berksfile"
   config.vm.provision "chef_zero" do |chef|
@@ -11,7 +11,6 @@ Vagrant.configure("2") do |config|
   end
   host = RbConfig::CONFIG['host_os']
   config.vm.provider :virtualbox do |vb|
-    vb.name = "snappydata-ubuntu-kitchen"
     vb.gui = false
     # https://github.com/actuallymentor/vagrant-smus/blob/master/Vagrantfile
     # Give VM 1/4 system memory & access to all cpu cores on the host
@@ -23,7 +22,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = `nproc`.to_i / 2
       vb.memory = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 / 4
     elsif host =~ /mingw*/
-      vb.cpus = `wmic cpu get NumberOfCores`.split("\n")[2].to_i
+      vb.cpus = `wmic cpu get NumberOfCores`.split("\n")[2].to_i / 2
       vb.memory = `wmic OS get TotalVisibleMemorySize`.split("\n")[2].to_i / 1024 /4
     end
   end

@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package 'openjdk-8-jdk' do
+package 'java-1.8.0-openjdk-headless' do
   action :upgrade
 end
 
