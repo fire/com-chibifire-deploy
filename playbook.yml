@@ -4,4 +4,56 @@
       yum: name=* state=latest
     - name: install openjdk 1.8
       yum: name=java-1.8.0-openjdk-devel state=latest
+    - name: install git
+      yum: name=git state=latest
+    - name: install openssh-server
+      yum: name=openssh-server state=latest
+    - name: create snappydata user
+      user: name=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+    - name: import snappydata git repository
+      yum: name=git state=latest
+    - name: create .ssh directory
+      yum: name=git state=latest
+    - name: create authorized_keys file
+      yum: name=git state=latest
+    - name: generate ssh key
+      yum: name=git state=latest
+    - name: add key to authorized
+      yum: name=git state=latest
+    - name: if ssh key is locked, do not generate new key
+      yum: name=git state=latest
+    - name: define snappydata.service
+      yum: name=git state=latest
+    - name: gradle build product
+      yum: name=git state=latest
+    - name: stop snappydata
+      yum: name=git state=latest
+    - name: copy snappydata servers config
+      yum: name=git state=latest
+    - name: copy snappydata locators config
+      yum: name=git state=latest
+    - name: copy snappydata leads config
+      yum: name=git state=latest
+    - name: set hosts file
+      yum: name=git state=latest
+    - name: set hostname
+      yum: name=git state=latest
+    - name: start snappydata service
+      yum: name=git state=latest
+    - name: create ycsb user
+      yum: name=git state=latest
+    - name: create ycsb home directory
+      yum: name=git state=latest
+    - name: patch ycsb repository
+      yum: name=git state=latest
+    - name: install dos2unix
+      yum: name=dos2unix state=latest
+    - name: apply ycsb patch
+      yum: name=git state=latest
+    - name: install maven
+      yum: name=maven state=latest
+    - name: load ycsb
+      yum: name=git state=latest
+    - name: run ycsb
+      yum: name=git state=latest
   handlers:
