@@ -1,7 +1,0 @@
-DEPENDENCIES
-  snappydata-ycsb
-    path: .
-    metadata: true
-
-GRAPH
-  snappydata-ycsb (0.1.0)

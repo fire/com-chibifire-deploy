@@ -30,7 +30,7 @@ end
 
 git node['snappydata']['dir'] do
   repository 'https://github.com/SnappyDataInc/snappydata.git'
-  revision '56ecf8e6b4acad07155f5b6aa5daf455909fdcb9'
+  revision '0d0edaf2a10ce90537bcf4fa4ad1ab1213bccc9c'
   action :sync
   enable_submodules true
   user node['snappydata']['user']

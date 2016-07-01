@@ -1,13 +1,10 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "geerlingguy/centos7"
-  config.berkshelf.enabled = true
-  config.berkshelf.berksfile_path = "cookbooks/snappydata/Berksfile"
-  config.vm.provision "chef_zero" do |chef|
-    chef.cookbooks_path = [ 'cookbooks' ]
-    chef.data_bags_path = "data_bags"
-    chef.nodes_path = "nodes"
-    chef.roles_path = "roles"
-    chef.add_role("server")
+    # Run Ansible from the Vagrant VM
+  config.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+      ansible.sudo = true
+      ansible.verbose = true
   end
   host = RbConfig::CONFIG['host_os']
   config.vm.provider :virtualbox do |vb|
