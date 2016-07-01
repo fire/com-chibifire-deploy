@@ -1,8 +1,4 @@
-# Vagrant repository of Snappydata
-
-Use this for testing of SnappyData.
-
-## What is SnappyData?
+# What is SnappyData?
 
 https://github.com/SnappyDataInc/snappydata
 
@@ -14,10 +10,8 @@ This was tested on Windows 10
 
 Install:
 
-* ChefDK https://downloads.chef.io/chef-dk
 * Vagrant https://www.vagrantup.com/downloads.html
 * Install VirtualBox https://www.virtualbox.org/wiki/Downloads
-* `vagrant plugin install vagrant-berkshelf`
 * `vagrant plugin install vagrant-vbguest`
 * `vagrant up`
 * `vagrant provision`
@@ -26,7 +20,7 @@ Point your sql client to `ubuntu-xenial.192.168.55.4.xip.io`.
 
 ## Notes
 
-The YCSB SnappyStore driver hard codes the hostname. Patches accepted for this.
+The YCSB SnappyStore driver hard codes the hostname. Patches are accepted to fix this.
 
 ```
 ./bin/ycsb load snappystore -P workloads/workloada -s -threads 36 -p recordcount=2000000
