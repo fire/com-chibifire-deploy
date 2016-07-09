@@ -11,7 +11,7 @@
     - name: create snappydata user
       user: name=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
     - name: import snappydata git repository
-      yum: name=git state=latest
+      git: repo=https://github.com/SnappyDataInc/snappydata.git dest=/opt/snappydata/src version=v0.5
     - name: create .ssh directory
       yum: name=git state=latest
     - name: create authorized_keys file
