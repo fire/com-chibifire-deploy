@@ -1,5 +1,10 @@
 - hosts: all
+  vars:
   tasks:
+    - name: set hosts
+      copy: src=templates/etc/hosts dest=/etc/hosts
+    - name: set hostname
+      command: hostnamectl set-hostname snappydata
     - name: upgrade all packages
       yum: name=* state=latest
     - name: install openjdk 1.8
@@ -9,51 +14,88 @@
     - name: install openssh-server
       yum: name=openssh-server state=latest
     - name: create snappydata user
-      user: name=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+      user: name=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true generate_ssh_key=true
     - name: import snappydata git repository
       git: repo=https://github.com/SnappyDataInc/snappydata.git dest=/opt/snappydata/src version=v0.5
-    - name: create .ssh directory
-      yum: name=git state=latest
-    - name: create authorized_keys file
-      yum: name=git state=latest
-    - name: generate ssh key
-      yum: name=git state=latest
+      become: yes
+      become_user: snappydata
+    - name: Slurp public keys
+      slurp: src="{{ item }}"
+      with_items:
+        - /opt/snappydata/.ssh/id_rsa.pub
+      register: pki_certs
     - name: add key to authorized
-      yum: name=git state=latest
-    - name: if ssh key is locked, do not generate new key
-      yum: name=git state=latest
+      authorized_key: user=snappydata key="{{ item.content | b64decode }}"
+      with_items: "{{ pki_certs.results }}"
     - name: define snappydata.service
-      yum: name=git state=latest
+      copy: src=templates/snappydata.service dest=/etc/systemd/system/snappydata.service
+      register: install_snappydata
     - name: gradle build product
-      yum: name=git state=latest
+      command: ./gradlew product
+      args:
+        chdir: ~/src
+      become: yes
+      become_user: snappydata
     - name: stop snappydata
-      yum: name=git state=latest
+      service: name=snappydata enabled=true state=stopped
     - name: copy snappydata servers config
-      yum: name=git state=latest
+      copy: src=templates/servers dest=~/src/build-artifacts/scala-2.10/snappy/conf/servers
+      become: yes
+      become_user: snappydata
     - name: copy snappydata locators config
-      yum: name=git state=latest
+      copy: src=templates/locators dest=~/src/build-artifacts/scala-2.10/snappy/conf/locators
+      become: yes
+      become_user: snappydata
     - name: copy snappydata leads config
-      yum: name=git state=latest
-    - name: set hosts file
-      yum: name=git state=latest
-    - name: set hostname
-      yum: name=git state=latest
+      copy: src=templates/leads dest=~/src/build-artifacts/scala-2.10/snappy/conf/leads
+      become: yes
+      become_user: snappydata
     - name: start snappydata service
-      yum: name=git state=latest
+      service: name=snappydata enabled=true state=started
     - name: create ycsb user
-      yum: name=git state=latest
-    - name: create ycsb home directory
-      yum: name=git state=latest
-    - name: patch ycsb repository
-      yum: name=git state=latest
+      user: name=snappydata-ycsb comment="Snappydata Ycsb" home=/opt/snappydata-ycsb shell=/bin/bash system=true
+    - name: import ycsb git repository
+      git: repo=https://github.com/brianfrankcooper/YCSB.git dest=/opt/snappydata-ycsb/src version=0.10.0 force=yes
+      become: yes
+      become_user: snappydata-ycsb
+    - name: copy snappydata-ycsb patch
+      copy: src=templates/0001-Snappydata-YCSB-for-Centos-7.patch dest=~/src/ycsb-0.8.0-SNAPSHOT-snappystore-01.patch
+      become: yes
+      become_user: snappydata-ycsb
     - name: install dos2unix
       yum: name=dos2unix state=latest
+    - name: dos2unix patch
+      command: dos2unix 0001-Snappydata-YCSB-for-Centos-7.patch
+      args:
+        chdir: ~/src
+      become: yes
+      become_user: snappydata-ycsb
+    - git_config: name=user.email repo=~/src/ scope=global value=snappydata-ycsb@snappydata.example.com
+      become: yes
+      become_user: snappydata-ycsb
+    - git_config: name=user.name repo=~/src/ scope=global value="Snappydata Ycsb"
+      become: yes
+      become_user: snappydata-ycsb
     - name: apply ycsb patch
-      yum: name=git state=latest
+      command: git am 0001-Snappydata-YCSB-for-Centos-7.patch
+      args:
+        chdir: ~/src
+      become: yes
+      become_user: snappydata-ycsb
+      ignore_errors: true
     - name: install maven
       yum: name=maven state=latest
     - name: load ycsb
-      yum: name=git state=latest
+      command: ./bin/ycsb load snappystore -P workloads/workloada -s -threas 4 -p recordcount=50000
+      args:
+        chdir: ~/src/
+      become: yes
+      become_user: snappydata-ycsb
     - name: run ycsb
-      yum: name=git state=latest
+      command: ./bin/ycsb run snappystore -P workloads/workloada -s -threads 4 -p operationcount=50000 -p requestdistribution=zipfian
+      args:
+        chdir: ~/src/
+      become: yes
+      become_user: snappydata-ycsb
+      register: ycsb-run
   handlers:

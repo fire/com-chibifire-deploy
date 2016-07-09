@@ -1,22 +1,48 @@
+From 4ed3a5a075ab72a5a181ff2d22496260b267aa15 Mon Sep 17 00:00:00 2001
+From: Snappydata Ycsb <snappydata-ycsb@snappydata.example.com>
+Date: Sat, 9 Jul 2016 20:48:45 +0000
+Subject: [PATCH] Snappydata YCSB for Centos 7
+
+---
+ bin/ycsb                                           |   3 +-
+ pom.xml                                            |   1 +
+ snappystore/pom.xml                                |  65 +++
+ .../src/main/java/com/yahoo/ycsb/db/GFXDDB.java    | 648 +++++++++++++++++++++
+ .../src/main/java/com/yahoo/ycsb/db/GFXDPrms.java  |  40 ++
+ .../src/main/java/com/yahoo/ycsb/db/GFXDUtil.java  | 142 +++++
+ .../java/com/yahoo/ycsb/db/LongByteIterator.java   |  32 +
+ 7 files changed, 930 insertions(+), 1 deletion(-)
+ create mode 100644 snappystore/pom.xml
+ create mode 100644 snappystore/src/main/java/com/yahoo/ycsb/db/GFXDDB.java
+ create mode 100644 snappystore/src/main/java/com/yahoo/ycsb/db/GFXDPrms.java
+ create mode 100644 snappystore/src/main/java/com/yahoo/ycsb/db/GFXDUtil.java
+ create mode 100644 snappystore/src/main/java/com/yahoo/ycsb/db/LongByteIterator.java
+
 diff --git a/bin/ycsb b/bin/ycsb
-index 16c5a82..2558575 100755
+index 4db2926..1ac5f26 100755
 --- a/bin/ycsb
 +++ b/bin/ycsb
-@@ -78,6 +78,7 @@ DATABASES = {
-     "orientdb"     : "com.yahoo.ycsb.db.OrientDBClient",
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2.7
+ #
+ # Copyright (c) 2012 - 2015 YCSB contributors. All rights reserved.
+ #
+@@ -85,6 +85,7 @@ DATABASES = {
      "redis"        : "com.yahoo.ycsb.db.RedisClient",
+     "riak"         : "com.yahoo.ycsb.db.riak.RiakKVClient",
      "s3"           : "com.yahoo.ycsb.db.S3Client",
 +    "snappystore"  : "com.yahoo.ycsb.db.GFXDDB",
      "solr"         : "com.yahoo.ycsb.db.SolrClient",
      "tarantool"    : "com.yahoo.ycsb.db.TarantoolClient",
      "voldemort"    : "com.yahoo.ycsb.db.VoldemortClient"
 diff --git a/pom.xml b/pom.xml
-index 35105da..083056e 100644
+index 7dcf411..b8a6901 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -124,6 +124,7 @@ LICENSE file.
-     <module>orientdb</module>
+@@ -133,6 +133,7 @@ LICENSE file.
      <module>redis</module>
+     <module>riak</module>
      <module>s3</module>
 +    <module>snappystore</module>
      <module>solr</module>
@@ -24,7 +50,7 @@ index 35105da..083056e 100644
      <!--<module>voldemort</module>-->
 diff --git a/snappystore/pom.xml b/snappystore/pom.xml
 new file mode 100644
-index 0000000..c10c630
+index 0000000..627bde6
 --- /dev/null
 +++ b/snappystore/pom.xml
 @@ -0,0 +1,65 @@
@@ -51,7 +77,7 @@ index 0000000..c10c630
 +  <parent>
 +    <groupId>com.yahoo.ycsb</groupId>
 +    <artifactId>binding-parent</artifactId>
-+    <version>0.8.0-SNAPSHOT</version>
++    <version>0.10.0</version>
 +    <relativePath>../binding-parent</relativePath>
 +  </parent>
 +
@@ -65,13 +91,13 @@ index 0000000..c10c630
 +  <dependencies>
 +    <dependency>
 +      <groupId>io.snappydata</groupId>
-+      <artifactId>gemfirexd</artifactId>
-+      <version>2.0-BETA</version>
++      <artifactId>snappy-core_2.10</artifactId>
++      <version>0.5</version>
 +    </dependency>
 +    <dependency>
 +      <groupId>io.snappydata</groupId>
-+      <artifactId>gemfirexd-client</artifactId>
-+      <version>2.0-BETA</version>
++      <artifactId>snappydata-store-client</artifactId>
++      <version>1.5.0</version>
 +    </dependency>
 +    <dependency>
 +      <groupId>com.yahoo.ycsb</groupId>
@@ -95,7 +121,7 @@ index 0000000..c10c630
 +</project>
 diff --git a/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDDB.java b/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDDB.java
 new file mode 100644
-index 0000000..df9dcf5
+index 0000000..0c9bbe0
 --- /dev/null
 +++ b/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDDB.java
 @@ -0,0 +1,648 @@
@@ -795,7 +821,7 @@ index 0000000..f2a0c47
 +}
 diff --git a/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDUtil.java b/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDUtil.java
 new file mode 100644
-index 0000000..b8442cd
+index 0000000..c71835e
 --- /dev/null
 +++ b/snappystore/src/main/java/com/yahoo/ycsb/db/GFXDUtil.java
 @@ -0,0 +1,142 @@
@@ -979,3 +1005,6 @@ index 0000000..97ebacc
 +        return val;
 +    }
 +}
+-- 
+1.8.3.1
+
