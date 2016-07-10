@@ -86,7 +86,7 @@
     - name: install maven
       yum: name=maven state=latest
     - name: load ycsb
-      command: ./bin/ycsb load snappystore -P workloads/workloada -s -threas 4 -p recordcount=50000
+      command: ./bin/ycsb load snappystore -P workloads/workloada -s -threads 4 -p recordcount=50000
       args:
         chdir: ~/src/
       become: yes
