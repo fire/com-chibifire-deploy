@@ -59,7 +59,7 @@
       become: yes
       become_user: snappydata-ycsb
     - name: copy snappydata-ycsb patch
-      copy: src=templates/0001-Snappydata-YCSB-for-Centos-7.patch dest=~/src/ycsb-0.8.0-SNAPSHOT-snappystore-01.patch
+      copy: src=templates/0001-Snappydata-YCSB-for-Centos-7.patch dest=~/src/0001-Snappydata-YCSB-for-Centos-7.patch
       become: yes
       become_user: snappydata-ycsb
     - name: install dos2unix
