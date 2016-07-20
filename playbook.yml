@@ -50,8 +50,8 @@
       copy: src=templates/leads dest=~/src/build-artifacts/scala-2.10/snappy/conf/leads
       become: yes
       become_user: snappydata
-    - name: start snappydata service
-      service: name=snappydata enabled=true state=started
+    - name: restart snappydata service
+      service: name=snappydata enabled=true state=restarted
     - name: create ycsb user
       user: name=snappydata-ycsb comment="Snappydata Ycsb" home=/opt/snappydata-ycsb shell=/bin/bash system=true
     - name: import ycsb git repository
