@@ -38,6 +38,26 @@
       become_user: snappydata
     - name: stop snappydata
       service: name=snappydata enabled=true state=stopped
+    - name: Creates directory
+      file: path=~/conf state=directory
+      become: yes
+      become_user: snappydata
+    - name: Creates directory
+      file: path=~/data state=directory
+      become: yes
+      become_user: snappydata
+    - name: Creates directory
+      file: path=~/data/locator state=directory
+      become: yes
+      become_user: snappydata
+    - name: Creates directory
+      file: path=~/data/lead state=directory
+      become: yes
+      become_user: snappydata
+    - name: Creates directory
+      file: path=~/data/server state=directory
+      become: yes
+      become_user: snappydata
     - name: copy snappydata servers config
       copy: src=templates/servers dest=~/src/build-artifacts/scala-2.10/snappy/conf/servers
       become: yes

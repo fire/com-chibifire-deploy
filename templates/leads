@@ -22,4 +22,4 @@
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
 # localhost   -dir=/tmp/data/lead (config args)
-snappydata.192.168.55.4.xip.io -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m
+snappydata.192.168.55.4.xip.io -dir=/opt/snappydata/data/lead -client-bind-address=192.168.55.4 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -spray.can.server.parsing.max-content-length=400m -heap-size=4096m
