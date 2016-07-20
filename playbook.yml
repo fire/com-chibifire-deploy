@@ -39,10 +39,6 @@
     - name: stop snappydata
       service: name=snappydata enabled=true state=stopped
     - name: Creates directory
-      file: path=~/conf state=directory
-      become: yes
-      become_user: snappydata
-    - name: Creates directory
       file: path=~/data state=directory
       become: yes
       become_user: snappydata
