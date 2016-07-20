@@ -30,6 +30,8 @@
     - name: define snappydata.service
       copy: src=templates/snappydata.service dest=/etc/systemd/system/snappydata.service
       register: install_snappydata
+    - name: reload systemd
+      shell: systemctl daemon-reload
     - name: gradle build product
       command: ./gradlew product
       args:
@@ -66,8 +68,8 @@
       copy: src=templates/leads dest=~/src/build-artifacts/scala-2.10/snappy/conf/leads
       become: yes
       become_user: snappydata
-    - name: restart snappydata service
-      service: name=snappydata enabled=true state=restarted
+    - name: start snappydata service
+      service: name=snappydata enabled=true state=started
     - name: create ycsb user
       user: name=snappydata-ycsb comment="Snappydata Ycsb" home=/opt/snappydata-ycsb shell=/bin/bash system=true
     - name: import ycsb git repository
