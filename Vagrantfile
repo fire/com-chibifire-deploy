@@ -4,6 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.sudo = true
+      ansible.install = true
       ansible.verbose = true
   end
   host = RbConfig::CONFIG['host_os']
