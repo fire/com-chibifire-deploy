@@ -3,12 +3,13 @@ Description=SnappyData: OLTP + OLAP Database built on Apache Spark http://www.sn
 After=network.target
 
 [Service]
-Type=forking
+Type=oneshot
 ExecStart=/opt/snappydata/src/build-artifacts/scala-2.10/snappy/sbin/snappy-start-all.sh
 ExecStop=/opt/snappydata/src/build-artifacts/scala-2.10/snappy/sbin/snappy-stop-all.sh
 User=snappydata
 Group=snappydata
 WorkingDirectory=/opt/snappydata/src/build-artifacts/scala-2.10/snappy
+RemainAfterExit=yes
 
 [Install]
 WantedBy=network-online.target
