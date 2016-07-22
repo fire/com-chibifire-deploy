@@ -24,6 +24,7 @@ The YCSB SnappyStore driver hard codes the hostname. Patches are accepted to fix
 
 ```
 vagrant ssh
+# Password: vagrant
 sudo su - snappydata-ycsb
 cd ~/src
 ./bin/ycsb load snappystore -P workloads/workloada -s -threads 8 -p recordcount=1000000
