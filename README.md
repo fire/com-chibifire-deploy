@@ -16,7 +16,7 @@ Install:
 * `vagrant up`
 * `vagrant provision`
 
-Point your sql client to `snappydata.192.168.55.4.xip.io`.
+Point your sql client to `snappydata.192.168.55.4.nip.io`.
 
 ## Notes
 
