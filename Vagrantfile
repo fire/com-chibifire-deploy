@@ -1,8 +1,4 @@
 Vagrant.configure("2") do |config|
-  # Switch method to passwords instead of ssh
-  config.ssh.password = "vagrant"
-  config.ssh.insert_key = false
-  # End
   config.vm.box = "geerlingguy/centos7"
     # Run Ansible from the Vagrant VM
   config.vm.provision "ansible_local" do |ansible|
