@@ -4,7 +4,7 @@
     - name: set hosts
       copy: src=templates/etc/hosts dest=/etc/hosts
     - name: set hostname
-      command: hostnamectl set-hostname snappydata.192.168.55.4.xip.io
+      command: hostnamectl set-hostname snappydata.192.168.55.4.nip.io
     - name: upgrade all packages
       yum: name=* state=latest
     - name: install openjdk 1.8
@@ -16,7 +16,7 @@
     - name: create snappydata user
       user: name=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true generate_ssh_key=true
     - name: import snappydata git repository
-      git: repo=https://github.com/SnappyDataInc/snappydata.git dest=/opt/snappydata/src version=v0.5
+      git: repo=https://github.com/SnappyDataInc/snappydata.git dest=/opt/snappydata/src version=ad07c4ab13777839e859364ca0b7ad60880bad72
       become: yes
       become_user: snappydata
     - name: Slurp public keys
@@ -57,15 +57,15 @@
       become: yes
       become_user: snappydata
     - name: copy snappydata servers config
-      copy: src=templates/servers dest=~/src/build-artifacts/scala-2.10/snappy/conf/servers
+      copy: src=templates/servers dest=~/src/build-artifacts/scala-2.11/snappy/conf/servers
       become: yes
       become_user: snappydata
     - name: copy snappydata locators config
-      copy: src=templates/locators dest=~/src/build-artifacts/scala-2.10/snappy/conf/locators
+      copy: src=templates/locators dest=~/src/build-artifacts/scala-2.11/snappy/conf/locators
       become: yes
       become_user: snappydata
     - name: copy snappydata leads config
-      copy: src=templates/leads dest=~/src/build-artifacts/scala-2.10/snappy/conf/leads
+      copy: src=templates/leads dest=~/src/build-artifacts/scala-2.11/snappy/conf/leads
       become: yes
       become_user: snappydata
     - name: restart snappydata service
