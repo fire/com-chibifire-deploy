@@ -1,10 +1,12 @@
 - hosts: all
+  vars_files:
+    - ./vars.yml
   vars:
   tasks:
     - name: set hosts
       copy: src=templates/etc/hosts dest=/etc/hosts
     - name: set hostname
-      command: hostnamectl set-hostname snappydata.192.168.55.4.nip.io
+      command: hostnamectl set-hostname snappydata.{{ snappydata_ip }}.nip.io
     - name: upgrade all packages
       yum: name=* state=latest
     - name: install openjdk 1.8

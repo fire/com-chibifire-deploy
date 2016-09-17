@@ -904,7 +904,7 @@ index 0000000..c71835e
 +          //  String s = "No network locator endpoints found";
 +            //throw new PerfTestException(s);
 +        //}
-+        String url = PROTOCOL + "//" + "snappydata.192.168.55.4.xip.io:1527/;route-query=false";
++        String url = PROTOCOL + "//" + "snappydata.{{ snappydata_ip }}.nip.io:1527/;route-query=false";
 +        Properties p = new Properties();
 +
 +        /*Properties p = ThinClientHelper.getConnectionProperties();
