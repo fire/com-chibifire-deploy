@@ -22,7 +22,7 @@
 # are not specified a default directory is created inside the SPARK_HOME directory.
 #
 # localhost    -dir=/tmp/data/locator (config args)
-snappydata.{{ snappydata_ip }}.nip.io -dir=/opt/snappydata/data/locator -client-bind-address={{ snappydata_ip }} -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=snappydata.{{ snappydata_ip }}.nip.io -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true
+ {{ snappydata_address }} -dir=/opt/snappydata/data/locator -client-bind-address={{ snappydata_ip }} -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address={{ snappydata_address }} -heap-size=1024m -thrift-server-port=1530 -thrift-binary-protocol=true
 
 #When a machine is not on any network, specify peer-discovery-address too along with hostname
 # localhost -peer-discovery-address=localhost
