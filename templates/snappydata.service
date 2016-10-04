@@ -1,6 +1,6 @@
 [Unit]
 Description=SnappyData: OLTP + OLAP Database built on Apache Spark http://www.snappydata.io
-After=network.target
+After=network.target sshd.service
 
 [Service]
 Type=oneshot
