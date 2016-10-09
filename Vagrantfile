@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "geerlingguy/centos7"
+  config.vm.box = "centos/7"
     # Run Ansible from the Vagrant VM
   config.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "playbook.yml"
