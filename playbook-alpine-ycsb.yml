@@ -1,0 +1,85 @@
+# Does not work yet. Work in progress.
+- hosts: all
+  vars_files:
+    - ./vars.yml
+  vars:
+  tasks:
+    - name: upgrade all packages
+      apk: upgrade=yes
+    - name: install openjdk 1.8
+      apk: name=openjdk8 state=latest
+    - name: install git
+      apk: name=git state=latest
+    - name: install bash
+      apk: name=bash state=latest
+    - name: install openssh server
+      apk: name=openssh state=latest
+    - name: install shadow package
+      shell: apk add 'shadow' --update-cache --repository https://nl.alpinelinux.org/alpine/edge/community
+    - name: add snappydata group 
+      group: name=snappydata state=present
+    - name: create snappydata directory
+      file: path=/opt/snappydata state=directory
+    - name: create snappydata user
+      user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true generate_ssh_key=true
+    - name: change snappydata directory ownership
+      file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
+    - name: add snappydata-ycsb group 
+      group: name=snappydata-ycsb state=present
+    - name: create snappydata-ycsb directory
+      file: path=/opt/snappydata-ycsb state=directory
+    - name: create ycsb user
+      user: name=snappydata-ycsb comment="Snappydata Ycsb" home=/opt/snappydata-ycsb shell=/bin/bash system=true
+    - name: change snappydata-ycsb directory ownership
+      file: path=/opt/snappydata-ycsb state=directory owner=snappydata-ycsb group=snappydata-ycsb
+    - name: import ycsb git repository
+      git: repo=https://github.com/brianfrankcooper/YCSB.git dest=/opt/snappydata-ycsb/src version=0.10.0 force=yes
+      become: yes
+      become_user: snappydata-ycsb
+    - name: copy snappydata-ycsb patch
+      template: src=templates/0001-Snappydata-YCSB-for-Centos-7.patch dest=~/src/0001-Snappydata-YCSB-for-Centos-7.patch
+      become: yes
+      become_user: snappydata-ycsb
+    - name: install dos2unix package
+      shell: apk add 'dos2unix' --update-cache --repository https://nl.alpinelinux.org/alpine/edge/testing
+    - name: dos2unix patch
+      command: dos2unix 0001-Snappydata-YCSB-for-Centos-7.patch
+      args:
+        chdir: ~/src
+      become: yes
+      become_user: snappydata-ycsb
+    - git_config: name=user.email repo=~/src/ scope=global value="snappydata-ycsb@snappydata.example.com"
+      become: yes
+      become_user: snappydata-ycsb
+    - git_config: name=user.name repo=~/src/ scope=global value="Snappydata Ycsb"
+      become: yes
+      become_user: snappydata-ycsb
+    - name: apply ycsb patch
+      command: git am 0001-Snappydata-YCSB-for-Centos-7.patch
+      args:
+        chdir: ~/src
+      become: yes
+      become_user: snappydata-ycsb
+      ignore_errors: true
+    - name: install maven package
+      shell: apk add 'maven' --update-cache --repository https://nl.alpinelinux.org/alpine/edge/community
+    #- name: start snappydata
+    #  shell: /opt/snappydata-0.6.1-bin/sbin/snappy-start-all.sh
+    #  become: yes
+    #  become_user: snappydata
+    #- name: restart snappydata
+    #  service: name=snappydata state=restarted
+    #- name: load ycsb
+    #  command: ./bin/ycsb load snappystore -P workloads/workloada -s -threads 4 -p recordcount=50000
+    #  args:
+    #    chdir: ~/src/
+    #  become: yes
+    #  become_user: snappydata-ycsb
+    #- name: run ycsb
+    #  command: ./bin/ycsb run snappystore -P workloads/workloada -s -threads 4 -p operationcount=50000 -p requestdistribution=zipfian
+    #  args:
+    #    chdir: ~/src/
+    #  become: yes
+    #  become_user: snappydata-ycsb
+    #  register: ycsb-run
+  handlers:
