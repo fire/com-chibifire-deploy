@@ -1,2 +1,2 @@
-snappydata_ip: "192.168.55.4"
-snappydata_address: "snappydata.192.168.55.4.xip.io"
+snappydata_ip: "127.0.0.1"
+snappydata_address: "localhost"
