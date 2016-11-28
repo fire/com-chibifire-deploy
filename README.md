@@ -30,3 +30,27 @@ cd ~/src
 ./bin/ycsb load snappystore -P workloads/workloada -s -threads 8 -p recordcount=1000000
 ./bin/ycsb run snappystore -P workloads/workloada -s -threads 8 -p operationcount=1000000 -p requestdistribution=zipfian
 ```
+
+## Docker start commands
+
+```docker
+CMD exec /bin/bash -c "/opt/snappydata/snappydata-0.6.1-bin/bin/snappy-shell locator start -peer-discovery-address=localhost -client-bind-address=localhost -peer-discovery-port=9999 && trap : TERM INT; sleep 86400 & wait"
+
+CMD exec /bin/bash -c "/opt/snappydata/snappydata-0.6.1-bin/bin/snappy-shell server start -dir=/opt/snappydata/data/server/ -bind-address=172.17.0.3 -client-bind-address=localhost -locators=localhost:9999, -dir=/opt/snappydata/data/server -client-bind-address=172.17.0.3 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true  -thrift-server-address=172.17.0.3 -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && trap : TERM INT; sleep 86400 & wait"
+
+CMD exec /bin/bash -c "/opt/snappydata/snappydata-0.6.1-bin/bin/snappy-shell leader start -dir=/opt/snappydata/data/locator/ -peer-discovery-address=localhost -client-bind-address=localhost  -peer-discovery-port=9999 && trap : TERM INT; sleep 86400 & wait"
+```
+
+## Todo
+```docker
+docker run -it snappydatainc/snappydata /bin/bash -c "mkdir /locator/ && /opt/snappydata/bin/snappy-shell locator start -dir=/locator -peer-discovery-address=localhost -client-bind-address=localhost -peer-discovery-port=9999 && trap : TERM INT; tail -f /locator/snappylocator.log"
+
+docker run -it snappydatainc/snappydata /bin/bash -c "mkdir /server && /opt/snappydata/bin/snappy-shell server start -dir=/opt/snappydata/data/server/ -bind-address=172.17.0.3 -client-bind-address=localhost -locators=localhost:9999, -dir=/server -client-bind-address=172.17.0.3 -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true  -thrift-server-address=172.17.0.3 -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && trap : TERM INT; tail -f /locator/snappyserver.log"
+
+docker run -it snappydatainc/snappydata /bin/bash -c "mkdir /leader && /opt/snappydata/bin/snappy-shell leader start -dir=/leader/ -peer-discovery-address=localhost -client-bind-address=localhost  -peer-discovery-port=9999 && trap : TERM INT; tail -f /locator/snappyleader.log"
+```
+
+kubectl delete pods,services,petsets -l app=snappydata-server
+kubectl delete pods,services,petsets -l app=snappydata-leader 
+kubectl delete pods,services,petsets -l app=snappydata-locator
+kubectl delete pods,services,petsets -l app=snappydata
