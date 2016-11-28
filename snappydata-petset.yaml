@@ -227,7 +227,7 @@ spec:
               ##CRARGS+=("--join" "cockroachdb-public")
             #fi
             #exec /cockroach/cockroach ${CRARGS[*]}
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
       # No pre-stop hook is required, a SIGTERM plus some time is all that's
       # needed for graceful shutdown of a node.
       terminationGracePeriodSeconds: 60
@@ -395,7 +395,7 @@ spec:
               ##CRARGS+=("--join" "cockroachdb-public")
             #fi
             #exec /cockroach/cockroach ${CRARGS[*]}
-            exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
       # No pre-stop hook is required, a SIGTERM plus some time is all that's
       # needed for graceful shutdown of a node.
       terminationGracePeriodSeconds: 60
