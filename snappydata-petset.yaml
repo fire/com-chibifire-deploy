@@ -175,6 +175,7 @@ spec:
       labels:
         app: snappydata-locator
       annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: snappydata-locator
@@ -258,6 +259,7 @@ spec:
       labels:
         app: snappydata-server
       annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: snappydata-server
@@ -341,6 +343,7 @@ spec:
       labels:
         app: snappydata-leader
       annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: snappydata-leader
