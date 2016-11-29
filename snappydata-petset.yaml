@@ -12,14 +12,10 @@ spec:
   - port: 1527
     targetPort: 1527
     name: jdbc
-  - port: 1531
-    targetPort: 1531
-    name: thrift
   type: LoadBalancer
   selector:
-    app: snappydata-server
+    app: snappydata-locator
 ---
-# This is based on the cockroachdb example
 apiVersion: v1
 kind: Service
 metadata:
@@ -197,7 +193,7 @@ spec:
         resources:
           requests:
             memory: "2048Mi"
-            cpu: "1000m"
+            cpu: "200m"
         ports:
         - containerPort: 26257
           name: grpc
@@ -337,7 +333,7 @@ spec:
         resources:
           requests:
             memory: "2048Mi"
-            cpu: "1000m"
+            cpu: "500m"
         ports:
         - containerPort: 26257
           name: grpc
