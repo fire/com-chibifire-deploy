@@ -210,7 +210,7 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 10334
-          initialDelaySeconds: 10
+          initialDelaySeconds: 80
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -292,7 +292,7 @@ spec:
         readinessProbe:
           tcpSocket:
             port: 1527
-          initialDelaySeconds: 40
+          initialDelaySeconds: 80
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -376,7 +376,7 @@ spec:
           httpGet:
             path: /
             port: 4040
-          initialDelaySeconds: 40
+          initialDelaySeconds: 80
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
