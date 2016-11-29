@@ -25,12 +25,23 @@
       user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true generate_ssh_key=true
     - name: change snappydata directory ownership
       file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
-    - name: install unzip package
-      apk: name=unzip state=latest
-    - name: import snappydata package
-      unarchive: src=https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-0.6.1-bin.zip dest=/opt/snappydata remote_src=yes
+    - name: install tar package
+      apk: name=tar state=latest
+    - name: download snappydata
+      get_url:
+        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-0.6.1-bin.tar.gz
+        dest: /tmp/snappydata.tar.gz
+        mode: 0440  
+      become: yes
+      become_user: snappydata  
+    - name: extract snappydata
+      shell: tar -xvf /tmp/snappydata.tar.gz --strip 1 -C /opt/snappydata
       become: yes
       become_user: snappydata
+    - name: delete archive
+      file: 
+        path: /tmp/snappydata.tar.gz
+        state: absent
     - name: Slurp public keys
       slurp: src="{{ item }}"
       with_items:
@@ -56,15 +67,15 @@
       become: yes
       become_user: snappydata
     - name: copy snappydata servers config
-      template: src=templates/servers dest=~/snappydata-0.6.1-bin/conf/servers
+      template: src=templates/servers dest=~/conf/servers
       become: yes
       become_user: snappydata
     - name: copy snappydata locators config
-      template: src=templates/locators dest=~/snappydata-0.6.1-bin/conf/locators
+      template: src=templates/locators dest=~/conf/locators
       become: yes
       become_user: snappydata
     - name: copy snappydata leads config
-      template: src=templates/leads dest=~/snappydata-0.6.1-bin/conf/leads
+      template: src=templates/leads dest=~/conf/leads
       become: yes
       become_user: snappydata
   handlers:
