@@ -194,6 +194,10 @@ spec:
         # Runs the current snappydata release
         image: snappydatainc/snappydata
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "1000m"
         ports:
         - containerPort: 26257
           name: grpc
@@ -260,6 +264,10 @@ spec:
         # Runs the current snappydata release
         image: snappydatainc/snappydata
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "4096Mi"
+            cpu: "1000m"
         ports:
         - containerPort: 26257
           name: grpc
@@ -326,6 +334,10 @@ spec:
         # Runs the current snappydata release
         image: snappydatainc/snappydata
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "1000m"
         ports:
         - containerPort: 26257
           name: grpc
@@ -352,7 +364,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -heap-size=2048m -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
