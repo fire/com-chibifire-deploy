@@ -15,15 +15,27 @@ spec:
   - port: 1531
     targetPort: 1531
     name: thrift
-  - port: 4040
-    targetPort: 4040
-    name: spark-ui 
-  - port: 10334
-    targetPort: 10334
-    name: locator
   type: LoadBalancer
   selector:
+    app: snappydata-server
+---
+# This is based on the cockroachdb example
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
+  # automatically load balance connections to the different database pods.
+  name: snappydata-leader-public
+  labels:
     app: snappydata
+spec:
+  ports:
+  - port: 4040
+    targetPort: 4040
+    name: spark-ui
+  type: LoadBalancer
+  selector:
+    app: snappydata-leader
 ---
 apiVersion: v1
 kind: Service
@@ -191,16 +203,14 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
-        #livenessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        #  initialDelaySeconds: 30
-        #readinessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        # initialDelaySeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 10334
+          initialDelaySeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 10334
+          initialDelaySeconds: 10
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -275,16 +285,14 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
-        #livenessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        #  initialDelaySeconds: 30
-        #readinessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        # initialDelaySeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 1527
+          initialDelaySeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 1527
+          initialDelaySeconds: 40
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -359,16 +367,16 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
-        #livenessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        #  initialDelaySeconds: 30
-        #readinessProbe:
-        #  httpGet:
-        #    path: /_admin/v1/health
-        #    port: http
-        # initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 4040
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 4040
+          initialDelaySeconds: 40
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
