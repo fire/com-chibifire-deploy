@@ -43,3 +43,9 @@ kubectl delete pods,services,petsets -l app=snappydata-server
 kubectl delete pods,services,petsets -l app=snappydata-leader 
 kubectl delete pods,services,petsets -l app=snappydata
 ```
+
+Start a snappydata client.
+
+```
+kubectl run snappydata-client -it --image=snappydatainc/snappydata  --rm --restart=Never /bin/bash
+```
