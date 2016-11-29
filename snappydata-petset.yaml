@@ -219,11 +219,11 @@ spec:
           - "-ecx"
           - |
             exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
-        lifecycle:
-          preStop:
-            exec:
-              command:
-                - /opt/snappydata/bin/snappy-shell locator stop -dir=/snappydata/locator
+      terminationGracePeriodSeconds: 60
+      #preStop:
+      #  exec:
+      #    command:
+      #      - /opt/snappydata/bin/snappy-shell locator stop -dir=/snappydata/locator
       volumes:
       - name: datadir
         persistentVolumeClaim:
@@ -284,11 +284,11 @@ spec:
           - "-ecx"
           - |
             exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator:10334, -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && tail -f /snappydata/server/snappyserver.log"
-      lifecycle:
-          preStop:
-            exec:
-              command:
-                - /opt/snappydata/bin/snappy-shell server stop -dir=/snappydata/server
+      terminationGracePeriodSeconds: 60
+      #preStop:
+      #  exec:
+      #    command:
+      #      - /opt/snappydata/bin/snappy-shell server stop -dir=/snappydata/server
       volumes:
       - name: datadir
         persistentVolumeClaim:
@@ -351,11 +351,11 @@ spec:
           - "-ecx"
           - |
             exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
-        lifecycle:
-          preStop:
-            exec:
-              command:
-                - /opt/snappydata/bin/snappy-shell leader stop -dir=/snappydata/leader
+      terminationGracePeriodSeconds: 60
+      #preStop:
+      #  exec:
+      #    command:
+      #      - /opt/snappydata/bin/snappy-shell leader stop -dir=/snappydata/leader
       volumes:
       - name: datadir
         persistentVolumeClaim:
