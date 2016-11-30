@@ -4,7 +4,7 @@ kind: Service
 metadata:
   # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
   # automatically load balance connections to the different database pods.
-  name: snappydata-public
+  name: snappydata-locator-0-public
   labels:
     app: snappydata
 spec:
@@ -12,9 +12,51 @@ spec:
   - port: 1527
     targetPort: 1527
     name: jdbc
+  - port: 10334
+    targetPort: 10334
+    name: locator
   type: LoadBalancer
   selector:
-    app: snappydata-locator
+    app: snappydata-locator-0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
+  # automatically load balance connections to the different database pods.
+  name: snappydata-locator-1-public
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 1527
+    targetPort: 1527
+    name: jdbc
+  - port: 10334
+    targetPort: 10334
+    name: locator
+  type: LoadBalancer
+  selector:
+    app: snappydata-locator-1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
+  # automatically load balance connections to the different database pods.
+  name: snappydata-server-public
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 1527
+    targetPort: 1527
+    name: jdbc
+  - port: 10334
+    targetPort: 10334
+    name: locator
+  selector:
+    app: snappydata-server
 ---
 apiVersion: v1
 kind: Service
@@ -40,9 +82,9 @@ metadata:
   # set such that they can resolve each other's IP addresses. It does not
   # create a load-balanced ClusterIP and should not be used directly by clients
   # in most circumstances.
-  name: snappydata-locator
+  name: snappydata-locator-0
   labels:
-    app: snappydata-locator
+    app: snappydata-locator-0
   annotations:
     # This is needed to make the peer-finder work properly and to help avoid
     # edge cases where instance 0 comes up after losing its data and needs to
@@ -77,7 +119,53 @@ spec:
     name: jdbc
   clusterIP: None
   selector:
-    app: snappydata-locator
+    app: snappydata-locator-0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # This service only exists to create DNS entries for each pod in the stateful
+  # set such that they can resolve each other's IP addresses. It does not
+  # create a load-balanced ClusterIP and should not be used directly by clients
+  # in most circumstances.
+  name: snappydata-locator-1
+  labels:
+    app: snappydata-locator-1
+  annotations:
+    # This is needed to make the peer-finder work properly and to help avoid
+    # edge cases where instance 0 comes up after losing its data and needs to
+    # decide whether it should create a new cluster or try to join an existing
+    # one. If it creates a new cluster when it should have joined an existing
+    # one, we'd end up with two separate clusters listening at the same service
+    # endpoint, which would be very bad.
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "false"
+    # Enable automatic monitoring of all instances when Prometheus is running in the cluster.
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "_status/vars"
+    prometheus.io/port: "8080"
+spec:
+  ports:
+  - port: 26257
+    targetPort: 26257
+    name: grpc
+  - port: 8080
+    targetPort: 8080
+    name: http
+  - port: 10334
+    targetPort: 10334
+    name: locator
+  - port: 3768
+    targetPort: 3768
+    name: zeppelin
+  - port: 1531
+    targetPort: 1531
+    name: thrift
+  - port: 1527
+    targetPort: 1527
+    name: jdbc
+  clusterIP: None
+  selector:
+    app: snappydata-locator-1
 ---
 apiVersion: v1
 kind: Service
@@ -174,19 +262,19 @@ spec:
 apiVersion: apps/v1alpha1
 kind: PetSet
 metadata:
-  name: snappydata-locator
+  name: snappydata-locator-0
 spec:
-  serviceName: "snappydata-locator"
-  replicas: 2
+  serviceName: "snappydata-locator-0"
+  replicas: 1
   template:
     metadata:
       labels:
-        app: snappydata-locator
+        app: snappydata-locator-0
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
-      - name: snappydata-locator
+      - name: snappydata-locator-0
         # Runs the current snappydata release
         image: snappydatainc/snappydata
         imagePullPolicy: IfNotPresent
@@ -218,7 +306,77 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-1-public:10334 -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /opt/snappydata/bin/snappy-shell locator stop -dir=/snappydata/locator
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: datadir
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      resources:
+        requests:
+          storage: 5Gi
+---
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  name: snappydata-locator-1
+spec:
+  serviceName: "snappydata-locator-1"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: snappydata-locator-1
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: snappydata-locator-1
+        # Runs the current snappydata release
+        image: snappydatainc/snappydata
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 26257
+          name: grpc
+        - containerPort: 8080
+          name: http
+        - containerPort: 10334
+          name: locator
+        - containerPort: 1527
+          name: jdbc
+        livenessProbe:
+          tcpSocket:
+            port: 10334
+          initialDelaySeconds: 30
+        readinessProbe:
+          tcpSocket:
+            port: 10334
+          initialDelaySeconds: 80
+        volumeMounts:
+        - name: datadir
+          mountPath: /snappydata
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-0-public:10334 -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
         lifecycle:
           preStop:
             exec:
@@ -262,7 +420,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "4096Mi"
+            memory: "6144Mi"
             cpu: "1000m"
         ports:
         - containerPort: 26257
@@ -288,7 +446,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator:10334, -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && tail -f /snappydata/server/snappyserver.log"
+            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && tail -f /snappydata/server/snappyserver.log"
         lifecycle:
           preStop:
             exec:
@@ -332,7 +490,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "2048Mi"
+            memory: "4096Mi"
             cpu: "500m"
         ports:
         - containerPort: 26257
@@ -360,7 +518,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -heap-size=2048m -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -client-bind-address=$(hostname -f) -heap-size=2048m -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
