@@ -15,7 +15,6 @@ spec:
   - port: 10334
     targetPort: 10334
     name: locator
-  type: LoadBalancer
   selector:
     app: snappydata-locator-0
 ---
@@ -71,7 +70,6 @@ spec:
   - port: 4040
     targetPort: 4040
     name: spark-ui
-  type: LoadBalancer
   selector:
     app: snappydata-leader
 ---
@@ -462,7 +460,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "6144Mi"
+            memory: "4096Mi"
             cpu: "1000m"
         ports:
         - containerPort: 26257
@@ -574,7 +572,7 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "6144Mi"
+            memory: "2048Mi"
             cpu: "1000m"
         ports:
         - containerPort: 26257
@@ -644,7 +642,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
