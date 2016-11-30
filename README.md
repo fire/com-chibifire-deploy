@@ -38,8 +38,7 @@ Copy the snappydata kubebernetes configuration and execute the yaml.
 To reinitalize, delete all the workers.
 
 ```
-kubectl delete pods,services,petsets -l app=snappydata-locator-0
-kubectl delete pods,services,petsets -l app=snappydata-locator-1
+kubectl delete pods,services,petsets -l app=snappydata-locator
 kubectl delete pods,services,petsets -l app=snappydata-server
 kubectl delete pods,services,petsets -l app=snappydata-leader 
 kubectl delete pods,services,petsets -l app=snappydata
@@ -51,5 +50,12 @@ Start a snappydata client.
 kubectl run snappydata-client -it --image=snappydatainc/snappydata  --rm --restart=Never /bin/bash
 /opt/snappydata/bin/snappy-shell
 connect client 'snappydata-locator-0:1527';
-run '/opt/snappydata/quickstart/scripts/create_and_load_row_table.sql';
+connect client 'snappydata-locator-1:1527';
+select id, kind, status, host, port from sys.members;
+```
+
+Proxy spark ui.
+
+```
+kubectl port-forward snappydata-leader-0 4040
 ```
