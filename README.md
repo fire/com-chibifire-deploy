@@ -49,4 +49,7 @@ Start a snappydata client.
 
 ```
 kubectl run snappydata-client -it --image=snappydatainc/snappydata  --rm --restart=Never /bin/bash
+/opt/snappydata/bin/snappy-shell
+connect client 'snappydata-locator-0:1527';
+run '/opt/snappydata/quickstart/scripts/create_and_load_row_table.sql';
 ```

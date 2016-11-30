@@ -138,7 +138,7 @@ metadata:
     # one. If it creates a new cluster when it should have joined an existing
     # one, we'd end up with two separate clusters listening at the same service
     # endpoint, which would be very bad.
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "false"
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
     # Enable automatic monitoring of all instances when Prometheus is running in the cluster.
     prometheus.io/scrape: "true"
     prometheus.io/path: "_status/vars"
@@ -361,6 +361,48 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
+        - containerPort: 21000
+          name: membership-0000
+        - containerPort: 21001
+          name: membership-0001
+        - containerPort: 21002
+          name: membership-0002
+        - containerPort: 21003
+          name: membership-0003
+        - containerPort: 21004
+          name: membership-0004
+        - containerPort: 21005
+          name: membership-0005
+        - containerPort: 21006
+          name: membership-0006
+        - containerPort: 21007
+          name: membership-0007
+        - containerPort: 21008
+          name: membership-0008
+        - containerPort: 21009
+          name: membership-0009
+        - containerPort: 21010
+          name: membership-0010
+        - containerPort: 21011
+          name: membership-0011
+        - containerPort: 21012
+          name: membership-0012
+        - containerPort: 21013
+          name: membership-0013
+        - containerPort: 21014
+          name: membership-0014
+        - containerPort: 21015
+          name: membership-0015
+        - containerPort: 21016
+          name: membership-0016
+        - containerPort: 21017
+          name: membership-0017
+        - containerPort: 21018
+          name: membership-0018
+        - containerPort: 21019
+          name: membership-0019
+        - containerPort: 21020
+          name: membership-0020
         livenessProbe:
           tcpSocket:
             port: 10334
@@ -376,7 +418,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-0-public:10334 -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-0-public:10334 -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -membership-port-range=21000-21020 -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
         lifecycle:
           preStop:
             exec:
@@ -431,6 +473,48 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
+        - containerPort: 21000
+          name: membership-0000
+        - containerPort: 21001
+          name: membership-0001
+        - containerPort: 21002
+          name: membership-0002
+        - containerPort: 21003
+          name: membership-0003
+        - containerPort: 21004
+          name: membership-0004
+        - containerPort: 21005
+          name: membership-0005
+        - containerPort: 21006
+          name: membership-0006
+        - containerPort: 21007
+          name: membership-0007
+        - containerPort: 21008
+          name: membership-0008
+        - containerPort: 21009
+          name: membership-0009
+        - containerPort: 21010
+          name: membership-0010
+        - containerPort: 21011
+          name: membership-0011
+        - containerPort: 21012
+          name: membership-0012
+        - containerPort: 21013
+          name: membership-0013
+        - containerPort: 21014
+          name: membership-0014
+        - containerPort: 21015
+          name: membership-0015
+        - containerPort: 21016
+          name: membership-0016
+        - containerPort: 21017
+          name: membership-0017
+        - containerPort: 21018
+          name: membership-0018
+        - containerPort: 21019
+          name: membership-0019
+        - containerPort: 21020
+          name: membership-0020
         livenessProbe:
           tcpSocket:
             port: 1527
@@ -446,7 +530,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true && tail -f /snappydata/server/snappyserver.log"
+            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true -membership-port-range=21000-21020 && tail -f /snappydata/server/snappyserver.log"
         lifecycle:
           preStop:
             exec:
@@ -490,8 +574,8 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "4096Mi"
-            cpu: "500m"
+            memory: "6144Mi"
+            cpu: "1000m"
         ports:
         - containerPort: 26257
           name: grpc
@@ -501,6 +585,48 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
+        - containerPort: 21000
+          name: membership-0000
+        - containerPort: 21001
+          name: membership-0001
+        - containerPort: 21002
+          name: membership-0002
+        - containerPort: 21003
+          name: membership-0003
+        - containerPort: 21004
+          name: membership-0004
+        - containerPort: 21005
+          name: membership-0005
+        - containerPort: 21006
+          name: membership-0006
+        - containerPort: 21007
+          name: membership-0007
+        - containerPort: 21008
+          name: membership-0008
+        - containerPort: 21009
+          name: membership-0009
+        - containerPort: 21010
+          name: membership-0010
+        - containerPort: 21011
+          name: membership-0011
+        - containerPort: 21012
+          name: membership-0012
+        - containerPort: 21013
+          name: membership-0013
+        - containerPort: 21014
+          name: membership-0014
+        - containerPort: 21015
+          name: membership-0015
+        - containerPort: 21016
+          name: membership-0016
+        - containerPort: 21017
+          name: membership-0017
+        - containerPort: 21018
+          name: membership-0018
+        - containerPort: 21019
+          name: membership-0019
+        - containerPort: 21020
+          name: membership-0020
         livenessProbe:
           httpGet:
             path: /
@@ -518,7 +644,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -client-bind-address=$(hostname -f) -heap-size=2048m -J-Duser.timezone=UTC && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-1-public:10334,snappydata-locator-0-public:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
