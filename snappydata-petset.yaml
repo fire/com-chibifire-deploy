@@ -240,6 +240,8 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
+        - containerPort: 1531
+          name: thrift
         livenessProbe:
           tcpSocket:
             port: 10334
@@ -255,7 +257,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-public:10334 -peer-discovery-address=$(hostname -f) -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -locators=snappydata-locator-public:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC && tail -f /snappydata/locator/snappylocator.log"
         lifecycle:
           preStop:
             exec:
@@ -310,6 +312,8 @@ spec:
           name: locator
         - containerPort: 1527
           name: jdbc
+        - containerPort: 1531
+          name: thrift
         - containerPort: 21000
           name: membership-0000
         - containerPort: 21001
