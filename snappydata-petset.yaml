@@ -12,6 +12,9 @@ spec:
   - port: 1527
     targetPort: 1527
     name: jdbc
+  - port: 1531
+    targetPort: 1531
+    name: thrift
   type: LoadBalancer
   selector:
     app: snappydata-server
