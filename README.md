@@ -58,5 +58,6 @@ select id, kind, status, host, port from sys.members;
 Proxy spark ui.
 
 ```
+kubectl port-forward snappydata-server-0 1527
 kubectl port-forward snappydata-leader-0 4040
 ```
