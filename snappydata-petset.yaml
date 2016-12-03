@@ -22,6 +22,22 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  # This service is meant to be used by clients of the database. It exposes the pulse management 
+  # application.
+  name: snappydata-pulse-public
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 7075
+    targetPort: 7075
+    name: pulse
+  selector:
+    app: snappydata-locator
+---
+apiVersion: v1
+kind: Service
+metadata:
   # This service is meant to be used by clients of the database. It exposes the locator so that the
   # servers can find other servers.
   name: snappydata-locator-public
@@ -246,7 +262,7 @@ spec:
         - containerPort: 1531
           name: thrift
         - containerPort: 7075
-          name: jmx
+          name: pulse
         livenessProbe:
           tcpSocket:
             port: 10334
