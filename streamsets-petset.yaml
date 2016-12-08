@@ -1,8 +1,14 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: streamsets
+---
 apiVersion: apps/v1alpha1
 kind: PetSet
 metadata:
   name: streamsets
+  namespace: streamsets
 spec:
   serviceName: "streamsets"
   replicas: 1
@@ -24,13 +30,14 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /data && mkdir -p /etc/sdc && ADD_LIBS=streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
+            exec /bin/bash -c "mkdir -p /data && mkdir -p /etc/sdc && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib STREAMSETS_LIBRARIES_EXTRA_DIR=/data /docker-entrypoint.sh dc -exec" 
         volumeMounts:
         - name: datadir
           mountPath: /sdc
   volumeClaimTemplates:
   - metadata:
       name: datadir
+      namespace: streamsets
       annotations:
         volume.alpha.kubernetes.io/storage-class: anything
     spec:
