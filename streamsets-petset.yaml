@@ -1,0 +1,40 @@
+# https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  name: streamsets
+spec:
+  serviceName: "streamsets"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: streamsets 
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        pod.alpha.kubernetes.io/init-containers: '[
+        ]'
+    spec:
+      containers:
+      - name: streamsets
+        image: trivadisbds/streamsets-datacollector:latest
+        ports:
+        - containerPort: 18630       
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+            exec /bin/bash -c "mkdir -p /data && mkdir -p /etc/sdc && ADD_LIBS=streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
+        volumeMounts:
+        - name: datadir
+          mountPath: /sdc
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi
