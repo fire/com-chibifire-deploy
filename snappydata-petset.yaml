@@ -278,7 +278,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -J-Duser.timezone=UTC -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7075 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator-public:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -J-Duser.timezone=UTC -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7075 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
         lifecycle:
           preStop:
             exec:
@@ -392,7 +392,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true -membership-port-range=21000-21020 -enable-network-partition-detection=true  && tail -f /snappydata/server/snappyserver.log"
+            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-public:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true -membership-port-range=21000-21020 -enable-network-partition-detection=true  && tail -f /snappydata/server/snappyserver.log"
         lifecycle:
           preStop:
             exec:
@@ -506,7 +506,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-public/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-public:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
