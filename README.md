@@ -38,6 +38,10 @@ Copy the snappydata kubebernetes configuration and execute the yaml.
 To reinitalize, delete all the workers.
 
 ```
+kubectl delete pods,services,petsets,pvc -l app=snappydata-locator
+kubectl delete pods,services,petsets,pvc -l app=snappydata-server
+kubectl delete pods,services,petsets,pvc -l app=snappydata-leader 
+kubectl delete pods,services,petsets,pvc -l app=snappydata
 kubectl delete -f .\snappydata-petset.yaml
 kubectl create -f .\snappydata-petset.yaml
 ```
