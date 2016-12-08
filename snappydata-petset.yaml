@@ -233,7 +233,7 @@ metadata:
   name: snappydata-locator
 spec:
   serviceName: "snappydata-locator"
-  replicas: 2
+  replicas: 1 # Set to two on a cloud cluster
   template:
     metadata:
       labels:
