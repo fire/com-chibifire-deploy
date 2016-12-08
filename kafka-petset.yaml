@@ -1,8 +1,41 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
+# A headless service to create DNS records
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kafka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  namespace: kafka
+spec:
+  ports:
+  - port: 9092
+  selector:
+    app: kafka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: broker
+  namespace: kafka
+spec:
+  ports:
+  - port: 9092
+  # [podname].broker.kafka.svc.cluster.local
+  clusterIP: None
+  selector:
+    app: kafka
+---
 apiVersion: apps/v1alpha1
 kind: PetSet
 metadata:
   name: kafka
+  namespace: kafka
 spec:
   serviceName: "broker"
   replicas: 3
