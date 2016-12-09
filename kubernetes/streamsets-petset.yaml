@@ -23,14 +23,14 @@ spec:
     spec:
       containers:
       - name: streamsets
-        image: trivadisbds/streamsets-datacollector:2.1.0.1
+        image: ifire/datacollector
         ports:
         - containerPort: 18630       
         command:
           - "/bin/bash"
           - "-ecx"
           - |         
-            exec /bin/bash -c " mkdir -p /data && cd /opt/streamsets-datacollector-2.1.0.1  && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && curl -sL https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-client-1.5.2.jar > streamsets-libs/streamsets-datacollector-jdbc-lib/lib/snappydata-client-1.5.2.jar && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib STREAMSETS_LIBRARIES_EXTRA_DIR=libs-common-lib /docker-entrypoint.sh dc -exec" 
+            exec /bin/bash -c " mkdir -p /data && cd /opt/streamsets-datacollector-2.2.0.0 && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && curl -sL https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-client-1.5.2.jar > libs-common-lib/streamsets-datacollector-jdbc-lib/lib/snappydata-client-1.5.2.jar && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
         volumeMounts:
         - name: datadir
           mountPath: /sdc
