@@ -13,3 +13,5 @@ EXPOSE 1527 4040 7070 8080 10334
 
 # ==> Executing Ansible (with a simple wrapper)...
 RUN ansible-playbook-wrapper
+
+CMD ["/usr/local/bin/start", "all"]
