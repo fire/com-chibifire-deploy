@@ -1,11 +1,6 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
 # A headless service to create DNS records
 apiVersion: v1
-kind: Namespace
-metadata:
-  name: kafka
----
-apiVersion: v1
 kind: Service
 metadata:
   name: kafka
