@@ -379,7 +379,7 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 1527
-          initialDelaySeconds: 320
+          initialDelaySeconds: 3600
         readinessProbe:
           tcpSocket:
             port: 1527
