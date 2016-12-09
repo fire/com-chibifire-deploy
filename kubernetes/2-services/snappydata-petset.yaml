@@ -379,11 +379,11 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 1527
-          initialDelaySeconds: 160
+          initialDelaySeconds: 320
         readinessProbe:
           tcpSocket:
             port: 1527
-          initialDelaySeconds: 160
+          initialDelaySeconds: 320
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -491,7 +491,7 @@ spec:
           httpGet:
             path: /
             port: 4040
-          initialDelaySeconds: 160
+          initialDelaySeconds: 320
         readinessProbe:
           httpGet:
             path: /
