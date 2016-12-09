@@ -24,3 +24,5 @@ cd ~/src
 ./bin/ycsb load snappystore -P workloads/workloada -s -threads 8 -p recordcount=1000000
 ./bin/ycsb run snappystore -P workloads/workloada -s -threads 8 -p operationcount=1000000 -p requestdistribution=zipfian
 ```
+
+On server restart set Zookeeper replicas to 1 and wait for stability. Then increase to 3 replicas.
