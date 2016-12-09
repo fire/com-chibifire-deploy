@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka
+  name: kafka-public
   namespace: kafka
 spec:
   ports:
@@ -51,7 +51,7 @@ spec:
         command:
         - sh
         - -c
-        - "./bin/kafka-server-start.sh config/server.properties --override broker.id=$(hostname | awk -F'-' '{print $2}') --override zookeeper.connect=zk:2181"
+        - "./bin/kafka-server-start.sh config/server.properties --override broker.id=$(hostname | awk -F'-' '{print $2}') --override zookeeper.connect=zk.zk:2181"
         volumeMounts:
         - name: datadir
           mountPath: /opt/kafka/data
