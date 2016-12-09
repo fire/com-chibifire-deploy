@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+#
+# Copyright (c) 2016 SnappyData, Inc. All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License. You
+# may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied. See the License for the specific language governing
+# permissions and limitations under the License. See accompanying
+# LICENSE file.
+#
+
+HOSTNAME=`hostname -f`
+IP=`ping -c 1 $HOSTNAME | grep "64 bytes from" | awk '{print $4}' | awk '1' RS='.\n'`
+
+sbin=/opt/snappydata/sbin
+die() { echo "ERROR: $*" 1>&2; exit 1; }
+
+
+start_locator() {
+echo $IP > /opt/snappydata/conf/locators
+$sbin/snappy-locators.sh start -jmx-manager=true -jmx-manager-start=true
+}
+
+start_all() {
+$sbin/snappy-locators.sh start -jmx-manager=true -jmx-manager-start=true
+$sbin/snappy-servers.sh start -locators=$IP:10334 -client-bind-address=$(hostname -f)
+$sbin/snappy-leads.sh start -locators=$IP:10334 -client-bind-address=$(hostname -f)
+}
+
+case "$1" in
+   "")
+      echo "Usage: start [server|lead|locator|all]"
+      exit 1
+      ;;
+   server)
+      echo $IP > /opt/snappydata/conf/servers
+      $sbin/snappy-servers.sh start "${@:2}"
+      ;;
+   locator) start_locator ;;
+   lead)
+      echo $IP > /opt/snappydata/conf/leads
+      $sbin/snappy-leads.sh start "${@:2}"
+      ;;
+   all) start_all ;;
+   * )
+   echo "Usage: start [server|lead|locator|all]"
+   die "Invalid Argument"
+esac
+
+
+tail -f /dev/null
