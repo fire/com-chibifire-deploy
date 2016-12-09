@@ -31,34 +31,4 @@ cd ~/src
 ./bin/ycsb run snappystore -P workloads/workloada -s -threads 8 -p operationcount=1000000 -p requestdistribution=zipfian
 ```
 
-## Docker start commands
-
-Copy the snappydata kubebernetes configuration and execute the yaml.
-
-To reinitalize, delete all the workers.
-
-```
-kubectl delete pods,services,petsets,pvc -l app=snappydata-locator
-kubectl delete pods,services,petsets,pvc -l app=snappydata-server
-kubectl delete pods,services,petsets,pvc -l app=snappydata-leader 
-kubectl delete pods,services,petsets,pvc -l app=snappydata
-kubectl delete -f .\snappydata-petset.yaml
-kubectl create -f .\snappydata-petset.yaml
-```
-
-Start a snappydata client.
-
-```
-kubectl run snappydata-client -it --image=snappydatainc/snappydata  --rm --restart=Never /bin/bash
-/opt/snappydata/bin/snappy-shell
-connect client 'snappydata-locator-0:1527';
-connect client 'snappydata-locator-1:1527';
-select id, kind, status, host, port from sys.members;
-```
-
-Proxy spark ui.
-
-```
-kubectl port-forward snappydata-server-0 1527
-kubectl port-forward snappydata-leader-0 4040
-```
+See kubernetes instructions.
