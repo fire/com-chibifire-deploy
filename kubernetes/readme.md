@@ -42,3 +42,24 @@ Proxy spark ui.
 ```
 kubectl port-forward snappydata-leader-0 4040
 ```
+
+Run top / htop.
+
+```
+export TERM=xterm
+yum install epel-release
+yum install htop
+htop
+```
+
+Proxy streamsets ui.
+
+```
+kubectl port-forward --namespace streamsets streamsets-0 18630
+```
+
+Proxy pulse snappydata ui admin.
+
+```
+kubectl port-forward --namespace snappydata snappydata-locator-0 7070
+```
