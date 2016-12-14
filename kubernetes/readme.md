@@ -22,10 +22,12 @@ kubectl create -f ./2-services
 
 ## Misc commands.
 
+Create a kafka topic.
+
 ```
-kubectl.exe exec -it kafka-0 bash
-./bin/kafka-topics.sh --zookeeper zk:2181 --list
-./bin/kafka-topics.sh --zookeeper zk:2181 --create --topic jsonTest --partitions=3 --replication=1
+kubectl.exe exec -it --namespace kafka kafka-0 bash
+./bin/kafka-topics.sh --zookeeper zk.zk:2181 --list
+./bin/kafka-topics.sh --zookeeper zk.zk:2181 --create --topic topicName --partitions=3 --replication=1
 ```
 
 Start a snappydata client.
@@ -63,3 +65,5 @@ Proxy pulse snappydata ui admin.
 ```
 kubectl port-forward --namespace snappydata snappydata-locator-0 7070
 ```
+
+Procedure to restart zookeeper. First reduce the number of replicas to 1. Restart the pod and then set the replicas back to 3.
