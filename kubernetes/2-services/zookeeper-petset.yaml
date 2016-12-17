@@ -32,8 +32,8 @@ spec:
   selector:
     app: zk
 ---
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: zoo
   namespace: zk
@@ -45,7 +45,6 @@ spec:
       labels:
         app: zk
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
         pod.alpha.kubernetes.io/init-containers: '[
             {
                 "name": "install",

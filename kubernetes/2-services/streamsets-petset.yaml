@@ -1,6 +1,6 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: streamsets
   namespace: streamsets
@@ -12,7 +12,6 @@ spec:
       labels:
         app: streamsets 
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
         pod.alpha.kubernetes.io/init-containers: '[
         ]'
     spec:
