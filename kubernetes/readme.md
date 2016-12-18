@@ -1,6 +1,6 @@
 # Setup Guide
 
-## Start Kubernetes cluster
+## Start Kubernetes cluster on Hyperv
 
 Install Docker for Windows.
 
@@ -12,6 +12,26 @@ In hyperv create a virtual switch to your network.
 
 ```
 minikube.exe start --vm-driver="hyperv" --cpus="8" --memory="32768" --hyperv-virtual-switch=Lan
+minikube addons enable heapster
+minikube addons enable dashboard
+# wait
+minikube addons open dashboard
+kubectl create -f ./1-setup
+kubectl create -f ./2-services
+```
+
+## Start Kubernetes cluster on Virtualbox
+
+Install Docker for Windows.
+
+Install minikube.
+
+Start minikube.
+
+In hyperv create a virtual switch to your network.
+
+```
+minikube.exe start --cpus="8" --memory="32768" # Adjust as you wish
 minikube addons enable heapster
 minikube addons enable dashboard
 # wait
