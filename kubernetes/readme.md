@@ -137,3 +137,27 @@ kubectl port-forward --namespace snappydata snappydata-locator-0 7070
 ```
 
 Procedure to restart zookeeper. First reduce the number of replicas to 1. Restart the pod and then set the replicas back to 3.
+
+## Installing ycsb
+```
+kubectl run snappydata-client -it --image=openjdk/8u111-jdk-alpine  --rm --restart=Never /bin/bash
+docker run -it <containername> /bin/bash
+./bin/ycsb load snappystore -P workloads/workloada -s -threads 4 -p recordcount=50000
+./bin/ycsb run snappystore -P workloads/workloada -s -threads 4 -p operationcount=5000000 -p requestdistribution=zipfian
+```
+
+## Install a recent git on Centos 6
+
+```
+yum install epel-release
+rpm -i https://centos6.iuscommunity.org/ius-release.rpm
+yum remove git
+yum install git2u
+```
+
+## Install ycsb client
+
+```
+
+
+```

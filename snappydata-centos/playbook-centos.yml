@@ -1,4 +1,24 @@
-- hosts: all
+- name: create snappydata user
+      user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+    - name: change snappydata directory ownership
+      file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
+    - name: download snappydata
+      get_url:
+        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-0.6.1-bin.tar.gz
+        dest: /tmp/snappydata.tar.gz
+        mode: 0440  
+      become: yes
+      become_user: snappydata  
+    - name: extract snappydata
+      shell: tar -xvf /tmp/snappydata.tar.gz --strip 1 -C /opt/snappydata
+      become: yes
+      become_user: snappydata
+    - name: delete archive
+      file: 
+        path: /tmp/snappydata.tar.gz
+        state: absent
+    - name: copy snappydata start config
+      template: src=templates/start dest=/usr/local/bin/start mode=755- hosts: all
   vars:
   tasks:
     - name: upgrade all packages
