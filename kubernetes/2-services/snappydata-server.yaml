@@ -1,0 +1,109 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: snappydata-server
+  namespace: snappydata
+spec:
+  serviceName: "snappydata-server"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: snappydata-server
+      annotations:
+    spec:
+      containers:
+      - name: snappydata-server
+        # Runs the current snappydata release
+        image: snappydatainc/snappydata
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "4096Mi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 10334
+          name: locator
+        - containerPort: 1527
+          name: jdbc
+        - containerPort: 1531
+          name: thrift
+        - containerPort: 21000
+          name: membership-0000
+        - containerPort: 21001
+          name: membership-0001
+        - containerPort: 21002
+          name: membership-0002
+        - containerPort: 21003
+          name: membership-0003
+        - containerPort: 21004
+          name: membership-0004
+        - containerPort: 21005
+          name: membership-0005
+        - containerPort: 21006
+          name: membership-0006
+        - containerPort: 21007
+          name: membership-0007
+        - containerPort: 21008
+          name: membership-0008
+        - containerPort: 21009
+          name: membership-0009
+        - containerPort: 21010
+          name: membership-0010
+        - containerPort: 21011
+          name: membership-0011
+        - containerPort: 21012
+          name: membership-0012
+        - containerPort: 21013
+          name: membership-0013
+        - containerPort: 21014
+          name: membership-0014
+        - containerPort: 21015
+          name: membership-0015
+        - containerPort: 21016
+          name: membership-0016
+        - containerPort: 21017
+          name: membership-0017
+        - containerPort: 21018
+          name: membership-0018
+        - containerPort: 21019
+          name: membership-0019
+        - containerPort: 21020
+          name: membership-0020
+        livenessProbe:
+          tcpSocket:
+            port: 1527
+          initialDelaySeconds: 3600
+        readinessProbe:
+          tcpSocket:
+            port: 1527
+          initialDelaySeconds: 320
+        volumeMounts:
+        - name: datadir
+          mountPath: /snappydata
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true -membership-port-range=21000-21020 -enable-network-partition-detection=true  && tail -f /snappydata/server/snappyserver.log"
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /opt/snappydata/bin/snappy-shell server stop -dir=/snappydata/server
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: datadir
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: anything
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      resources:
+        requests:
+          storage: 5Gi

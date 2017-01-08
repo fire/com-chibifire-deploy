@@ -11,6 +11,7 @@ Start minikube.
 In hyperv create a virtual switch to your network.
 
 ```
+REM MUST BE ON THE C DRIVE
 minikube.exe start --vm-driver="hyperv" --cpus="8" --memory="32768" --hyperv-virtual-switch=Lan
 minikube addons enable heapster
 minikube addons enable dashboard
