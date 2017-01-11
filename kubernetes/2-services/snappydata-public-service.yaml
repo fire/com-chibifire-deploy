@@ -1,0 +1,36 @@
+# Copyright 2016 K. S. Ernest (iFire) Lee
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Snappydata cluster on Kubernetes
+# This is based on the cockroachdb example
+# ## Two ways to connect to the database:
+# * minikube service  snappydata-public --url
+# * Connect to the cluster dashboardand see what snappydata-public's
+# LoadBalancer ip in service pane.
+# ## To view pulse cluster admin app:
+# kubectl port-forward snappydata-locator-0 7070
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
+  # automatically load balance connections to the different database pods.
+  name: snappydata-public
+  namespace: snappydata
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 1527
+    targetPort: 1527
+    name: jdbc
+  - port: 1531
+    targetPort: 1531
+    name: thrift
+  type: ClusterIP # In a cloud switch to LoadBalancer
+  selector:
+    app: snappydata-server

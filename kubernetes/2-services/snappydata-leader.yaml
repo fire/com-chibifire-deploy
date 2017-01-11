@@ -1,5 +1,5 @@
-apiVersion: apps/v1beta1
-kind: StatefulSet
+apiVersion: apps/v1alpha1
+kind: PetSet
 metadata:
   name: snappydata-leader
   namespace: snappydata
@@ -11,6 +11,7 @@ spec:
       labels:
         app: snappydata-leader
       annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: snappydata-leader
