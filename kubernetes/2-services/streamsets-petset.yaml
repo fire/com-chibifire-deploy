@@ -1,6 +1,6 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
-apiVersion: apps/v1beta1
-kind: StatefulSet
+apiVersion: apps/v1alpha1
+kind: PetSet
 metadata:
   name: streamsets
   namespace: streamsets

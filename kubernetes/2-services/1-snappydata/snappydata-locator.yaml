@@ -46,7 +46,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator-0.snappydata-locator.snappydata:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -J-Duser.timezone=UTC -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7070 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "mkdir -p /snappydata/locator && /opt/snappydata/bin/snappy-shell locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator-0.snappydata-locator.snappydata:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -J-Duser.timezone=UTC -J-Dgemfirexd.thrift-selector=true -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7070 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
         lifecycle:
           preStop:
             exec:

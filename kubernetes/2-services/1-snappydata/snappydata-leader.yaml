@@ -1,34 +1,34 @@
 apiVersion: apps/v1alpha1
 kind: PetSet
 metadata:
-  name: snappydata-server
+  name: snappydata-leader
   namespace: snappydata
 spec:
-  serviceName: "snappydata-server"
+  serviceName: "snappydata-leader"
   replicas: 1
   template:
     metadata:
       labels:
-        app: snappydata-server
+        app: snappydata-leader
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
-      - name: snappydata-server
+      - name: snappydata-leader
         # Runs the current snappydata release
         image: snappydatainc/snappydata
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "4096Mi"
+            memory: "2048Mi"
             cpu: "1000m"
         ports:
+        - containerPort: 4040
+          name: http
         - containerPort: 10334
           name: locator
         - containerPort: 1527
           name: jdbc
-        - containerPort: 1531
-          name: thrift
         - containerPort: 21000
           name: membership-0000
         - containerPort: 21001
@@ -72,12 +72,14 @@ spec:
         - containerPort: 21020
           name: membership-0020
         livenessProbe:
-          tcpSocket:
-            port: 1527
-          initialDelaySeconds: 3600
+          httpGet:
+            path: /
+            port: 4040
+          initialDelaySeconds: 320
         readinessProbe:
-          tcpSocket:
-            port: 1527
+          httpGet:
+            path: /
+            port: 4040
           initialDelaySeconds: 320
         volumeMounts:
         - name: datadir
@@ -86,12 +88,12 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p /snappydata/server && /opt/snappydata/bin/snappy-shell server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -thrift-server-address=$(hostname -f) -heap-size=4096m -thrift-server-port=1531 -thrift-binary-protocol=true -membership-port-range=21000-21020 -enable-network-partition-detection=true -thrift-selector=true && tail -f /snappydata/server/snappyserver.log"
-        lifecycle:
-          preStop:
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-0.snappydata-server.snappydata.svc.cluster.local/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+        lifecycle:  
+          preStop: 
             exec:
               command:
-              - /opt/snappydata/bin/snappy-shell server stop -dir=/snappydata/server
+              - /opt/snappydata/bin/snappy-shell leader stop -dir=/snappydata/leader
       terminationGracePeriodSeconds: 60
       volumes:
       - name: datadir
