@@ -15,3 +15,4 @@ EXPOSE 1527 4040 7070 8080 10334
 RUN ansible-playbook-wrapper
 
 CMD ["/usr/local/bin/start", "all"]
+USER snappydata
