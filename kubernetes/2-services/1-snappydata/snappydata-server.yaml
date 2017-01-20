@@ -16,7 +16,7 @@ spec:
       containers:
       - name: snappydata-server
         # Runs the current snappydata release
-        image: fire/snappydata
+        image: ifire/snappydata
         imagePullPolicy: IfNotPresent
         resources:
           requests:
