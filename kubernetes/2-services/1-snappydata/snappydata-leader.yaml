@@ -16,7 +16,7 @@ spec:
       containers:
       - name: snappydata-leader
         # Runs the current snappydata release
-        image: snappydatainc/snappydata
+        image: ifire/snappydata
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -88,7 +88,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-0.snappydata-server.snappydata.svc.cluster.local/1527\" && mkdir -p /snappydata/leader && /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-0.snappydata-server.snappydata.svc.cluster.local/1527\" && mkdir -p /snappydata/leader && HADOOP_USER_NAME=snappydata /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
@@ -103,7 +103,6 @@ spec:
   - metadata:
       name: datadir
       annotations:
-        volume.beta.kubernetes.io/storage-class: generic
     spec:
       accessModes:
         - "ReadWriteOnce"
