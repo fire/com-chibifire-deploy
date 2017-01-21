@@ -4,7 +4,6 @@ metadata:
   # This service is meant to be used by clients of the database. It exposes the pulse management 
   # application.
   name: snappydata-pulse-public
-  namespace: snappydata
   labels:
     app: snappydata
 spec:

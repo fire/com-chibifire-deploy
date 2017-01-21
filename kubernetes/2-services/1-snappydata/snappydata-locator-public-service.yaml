@@ -4,7 +4,6 @@ metadata:
   # This service is meant to be used by clients of the database. It exposes the locator so that the
   # servers can find other servers.
   name: snappydata-locator-public
-  namespace: snappydata
   labels:
     app: snappydata
 spec:

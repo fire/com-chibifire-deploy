@@ -4,7 +4,6 @@ metadata:
   # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
   # automatically load balance connections to the different database pods.
   name: snappydata-leader-public
-  namespace: snappydata
   labels:
     app: snappydata
 spec:

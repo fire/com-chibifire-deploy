@@ -6,7 +6,6 @@ metadata:
   # create a load-balanced ClusterIP and should not be used directly by clients
   # in most circumstances.
   name: snappydata-locator
-  namespace: snappydata
   labels:
     app: snappydata-locator
   annotations:

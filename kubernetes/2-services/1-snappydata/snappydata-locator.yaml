@@ -2,7 +2,6 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: snappydata-locator
-  namespace: snappydata
 spec:
   serviceName: "snappydata-locator"
   replicas: 2 # Set to two on a cloud cluster
