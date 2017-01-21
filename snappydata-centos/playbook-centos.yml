@@ -1,45 +1,32 @@
-- name: create snappydata user
-      user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
-    - name: change snappydata directory ownership
-      file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
-    - name: download snappydata
-      get_url:
-        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-0.6.1-bin.tar.gz
-        dest: /tmp/snappydata.tar.gz
-        mode: 0440  
-      become: yes
-      become_user: snappydata  
-    - name: extract snappydata
-      shell: tar -xvf /tmp/snappydata.tar.gz --strip 1 -C /opt/snappydata
-      become: yes
-      become_user: snappydata
-    - name: delete archive
-      file: 
-        path: /tmp/snappydata.tar.gz
-        state: absent
-    - name: copy snappydata start config
-      template: src=templates/start dest=/usr/local/bin/start mode=755- hosts: all
+- hosts: all
   vars:
   tasks:
+    - name: Add repository
+      yum_repository:
+        name: epel
+        description: EPEL YUM repo
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
     - name: upgrade all packages
       yum: name=* state=latest
     - name: install openjdk 1.8
       yum: name=java-1.8.0-openjdk state=latest
+    - name: install nss_wrapper
+      yum: name=nss_wrapper state=latest
+    - name: install gettext
+      yum: name=gettext state=latest
     - name: install sudo
       yum: name=sudo state=latest
     - name: sudo can use tty
       shell: "sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers"
-    - name: add snappydata group 
-      group: name=snappydata state=present
     - name: create snappydata directory
       file: path=/opt/snappydata state=directory
     - name: create snappydata user
-      user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+      user: name=snappydata group=root comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
     - name: change snappydata directory ownership
-      file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
+      file: path=/opt/snappydata state=directory owner=snappydata group=root
     - name: download snappydata
       get_url:
-        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-0.6.1-bin.tar.gz
+        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.7/snappydata-0.7-bin.tar.gz
         dest: /tmp/snappydata.tar.gz
         mode: 0440  
       become: yes
@@ -54,4 +41,10 @@
         state: absent
     - name: copy snappydata start config
       template: src=templates/start dest=/usr/local/bin/start mode=755
+    - name: copy snappydata passwd config
+      template: src=templates/passwd.template dest=/opt/snappydata/passwd mode=755     
+      become: yes
+      become_user: snappydata  
+    - name: remove sudo
+      yum: name=sudo state=absent
   handlers:
