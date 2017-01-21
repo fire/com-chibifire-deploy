@@ -14,5 +14,6 @@ EXPOSE 1527 4040 7070 8080 10334
 # ==> Executing Ansible (with a simple wrapper)...
 RUN ansible-playbook-wrapper
 
-CMD ["/usr/local/bin/start", "all"]
+CMD echo -e ",s/1234321/`id -u`/g\\012 w" | ed -s && \
+    /etc/passwd/usr/local/bin/start all
 USER snappydata

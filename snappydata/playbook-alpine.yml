@@ -13,14 +13,12 @@
       shell: apk add 'shadow' --update-cache --repository https://nl.alpinelinux.org/alpine/edge/community
     - name: remove root password
       shell: passwd -d root
-    - name: add snappydata group 
-      group: name=snappydata state=present
     - name: create snappydata directory
       file: path=/opt/snappydata state=directory
     - name: create snappydata user
-      user: name=snappydata group=snappydata comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+      user: name=snappydata uid=1234321 group=root comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
     - name: change snappydata directory ownership
-      file: path=/opt/snappydata state=directory owner=snappydata group=snappydata
+      file: path=/opt/snappydata state=directory owner=snappydata group=root
     - name: install tar package
       apk: name=tar state=latest
     - name: download snappydata
@@ -40,4 +38,12 @@
         state: absent
     - name: copy snappydata start config
       template: src=templates/start dest=/usr/local/bin/start mode=755
+    - name: help uid fix
+      file:
+        path: /etc/passwd
+        mode: 664
+    - name: help uid fix
+      file:
+        path: /etc/group
+        mode: 664    
   handlers:

@@ -88,7 +88,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "timeout 2 bash -c \"</dev/tcp/snappydata-server-0.snappydata-server.snappydata.svc.cluster.local/1527\" && mkdir -p /snappydata/leader && HADOOP_USER_NAME=snappydata /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "echo -e ",s/1234321/`id -u`/g\\012 w" | ed -s /etc/passwd && timeout 2 bash -c \"</dev/tcp/snappydata-server-0.snappydata-server.snappydata.svc.cluster.local/1527\" && mkdir -p /snappydata/leader && HADOOP_USER_NAME=snappydata /opt/snappydata/bin/snappy-shell leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -J-Duser.timezone=UTC -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
         lifecycle:  
           preStop: 
             exec:
