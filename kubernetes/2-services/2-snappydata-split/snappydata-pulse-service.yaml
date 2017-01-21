@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes the pulse management 
+  # application.
+  name: snappydata-pulse-public
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 7075
+    targetPort: 7075
+    name: pulse
+  selector:
+    app: snappydata-locator
