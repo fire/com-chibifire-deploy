@@ -93,7 +93,7 @@ spec:
             exec:
               command:
               - /opt/snappydata/bin/snappy-shell leader stop -dir=/snappydata/leader
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
         persistentVolumeClaim:

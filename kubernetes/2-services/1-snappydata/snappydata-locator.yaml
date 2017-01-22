@@ -51,7 +51,7 @@ spec:
             exec:
               command:
               - /opt/snappydata/bin/snappy-shell locator stop -dir=/snappydata/locator
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
         persistentVolumeClaim:

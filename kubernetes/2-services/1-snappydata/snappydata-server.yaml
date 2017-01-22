@@ -91,7 +91,7 @@ spec:
             exec:
               command:
               - /opt/snappydata/bin/snappy-shell server stop -dir=/snappydata/server
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
         persistentVolumeClaim:
