@@ -1,0 +1,27 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spark-master
+annotations:
+  # This is needed to make the peer-finder work properly and to help avoid
+  # edge cases where instance 0 comes up after losing its data and needs to
+  # decide whether it should create a new cluster or try to join an existing
+  # one. If it creates a new cluster when it should have joined an existing
+  # one, we'd end up with two separate clusters listening at the same service
+  # endpoint, which would be very bad.
+  service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  # Enable automatic monitoring of all instances when Prometheus is running in the cluster.
+  prometheus.io/scrape: "true"
+  prometheus.io/path: "_status/vars"
+  prometheus.io/port: "8080"  
+spec:
+  ports:
+    - port: 7077
+      targetPort: 7077
+      name: spark
+    - port: 8080
+      targetPort: 8080
+      name: http
+  clusterIP: None
+  selector:
+    component: spark-master
