@@ -70,16 +70,6 @@ spec:
           name: membership-0019
         - containerPort: 21020
           name: membership-0020
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 4040
-          initialDelaySeconds: 320
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 4040
-          initialDelaySeconds: 320
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
