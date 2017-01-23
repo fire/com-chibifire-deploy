@@ -1,9 +1,8 @@
 # https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: streamsets
-  namespace: streamsets
 spec:
   serviceName: "streamsets"
   replicas: 1
