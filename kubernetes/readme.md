@@ -1,6 +1,6 @@
 # SnappyData for Kubernetes
 
-How to shutdown the cluster?
+## How to shutdown the cluster on openshift?
 
 ```
 oc exec -it snappydata-locator-0 bash
