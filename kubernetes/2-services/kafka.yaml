@@ -51,9 +51,20 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /opt/kafka/data
+        - name: logdir
+          mountPath: /opt/kafka/logs
   volumeClaimTemplates:
   - metadata:
       name: datadir
+      namespace: kafka
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi
+  - metadata:
+      name: logdir
       namespace: kafka
       annotations:
     spec:
