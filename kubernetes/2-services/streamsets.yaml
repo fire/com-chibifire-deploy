@@ -11,7 +11,7 @@ spec:
       labels:
         app: streamsets 
       annotations:
-        pod.alpha.kubernetes.io/init-containers: '[
+        pod.beta.kubernetes.io/init-containers: '[
         ]'
     spec:
       containers:

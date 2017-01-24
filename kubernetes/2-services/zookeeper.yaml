@@ -42,7 +42,7 @@ spec:
       labels:
         app: zk
       annotations:
-        pod.alpha.kubernetes.io/init-containers: '[
+        pod.beta.kubernetes.io/init-containers: '[
             {
                 "name": "install",
                 "image": "gcr.io/google_containers/zookeeper-install:0.1",
