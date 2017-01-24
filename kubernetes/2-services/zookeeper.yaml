@@ -104,6 +104,11 @@ spec:
         - /opt/zookeeper/bin/zkServer.sh
         args:
         - start-foreground
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /opt/zookeeper/bin/zkServer.sh stop
         readinessProbe:
           exec:
             command:
