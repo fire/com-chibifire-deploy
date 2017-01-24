@@ -14,19 +14,25 @@ spec:
         pod.beta.kubernetes.io/init-containers: '[
         ]'
     spec:
-      containers:
+      containers:      
       - name: streamsets
-        image: ifire/datacollector
+        image: ifire/datacollector:2.2.0.0-p11
         ports:
         - containerPort: 18630       
         command:
           - "/bin/bash"
           - "-ecx"
           - |         
-            exec /bin/bash -c " mkdir -p /data && cd /opt/streamsets-datacollector-2.2.0.0 && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && curl -sL https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-client-1.5.2.jar > libs-common-lib/streamsets-datacollector-jdbc-lib/lib/snappydata-client-1.5.2.jar && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
+            exec /bin/bash -c " mkdir -p /data && cp -R /opt/streamsets-datacollector-2.2.0.0/etc/* /etc/sdc && cd /opt/streamsets-datacollector-2.2.0.0 && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && curl -sL https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-client-1.5.2.jar > libs-common-lib/streamsets-datacollector-jdbc-lib/lib/snappydata-client-1.5.2.jar && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
         volumeMounts:
         - name: datadir
           mountPath: /sdc
+        - name: sdcetcdir
+          mountPath: /etc/sdc
+        - name: sdcdatadir
+          mountPath: /data 
+        - name: jdbcplugindir
+          mountPath: /opt/streamsets-datacollector-2.2.0.0/libs-common-lib/streamsets-datacollector-jdbc-lib/lib
   volumeClaimTemplates:
   - metadata:
       name: datadir
@@ -37,3 +43,30 @@ spec:
       resources:
         requests:
           storage: 1000Mi
+  - metadata:
+      name: jdbcplugindir
+      namespace: streamsets
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi       
+  - metadata:
+      name: sdcdatadir
+      namespace: streamsets
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi                 
+  - metadata:
+      name: sdcetcdir
+      namespace: streamsets
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi       

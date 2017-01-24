@@ -60,15 +60,19 @@ sed -i 's|INFO, streamsets|INFO, stdout|' "${SDC_DIST}/etc/sdc-log4j.properties"
 RUN mkdir -p "${SDC_DATA}" /mnt "${SDC_LOG}" "${SDC_RESOURCES}"
 
 # Move configuration to /etc/sdc
-RUN mv "${SDC_DIST}/etc" "${SDC_CONF}"
+RUN cp -R "${SDC_DIST}/etc" "${SDC_CONF}"
 
 # Disable authentication by default, overriable with custom sdc.properties.
-RUN sed -i 's|\(http.authentication=\).*|\1none|' "${SDC_CONF}/sdc.properties"
+RUN sed -i 's|\(http.authentication=\).*|\1none|' "${SDC_DIST}/etc/sdc.properties"
 # Use short option -s as long option --status is not supported on alpine linux.
 RUN sed -i 's|--status|-s|' "${SDC_DIST}/libexec/_stagelibs"
 
 # Setup filesystem permissions
-RUN chown -R "${SDC_USER}:${SDC_USER}" "${SDC_DIST}/streamsets-libs" "${SDC_DIST}/libs-common-lib" "${SDC_CONF}" "${SDC_DATA}" "${SDC_LOG}" "${SDC_RESOURCES}"
+RUN chown -R "${SDC_USER}:${SDC_USER}" "${SDC_DIST}/streamsets-libs" "${SDC_DIST}/libs-common-lib" "${SDC_DATA}" "${SDC_LOG}" "${SDC_RESOURCES}" 
+
+RUN chown -R "${SDC_USER}:${SDC_USER}" "${SDC_DIST}/etc"
+
+RUN chmod -R 665 "${SDC_DIST}/etc/"
 
 ARG ADD_LIBS
 
