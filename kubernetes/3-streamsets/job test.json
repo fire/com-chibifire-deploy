@@ -2,7 +2,7 @@
   "pipelineConfig" : {
     "schemaVersion" : 2,
     "version" : 5,
-    "uuid" : "6d6a9db3-d4ff-47ba-a516-17c63449ebc2",
+    "uuid" : "071a25f4-d690-4e6a-abc0-2c5b7255c7e7",
     "description" : "",
     "configuration" : [ {
       "name" : "executionMode",
@@ -195,7 +195,7 @@
         "value" : "MD5"
       }, {
         "name" : "conf.metadataBrokerList",
-        "value" : "kafka-0.broker.kafka:9092"
+        "value" : "kafka-0.broker.snappydata.svc.cluster.local:9092,kafka-1.broker.snappydata.svc.cluster.local:9092,kafka-2.broker.snappydata.svc.cluster.local:9092"
       }, {
         "name" : "conf.runtimeTopicResolution",
         "value" : false
@@ -225,7 +225,10 @@
         "value" : "DEFAULT"
       }, {
         "name" : "conf.kafkaProducerConfigs",
-        "value" : [ ]
+        "value" : [ {
+          "key" : "",
+          "value" : ""
+        } ]
       }, {
         "name" : "stageOnRecordError",
         "value" : "TO_ERROR"
@@ -265,14 +268,14 @@
       "eventLanes" : [ ]
     },
     "info" : {
-      "name" : "job test",
+      "name" : "Job Test",
       "description" : "",
-      "created" : 1481327588403,
-      "lastModified" : 1481328567293,
+      "created" : 1485273332011,
+      "lastModified" : 1485274659067,
       "creator" : "admin",
       "lastModifier" : "admin",
       "lastRev" : "0",
-      "uuid" : "6d6a9db3-d4ff-47ba-a516-17c63449ebc2",
+      "uuid" : "071a25f4-d690-4e6a-abc0-2c5b7255c7e7",
       "valid" : true,
       "metadata" : {
         "labels" : [ ]
@@ -300,9 +303,9 @@
     },
     "valid" : true,
     "issues" : {
+      "issueCount" : 0,
       "pipelineIssues" : [ ],
-      "stageIssues" : { },
-      "issueCount" : 0
+      "stageIssues" : { }
     },
     "previewable" : true
   },
@@ -366,7 +369,7 @@
     "dataRuleDefinitions" : [ ],
     "driftRuleDefinitions" : [ ],
     "emailIds" : [ ],
-    "uuid" : "38549933-c2a8-436e-8ecb-5374a1898ad2",
+    "uuid" : "832d7c28-5952-4edb-8fa5-dd9f85b612fd",
     "ruleIssues" : [ ]
   },
   "libraryDefinitions" : null
