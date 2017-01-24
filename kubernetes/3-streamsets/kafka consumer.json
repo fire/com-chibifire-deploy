@@ -2,7 +2,7 @@
   "pipelineConfig" : {
     "schemaVersion" : 2,
     "version" : 5,
-    "uuid" : "9918e80b-5ee4-4761-8a6d-801557bf572f",
+    "uuid" : "4ad6d130-809a-48c9-b81d-1f87f1225ca2",
     "description" : "",
     "configuration" : [ {
       "name" : "executionMode",
@@ -227,10 +227,10 @@
         "value" : false
       }, {
         "name" : "kafkaConfigBean.dataFormat",
-        "value" : "JSON"
+        "value" : "SDC_JSON"
       }, {
         "name" : "kafkaConfigBean.metadataBrokerList",
-        "value" : "kafka:9092"
+        "value" : "kafka-0.broker.snappydata.svc.cluster.local:9092,kafka-1.broker.snappydata.svc.cluster.local:9092,kafka-2.broker.snappydata.svc.cluster.local:9092"
       }, {
         "name" : "kafkaConfigBean.zookeeperConnect",
         "value" : "zk:2181"
@@ -239,7 +239,7 @@
         "value" : "streamsetsDataCollector"
       }, {
         "name" : "kafkaConfigBean.topic",
-        "value" : "jsonTest"
+        "value" : "topicName"
       }, {
         "name" : "kafkaConfigBean.produceSingleRecordPerMessage",
         "value" : false
@@ -261,6 +261,9 @@
       }, {
         "name" : "stageOnRecordError",
         "value" : "TO_ERROR"
+      }, {
+        "name" : "kafkaConfigBean.dataFormatConfig.xPathNamespaceContext",
+        "value" : [ ]
       } ],
       "uiInfo" : {
         "yPos" : 50,
@@ -325,14 +328,14 @@
       "eventLanes" : [ ]
     },
     "info" : {
-      "name" : "kafka consumer",
+      "name" : "Kafa Consumer",
       "description" : "",
-      "created" : 1481232333084,
-      "lastModified" : 1481232384491,
+      "created" : 1485273346213,
+      "lastModified" : 1485274917713,
       "creator" : "admin",
       "lastModifier" : "admin",
       "lastRev" : "0",
-      "uuid" : "9918e80b-5ee4-4761-8a6d-801557bf572f",
+      "uuid" : "4ad6d130-809a-48c9-b81d-1f87f1225ca2",
       "valid" : true,
       "metadata" : {
         "labels" : [ ]
@@ -426,7 +429,7 @@
     "dataRuleDefinitions" : [ ],
     "driftRuleDefinitions" : [ ],
     "emailIds" : [ ],
-    "uuid" : "fd3a87da-f367-4d37-936f-7ed74d1556dd",
+    "uuid" : "8e0870df-4b32-4116-9624-4d78764788f4",
     "ruleIssues" : [ ]
   },
   "libraryDefinitions" : null
