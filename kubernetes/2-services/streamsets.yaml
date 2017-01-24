@@ -31,6 +31,8 @@ spec:
           mountPath: /etc/sdc
         - name: sdcdatadir
           mountPath: /data 
+        - name: sdclibdir
+          mountPath:  /opt/streamsets-datacollector-2.2.0.0/streamsets-libs
         - name: jdbcplugindir
           mountPath: /opt/streamsets-datacollector-2.2.0.0/libs-common-lib/streamsets-datacollector-jdbc-lib/lib
   volumeClaimTemplates:
@@ -43,6 +45,15 @@ spec:
       resources:
         requests:
           storage: 1000Mi
+  - metadata:
+      name: sdclibdir      
+      namespace: streamsets
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi         
   - metadata:
       name: jdbcplugindir
       namespace: streamsets
