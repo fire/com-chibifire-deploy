@@ -2,7 +2,7 @@
   "pipelineConfig" : {
     "schemaVersion" : 2,
     "version" : 5,
-    "uuid" : "e22605e8-0e49-431e-ac44-c480dd3c6009",
+    "uuid" : "7ce7cde3-9326-4cea-acf0-cd0e7f31d74b",
     "description" : "",
     "configuration" : [ {
       "name" : "executionMode",
@@ -95,7 +95,7 @@
         "value" : 10000
       }, {
         "name" : "hikariConfigBean.connectionString",
-        "value" : "jdbc:snappydata://snappydata-public.snappydata:1527"
+        "value" : "jdbc:snappydata://snappydata-locator.snappydata.svc:1527"
       }, {
         "name" : "hikariConfigBean.useCredentials",
         "value" : true
@@ -202,14 +202,14 @@
       "eventLanes" : [ ]
     },
     "info" : {
-      "name" : "jdbc producer",
+      "name" : "JDBC Producer",
       "description" : "",
-      "created" : 1481301184814,
-      "lastModified" : 1481301450269,
+      "created" : 1485273361617,
+      "lastModified" : 1485359360607,
       "creator" : "admin",
       "lastModifier" : "admin",
       "lastRev" : "0",
-      "uuid" : "e22605e8-0e49-431e-ac44-c480dd3c6009",
+      "uuid" : "7ce7cde3-9326-4cea-acf0-cd0e7f31d74b",
       "valid" : true,
       "metadata" : {
         "labels" : [ ]
@@ -237,9 +237,9 @@
     },
     "valid" : true,
     "issues" : {
-      "pipelineIssues" : [ ],
+      "stageIssues" : { },
       "issueCount" : 0,
-      "stageIssues" : { }
+      "pipelineIssues" : [ ]
     },
     "previewable" : true
   },
@@ -303,7 +303,7 @@
     "dataRuleDefinitions" : [ ],
     "driftRuleDefinitions" : [ ],
     "emailIds" : [ ],
-    "uuid" : "f4234ca2-47d7-4b54-be1a-a67f82fb015c",
+    "uuid" : "b4f83a0b-11ef-46c7-84eb-ebd2cc2b2b6b",
     "ruleIssues" : [ ]
   },
   "libraryDefinitions" : null
