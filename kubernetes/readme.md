@@ -49,6 +49,14 @@ https://docs.openshift.org/latest/getting_started/administrators.html
 oc cluster down
 ```
 
+## How to start the snappydata cluster on openshift?
+
+```
+# Login
+oc new-project snappydata
+oc create -f kubernetes\02-services\1-snappydata\
+```
+
 ## How to shutdown the snappydata cluster on openshift?
 
 ```
