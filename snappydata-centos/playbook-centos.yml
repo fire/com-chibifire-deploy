@@ -26,7 +26,7 @@
       file: path=/opt/snappydata state=directory owner=snappydata group=root
     - name: download snappydata
       get_url:
-        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.7/snappydata-0.7-bin.tar.gz
+        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.8/snappydata-0.8-bin.tar.gz
         dest: /tmp/snappydata.tar.gz
         mode: 0440  
       become: yes
