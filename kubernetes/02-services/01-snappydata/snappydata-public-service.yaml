@@ -26,10 +26,7 @@ spec:
   ports:
   - port: 1527
     targetPort: 1527
-    name: jdbc
-  - port: 1531
-    targetPort: 1531
-    name: thrift
+    name: snappydata
   type: ClusterIP # In a cloud switch to LoadBalancer
   selector:
     app: snappydata-server

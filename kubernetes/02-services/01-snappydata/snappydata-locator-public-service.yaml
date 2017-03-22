@@ -10,7 +10,7 @@ spec:
   ports:
   - port: 1527
     targetPort: 1527
-    name: jdbc
+    name: snappydata
   - port: 10334
     targetPort: 10334
     name: locator

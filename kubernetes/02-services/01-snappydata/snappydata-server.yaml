@@ -25,9 +25,7 @@ spec:
         - containerPort: 10334
           name: locator
         - containerPort: 1527
-          name: jdbc
-        - containerPort: 1531
-          name: thrift
+          name: snappydata
         - containerPort: 21000
           name: membership-0000
         - containerPort: 21001
@@ -73,7 +71,7 @@ spec:
         livenessProbe:
           tcpSocket:
             port: 1527
-          initialDelaySeconds: 3600
+          initialDelaySeconds: 180
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
@@ -81,7 +79,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && mkdir -p /snappydata/server && /opt/snappydata/bin/snappy server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Duser.timezone=UTC -J-Djava.net.preferIPv4Stack=true -heap-size=4096m -thrift-binary-protocol=true -thrift-framed-transport=true -membership-port-range=21000-21020 -enable-network-partition-detection=true && tail -f /snappydata/server/snappyserver.log"
+            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && mkdir -p /snappydata/server && /opt/snappydata/bin/snappy server start -dir=/snappydata/server -bind-address=$(hostname -f) -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -dir=/snappydata/server -client-bind-address=$(hostname -f) -J-Djava.net.preferIPv4Stack=true -heap-size=4096m -thrift-binary-protocol=true -thrift-framed-transport=true -membership-port-range=21000-21020 -enable-network-partition-detection=true && tail -f /snappydata/server/snappyserver.log"
         lifecycle:
           preStop:
             exec:

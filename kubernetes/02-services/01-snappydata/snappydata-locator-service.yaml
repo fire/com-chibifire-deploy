@@ -28,12 +28,9 @@ spec:
   - port: 3768
     targetPort: 3768
     name: zeppelin
-  - port: 1531
-    targetPort: 1531
-    name: thrift
   - port: 1527
     targetPort: 1527
-    name: jdbc
+    name: snappydata
   clusterIP: None
   selector:
     app: snappydata-locator
