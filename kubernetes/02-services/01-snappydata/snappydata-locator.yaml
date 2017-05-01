@@ -67,10 +67,10 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         lifecycle:
-#          preStop:
-#            exec:
-#              command:
-#              - /opt/snappydata/bin/snappy locator stop -dir=/snappydata/locator
+          preStop:
+            exec:
+              command:
+              - /opt/snappydata/bin/snappy locator stop -dir=/snappydata/locator
       terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
