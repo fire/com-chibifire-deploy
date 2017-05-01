@@ -103,10 +103,10 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         lifecycle:
-          preStop:
-            exec:
-              command:
-              - /opt/snappydata/bin/snappy server stop -dir=/snappydata/server
+#          preStop:
+#            exec:
+#              command:
+#              - /opt/snappydata/bin/snappy server stop -dir=/snappydata/server
       terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
