@@ -3,13 +3,13 @@ kind: Service
 metadata:
   # This service is meant to be used by clients of the database. It exposes the pulse management 
   # application.
-  name: snappydata-pulse-public
+  name: snappydata-admin-ui-public
   labels:
     app: snappydata
 spec:
   ports:
-  - port: 7075
-    targetPort: 7075
-    name: pulse
+  - port: 5050
+    targetPort: 5050
+    name: admin-ui
   selector:
-    app: snappydata-locator
+    app: snappydata-leader
