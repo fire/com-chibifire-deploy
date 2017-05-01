@@ -10,7 +10,26 @@ spec:
       labels:
         app: snappydata-leader
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
+        pod.beta.kubernetes.io/init-containers: '[
+            {
+                "name": "snappydata-leader-init",
+                "image": "busybox",
+                "imagePullPolicy": "IfNotPresent",
+                "command": ["sh", "-c", "mkdir -p /snappydata/leader && chmod 777 /snappydata/leader"],
+                "volumeMounts": [
+                    {
+                      "name": "datadir",
+                      "mountPath": "/snappydata"
+                    }
+                ]
+            },
+            {
+                "name": "snappydata-wait-server",
+                "image": "busybox",
+                "imagePullPolicy": "IfNotPresent",
+                "command": ["sh", "-c", "nslookup snappydata-server"]
+            }
+        ]'
     spec:
       containers:
       - name: snappydata-leader
@@ -75,7 +94,16 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && mkdir -p /snappydata/leader && timeout 2 bash -c \"</dev/tcp/snappydata-server/1527\" && /opt/snappydata/bin/snappy leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.snappydata.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /opt/snappydata/bin/snappy leader start -dir=/snappydata/leader -locators=snappydata-locator-0.snappydata-locator.$MY_POD_NAMESPACE.svc.cluster.local:10334,snappydata-locator-1.snappydata-locator.$MY_POD_NAMESPACE.svc.cluster.local:10334 -client-bind-address=$(hostname -f) -heap-size=4096m -membership-port-range=21000-21020 -J-XX:MaxPermSize=512m -enable-network-partition-detection=true && tail -f /snappydata/leader/snappyleader.log"
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         lifecycle:  
           preStop: 
             exec:

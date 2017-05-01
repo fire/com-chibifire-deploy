@@ -10,7 +10,20 @@ spec:
       labels:
         app: snappydata-locator
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
+        pod.beta.kubernetes.io/init-containers: '[
+            {
+                "name": "snappydata-locator-init",
+                "image": "busybox",
+                "imagePullPolicy": "IfNotPresent",
+                "command": ["sh", "-c", "mkdir -p /snappydata/locator && chmod 777 /snappydata/locator"],
+                "volumeMounts": [
+                    {
+                      "name": "datadir",
+                      "mountPath": "/snappydata"
+                    }
+                ]
+            }
+        ]'
     spec:
       containers:
       - name: snappydata-locator
@@ -43,7 +56,16 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && mkdir -p /snappydata/locator &&   /opt/snappydata/bin/snappy locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator-0.snappydata-locator.snappydata.svc.cluster.local:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -thrift-binary-protocol=true -thrift-framed-transport=true -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7075 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
+            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /opt/snappydata/bin/snappy locator start -dir=/snappydata/locator -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -thrift-binary-protocol=true -locators=snappydata-locator-0.snappydata-locator.$MY_POD_NAMESPACE.svc.cluster.local:10334 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f)  -thrift-binary-protocol=true -thrift-framed-transport=true -enable-network-partition-detection=true -jmx-manager=true -jmx-manager-http-port=7075 -jmx-manager-start=true && tail -f /snappydata/locator/snappylocator.log"
+        env:
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         lifecycle:
           preStop:
             exec:
