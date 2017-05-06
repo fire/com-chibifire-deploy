@@ -44,7 +44,14 @@
     - name: copy snappydata passwd config
       template: src=templates/passwd.template dest=/opt/snappydata/passwd mode=755     
       become: yes
-      become_user: snappydata  
+      become_user: snappydata
+    - name: download snappydata zeppelin
+      get_url:
+        url: https://github.com/SnappyDataInc/zeppelin-interpreter/releases/download/v0.7.1/snappydata-zeppelin-0.7.1.jar
+        dest: /opt/snappydata/jars/snappydata-zeppelin-0.7.1.jar
+        mode: 0440  
+      become: yes
+      become_user: snappydata    
     - name: remove sudo
       yum: name=sudo state=absent
   handlers:
