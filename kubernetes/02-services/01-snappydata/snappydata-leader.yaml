@@ -45,6 +45,8 @@ spec:
           name: http
         - containerPort: 10334
           name: locator
+        - containerPort: 3768
+          name: zeppelin
         - containerPort: 21000
           name: membership-0000
         - containerPort: 21001

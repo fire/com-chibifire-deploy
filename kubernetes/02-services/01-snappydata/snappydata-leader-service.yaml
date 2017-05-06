@@ -11,5 +11,8 @@ spec:
   - port: 5050
     targetPort: 5050
     name: spark-ui
+  - port: 3768
+    targetPort: 3768
+    name: zeppelin
   selector:
     app: snappydata-leader
