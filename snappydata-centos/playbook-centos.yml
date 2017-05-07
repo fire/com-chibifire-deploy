@@ -50,7 +50,7 @@
         url: https://github.com/SnappyDataInc/zeppelin-interpreter/releases/download/v0.7.1/snappydata-zeppelin-0.7.1.jar
         dest: /opt/snappydata/jars/snappydata-zeppelin-0.7.1.jar
         mode: 0440
-   - name: download jcommander
+    - name: download jcommander
       get_url:
         url: http://central.maven.org/maven2/com/beust/jcommander/1.48/jcommander-1.48.jar
         dest: /opt/snappydata/jars/jcommander-1.48.jar
