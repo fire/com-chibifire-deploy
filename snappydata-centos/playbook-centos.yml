@@ -64,6 +64,13 @@
         mode: 0440      
       become: yes
       become_user: snappydata    
+    - name: download deeplearning4j cpu backend
+      get_url:
+        url: http://central.maven.org/maven2/org/nd4j/nd4j-native-platform/0.8.0/nd4j-native-platform-0.8.0.jar
+        dest: /opt/snappydata/jars/nd4j-native-platform-0.8.0.jar
+        mode: 0440      
+      become: yes
+      become_user: snappydata    
     - name: remove sudo
       yum: name=sudo state=absent
   handlers:
