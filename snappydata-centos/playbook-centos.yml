@@ -70,7 +70,21 @@
         dest: /opt/snappydata/jars/nd4j-native-platform-0.8.0.jar
         mode: 0440      
       become: yes
-      become_user: snappydata    
+      become_user: snappydata
+    - name: download deeplearning4j nn
+      get_url:
+        url: http://central.maven.org/maven2/org/deeplearning4j/deeplearning4j-nn/0.8.0/deeplearning4j-nn-0.8.0.jar
+        dest: /opt/snappydata/jars/deeplearning4j-nn-0.8.0.jar
+        mode: 0440
+    - name: download nd4j
+      get_url:
+        url: http://central.maven.org/maven2/org/nd4j/nd4j-native/0.8.0/nd4j-native-0.8.0.jar
+        dest: /opt/snappydata/jars/nd4j-native-0.8.0.jar
+        mode: 0440
+      become: yes
+      become_user: snappydata
+    - name: install openblas
+      yum: name=openblas-devel state=latest
     - name: remove sudo
       yum: name=sudo state=absent
   handlers:
