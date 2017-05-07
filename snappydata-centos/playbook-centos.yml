@@ -49,7 +49,19 @@
       get_url:
         url: https://github.com/SnappyDataInc/zeppelin-interpreter/releases/download/v0.7.1/snappydata-zeppelin-0.7.1.jar
         dest: /opt/snappydata/jars/snappydata-zeppelin-0.7.1.jar
-        mode: 0440  
+        mode: 0440
+   - name: download jcommander
+      get_url:
+        url: http://central.maven.org/maven2/com/beust/jcommander/1.48/jcommander-1.48.jar
+        dest: /opt/snappydata/jars/jcommander-1.48.jar
+        mode: 0440      
+      become: yes
+      become_user: snappydata
+    - name: download deeplearning4j
+      get_url:
+        url: http://central.maven.org/maven2/org/deeplearning4j/dl4j-spark_2.11/0.8.0_spark_2/dl4j-spark_2.11-0.8.0_spark_2.jar
+        dest: /opt/snappydata/jars/dl4j-spark_2.11-0.8.0_spark_2.jar
+        mode: 0440      
       become: yes
       become_user: snappydata    
     - name: remove sudo
