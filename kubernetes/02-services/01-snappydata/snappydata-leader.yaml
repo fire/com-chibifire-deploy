@@ -34,7 +34,7 @@ spec:
       containers:
       - name: snappydata-leader
         # Runs the current snappydata release
-        image: ifire/snappydata:0.8p3
+        image: ifire/snappydata:0.8p4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
