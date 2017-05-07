@@ -55,8 +55,6 @@
         url: https://github.com/fire/snappydata-dl4j/releases/download/v0.1.0/snappydata-dl4j-0.1.0-all.jar
         dest: /opt/snappydata/jars/snappydata-dl4j-0.1.0-all.jar
         mode: 0440
-    - name: install openblas
-      yum: name=openblas-devel state=latest
     - name: remove sudo
       yum: name=sudo state=absent
   handlers:
