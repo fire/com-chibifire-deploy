@@ -16,14 +16,14 @@ spec:
     spec:
       containers:      
       - name: streamsets
-        image: ifire/datacollector:2.2.0.0-p11
+        image: ifire/datacollector:2.5.0.0-p0
         ports:
         - containerPort: 18630       
         command:
           - "/bin/bash"
           - "-ecx"
           - |         
-            exec /bin/bash -c " mkdir -p /data && cp -R /opt/streamsets-datacollector-2.2.0.0/etc/* /etc/sdc && cd /opt/streamsets-datacollector-2.2.0.0 && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && curl -sL https://github.com/SnappyDataInc/snappydata/releases/download/v0.6.1/snappydata-client-1.5.2.jar > libs-common-lib/streamsets-datacollector-jdbc-lib/lib/snappydata-client-1.5.2.jar && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
+            exec /bin/bash -c " mkdir -p /data && cp -R /opt/streamsets-datacollector-2.5.0.0/etc/* /etc/sdc && cd /opt/streamsets-datacollector-2.5.0.0 && mkdir -p libs-common-lib/streamsets-datacollector-jdbc-lib/lib && ADD_LIBS=streamsets-datacollector-jdbc-lib,streamsets-datacollector-apache-kafka_0_10-lib,streamsets-datacollector-aws-lib /docker-entrypoint.sh dc -exec" 
         volumeMounts:
         - name: datadir
           mountPath: /sdc
@@ -32,9 +32,9 @@ spec:
         - name: sdcdatadir
           mountPath: /data 
         - name: sdclibdir
-          mountPath:  /opt/streamsets-datacollector-2.2.0.0/streamsets-libs
+          mountPath:  /opt/streamsets-datacollector-2.5.0.0/streamsets-libs
         - name: jdbcplugindir
-          mountPath: /opt/streamsets-datacollector-2.2.0.0/libs-common-lib/streamsets-datacollector-jdbc-lib/lib
+          mountPath: /opt/streamsets-datacollector-2.5.0.0/libs-common-lib/streamsets-datacollector-jdbc-lib/lib
   volumeClaimTemplates:
   - metadata:
       name: datadir
