@@ -1,0 +1,30 @@
+FROM centos:centos7
+
+#Original Maintainer
+#MAINTAINER Jean-Marc Soumet (https://github.com/ajmssc)
+#MAINTAINER Koddi Inc. (https://koddi.com)
+MAINTAINER K. S. Ernest (iFire) Lee
+
+ARG ALLUXIO_VERSION=1.4.0
+
+RUN yum upgrade -y all
+RUN yum install -y java-1.8.0-openjdk
+RUN yum install -y epel-release
+RUN yum install -y nss_wrapper
+RUN yum install -y gettext 
+
+RUN curl -L http://alluxio.org/downloads/files/${ALLUXIO_VERSION}/alluxio-${ALLUXIO_VERSION}-bin.tar.gz -o /alluxio.tar.gz && \
+    tar xvzf /alluxio.tar.gz && mv /alluxio-* /alluxio && \
+    rm -rf /alluxio.tar.gz
+
+RUN yum install -y which
+
+ENV TERM=xterm
+
+RUN mkdir -p /dev/ram
+RUN mkdir /data
+ADD passwd /alluxio/
+ADD workers /alluxio/defaultConf/
+ADD log4j.properties /alluxio/defaultConf/
+
+CMD export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /alluxio/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /alluxio/bin/alluxio bootstrapConf $ALLUXIO_MASTER_ADDRESS local && /alluxio/bin/alluxio format && /bin/bash -c '/alluxio/bin/alluxio-start.sh -w local NoMount'

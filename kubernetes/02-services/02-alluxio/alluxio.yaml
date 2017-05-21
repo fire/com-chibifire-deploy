@@ -1,0 +1,63 @@
+# https://github.com/ajmssc/alluxio-cluster/blob/master/docker-compose.yml
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: alluxio
+spec:
+  serviceName: "alluxio"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alluxio 
+      annotations:
+        pod.beta.kubernetes.io/init-containers: '[
+        ]'
+    spec:
+      containers:      
+      - name: alluxio
+        image: ifire/alluxio:1.4.0p2
+        ports:
+        - containerPort: 19999
+        - containerPort: 19998
+        - containerPort: 30000
+        - containerPort: 29998
+        - containerPort: 29999
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+             export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /alluxio/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /alluxio/bin/alluxio format && /bin/bash -c '/alluxio/bin/alluxio-start.sh local NoMount && tail -f /alluxio/bin/alluxio-start.sh'
+        env:
+        - name: ALLUXIO_MASTER_HOSTNAME
+          value: $MY_POD_NAME.$MY_POD_NAMESPACE.svc.cluster.local
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+        - name: logdir
+          mountPath:  /alluxio/logs
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2000Mi
+  - metadata:
+      name: logdir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi
