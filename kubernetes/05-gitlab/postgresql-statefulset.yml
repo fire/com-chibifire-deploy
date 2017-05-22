@@ -17,7 +17,7 @@ spec:
         - name: DB_USER
           value: gitlab
         - name: DB_PASS
-          value: randomcharactersrandomcharacters
+          value: ***REMOVED***
         - name: DB_NAME
           value: gitlab_production
         - name: DB_EXTENSION

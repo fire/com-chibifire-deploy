@@ -25,7 +25,7 @@ spec:
           value: America/Los_Angeles
 
         - name: GITLAB_SECRETS_DB_KEY_BASE
-          value: ***REMOVED***
+          value: 
         - name: GITLAB_SECRETS_SECRET_KEY_BASE
           value: ***REMOVED***
         - name: GITLAB_SECRETS_OTP_KEY_BASE
