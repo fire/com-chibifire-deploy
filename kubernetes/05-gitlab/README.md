@@ -4,6 +4,20 @@ gcloud docker -- pull gtaylor/nginx-for-drone
 gcloud docker -- tag gtaylor/nginx-for-drone us.gcr.io/quassel-chibifire/nginx-for-drone:p0
 gcloud docker -- push us.gcr.io/quassel-chibifire/nginx-for-drone:p0
 
+Generate a password.
+
+> pwgen -Bsv1 64
+
+Login.
+
+> kubectl exec -it gitlab-0 bash
+
+Change postgresql password
+
+> psql -U postgres
+
+> ALTER USER gitlab WITH PASSWORD 'changeit';
+
 > A backup will be created in the backups folder of the Data Store. You can change the location of the backups using the GITLAB_BACKUP_DIR configuration parameter.
 
 Copy backup to /home/git/data/backups

@@ -74,7 +74,7 @@ spec:
         - name: SMTP_ENABLED
           value: "true"
         - name: SMTP_DOMAIN
-          value: spark.chibifire.com
+          value: spark.apps.chibifire.com
         - name: SMTP_HOST
           value: smtp.sendgrid.net
         - name: SMTP_PORT

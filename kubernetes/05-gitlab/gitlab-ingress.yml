@@ -21,6 +21,9 @@ spec:
         backend:
           serviceName: gitlab
           servicePort: 80
+# For informational purposes
+# TCP configure map in the nginx load balancer
+# connects the same pod port to every domain address.
   - host: git.apps.chibifire.com
     http:
       paths:

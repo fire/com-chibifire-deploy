@@ -13,7 +13,7 @@ spec:
       port: 80
       targetPort: http
     - name: ssh
-      port: 2222
+      port: 22
       targetPort: ssh
   selector:
     name: gitlab
