@@ -304,16 +304,4 @@ object ClusterManagerTestBase extends Logging {
     DistributedTestBase.waitForCriterion(criterion, ms, interval,
       throwOnTimeout)
   }
-
-  def startSparkCluster(productDir: String): Unit = {
-    logInfo(s"Starting spark cluster in $productDir/work")
-    (productDir + "/sbin/start-all.sh") !!
-  }
-
-  def stopSparkCluster(productDir: String): Unit = {
-    val sparkContext = SnappyContext.globalSparkContext
-    logInfo(s"Stopping spark cluster in $productDir/work")
-    if (sparkContext != null) sparkContext.stop()
-    (productDir + "/sbin/stop-all.sh") !!
-  }
 }
