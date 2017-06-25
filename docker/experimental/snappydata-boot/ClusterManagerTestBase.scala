@@ -35,10 +35,9 @@ import org.apache.spark.sql.collection.Utils
 import org.apache.spark.sql.execution.ConnectionPool
 import org.apache.spark.{Logging, SparkContext}
 /**
- * Base class for tests using Snappy ClusterManager. New utility methods
- * would need to be added as and when corresponding snappy code gets added.
+ * Start the server, lead, locator so the docker instance's life cycle is tied to the one process
  *
- * @author hemant
+ * @author fire
  */
 abstract class ClusterManagerTestBase(s: String)
     extends DistributedTestBase(s) with Serializable {
