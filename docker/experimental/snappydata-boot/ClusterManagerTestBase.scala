@@ -132,38 +132,6 @@ abstract class ClusterManagerTestBase(s: String)
         FabricService.State.RUNNING)
   }
 
-  override def setUp(): Unit = {
-    super.setUp()
-    doSetUp()
-  }
-
-  private def doSetUp() : Unit = {
-    val testName = getName
-    val testClass = getClass
-    // bootProps.setProperty(Attribute.SYS_PERSISTENT_DIR, s)
-    TestUtil.currentTest = testName
-    TestUtil.currentTestClass = getTestClass
-    TestUtil.skipDefaultPartitioned = true
-    TestUtil.doCommonSetup(bootProps)
-    GemFireXDUtils.IS_TEST_MODE = true
-
-    getLogWriter.info("\n\n\n  STARTING TEST " + testClass.getName + '.' +
-        testName + "\n\n")
-  }
-
-  override def tearDown2(): Unit = {
-    super.tearDown2()
-    GemFireXDUtils.IS_TEST_MODE = false
-    cleanupTestData(getClass.getName, getName)
-    Array(vm3, vm2, vm1, vm0).foreach(_.invoke(getClass, "cleanupTestData",
-      Array[AnyRef](getClass.getName, getName)))
-    if (stopNetServersInTearDown) {
-      Array(vm3, vm2, vm1, vm0).foreach(_.invoke(getClass, "stopNetworkServers"))
-      stopNetworkServers()
-    }
-    bootProps.clear()
-  }
-
   override def afterClass(): Unit = {
     super.afterClass()
     val locNetPort = locatorNetPort
@@ -191,15 +159,6 @@ abstract class ClusterManagerTestBase(s: String)
     }
 
     DriverManager.getConnection(url)
-  }
-
-  def startNetworkServersOnAllVMs(): Unit = {
-    vm0.invoke(classOf[ClusterManagerTestBase], "startNetServer",
-      AvailablePortHelper.getRandomAvailableTCPPort)
-    vm1.invoke(classOf[ClusterManagerTestBase], "startNetServer",
-      AvailablePortHelper.getRandomAvailableTCPPort)
-    vm2.invoke(classOf[ClusterManagerTestBase], "startNetServer",
-      AvailablePortHelper.getRandomAvailableTCPPort)
   }
 }
 
@@ -245,17 +204,6 @@ object ClusterManagerTestBase extends Logging {
   def startNetServer(netPort: Int): Unit = {
     ServiceManager.getServerInstance.startNetworkServer("localhost",
       netPort, null)
-  }
-
-  def cleanupTestData(testClass: String, testName: String): Unit = {
-    // cleanup metastore
-    val snc = SnappyContext()
-    if (snc != null) {
-      TestUtils.dropAllTables(snc)
-    }
-    if (testName != null) {
-      logInfo("\n\n\n  ENDING TEST " + testClass + '.' + testName + "\n\n")
-    }
   }
 
   def stopSpark(): Unit = {
