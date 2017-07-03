@@ -27,7 +27,7 @@ spec:
                 "name": "snappydata-wait-server",
                 "image": "busybox",
                 "imagePullPolicy": "IfNotPresent",
-                "command": ["sh", "-c", "nslookup snappydata-server"]
+                "command": ["sh", "-c", "timeout 2 bash -c "</dev/tcp/snappydata-server/1527""]
             }
         ]'
     spec:
