@@ -41,6 +41,8 @@
         state: absent
     - name: copy snappydata start config
       template: src=templates/start dest=/usr/local/bin/start mode=755
+    - name: copy snappydata logging config
+      template: src=templates/log4j.properties dest=/opt/snappydata/conf/log4j.properties mode=755
     - name: copy snappydata passwd config
       template: src=templates/passwd.template dest=/opt/snappydata/passwd mode=755     
       become: yes
