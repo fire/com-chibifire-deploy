@@ -19,7 +19,7 @@ spec:
       containers:
       - name: snappydata-locator
         # Runs the current snappydata release
-        image: ifire/snappydata:0.9p0
+        image: ifire/snappydata:0.9p1
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -47,7 +47,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && cd /snappydata/locator && java -server -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=50 -XX:+CMSClassUnloadingEnabled -XX:NewRatio=6 -XX:-DontCompileHugeMethods -XX:+UnlockDiagnosticVMOptions -XX:ParGCCardsPerStrideChunk=4k -Djava.awt.headless=true -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger -classpath /opt/snappydata/conf/:/opt/snappydata/jars/* io.snappydata.tools.LocatorLauncher server -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f) locators=snappydata-locator-0.snappydata-locator.$MY_POD_NAMESPACE.svc.cluster.local:10334 thrift-binary-protocol=true thrift-framed-transport=true enable-network-partition-detection=true -jmx-manager=false -jmx-manager-http-port=7075 -jmx-manager-start=false -sync=true"
+            exec /bin/bash -c "rm -f /snappydata/truststore && keytool -importcert -noprompt -file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -keystore /snappydata/truststore -alias Kubernetes -storepass changeit && openssl pkcs12 -export -in /tls/tls.crt -inkey /tls/tls.key -out server.p12 -name tls -CAfile /var/run/secrets/kubernetes.io/serviceaccount/ca.crt -caname kubernetes -password pass:changeit && rm -f /snappydata/keystore && keytool -importkeystore -srckeystore server.p12 -srcstoretype pkcs12 -destkeystore /snappydata/keystore -deststoretype JKS -srcstorepass changeit -deststorepass changeit && export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/snappydata/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && cd /snappydata/locator && java -server -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=50 -XX:+CMSClassUnloadingEnabled -XX:NewRatio=6 -XX:-DontCompileHugeMethods -XX:+UnlockDiagnosticVMOptions -XX:ParGCCardsPerStrideChunk=4k -Djava.awt.headless=true -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Log4JLogger -classpath /opt/snappydata/conf/:/opt/snappydata/jars/* io.snappydata.tools.LocatorLauncher server -thrift-server-address=$(hostname -f) -thrift-server-port=1530 -peer-discovery-address=$(hostname -f) -membership-port-range=21000-21020 -client-bind-address=$(hostname -f) thrift-ssl=true thrift-ssl-properties=keystore=/snappydata/keystore,keystore-password=changeit,truststore=/snappydata/truststore,truststore-password=changeit locators=snappydata-locator-0.snappydata-locator.$MY_POD_NAMESPACE.svc.cluster.local:10334 thrift-binary-protocol=true thrift-framed-transport=true enable-network-partition-detection=true -jmx-manager=false -jmx-manager-http-port=7075 -jmx-manager-start=false -sync=true"
         env:
         - name: MY_POD_NAME
           valueFrom:

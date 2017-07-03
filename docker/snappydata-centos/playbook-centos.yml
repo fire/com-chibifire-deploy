@@ -16,6 +16,8 @@
       yum: name=gettext state=latest
     - name: install sudo
       yum: name=sudo state=latest
+    - name: install openssl
+      yum: name=openssl state=latest
     - name: sudo can use tty
       shell: "sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers"
     - name: create snappydata directory
