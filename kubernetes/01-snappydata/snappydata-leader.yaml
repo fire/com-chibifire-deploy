@@ -10,17 +10,27 @@ spec:
       labels:
         app: snappydata-leader
       annotations:
+        pod.beta.kubernetes.io/init-containers: '[
+            {
+                "name": "snappydata-leader-init",
+                "image": "busybox",
+                "imagePullPolicy": "IfNotPresent",
+                "command": ["sh", "-c", "mkdir -p /snappydata/leader && chmod 777 /snappydata/leader"],
+                "volumeMounts": [
+                    {
+                      "name": "datadir",
+                      "mountPath": "/snappydata"
+                    }
+                ]
+            },
+            {
+                "name": "snappydata-wait-server",
+                "image": "busybox",
+                "imagePullPolicy": "IfNotPresent",
+                "command": ["sh", "-c", "timeout 2 bash -c \"</dev/tcp/snappydata-server/1527\""]
+            }
+        ]'
     spec:
-      initContainers:
-      - name: snappydata-leader-init
-        image: busybox
-        command: ["sh", "-c", "mkdir -p /snappydata/leader && chmod 777 /snappydata/leader"]
-        volumeMounts:
-        - name: datadir
-          mountPath: /snappydata
-      - name: snappydata-wait-server
-        image: centos:7
-        command: ["sh", "-c", "curl -s snappydata-server:1527; [ $? -eq 52 ] && true"]
       containers:
       - name: snappydata-leader
         # Runs the current snappydata release
