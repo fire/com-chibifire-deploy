@@ -3,6 +3,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: alluxio
+  type: alluxio
 spec:
   serviceName: "alluxio"
   replicas: 1

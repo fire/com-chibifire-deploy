@@ -34,4 +34,4 @@ spec:
     name: alluxio-4
   clusterIP: None
   selector:
-    app: alluxio
+    type: alluxio
