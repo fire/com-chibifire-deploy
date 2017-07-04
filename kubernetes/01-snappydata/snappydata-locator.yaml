@@ -8,7 +8,8 @@ spec:
   template:
     metadata:
       labels:
-        app: snappydata-locator
+        type: snappydata-locator
+        app: snappydata
       annotations:
         pod.beta.kubernetes.io/init-containers: '[
             {
@@ -66,12 +67,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        lifecycle:
-          preStop:
-            exec:
-              command:
-              - /opt/snappydata/bin/snappy locator stop -dir=/snappydata/locator
-#      terminationGracePeriodSeconds: 300
       volumes:
       - name: datadir
         persistentVolumeClaim:

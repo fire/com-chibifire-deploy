@@ -8,7 +8,8 @@ spec:
   template:
     metadata:
       labels:
-        app: zeppelin
+        type: zeppelin
+        app: snappydata
     spec:
       containers:
         - name: zeppelin

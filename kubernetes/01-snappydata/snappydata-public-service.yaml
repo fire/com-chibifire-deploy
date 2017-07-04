@@ -29,4 +29,4 @@ spec:
     name: snappydata
   type: ClusterIP # In a cloud switch to LoadBalancer
   selector:
-    app: snappydata-server
+    type: snappydata-server

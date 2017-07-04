@@ -7,7 +7,7 @@ metadata:
   # in most circumstances.
   name: snappydata-server
   labels:
-    app: snappydata-server
+    app: snappydata
   annotations:
     service.alpha.openshift.io/serving-cert-secret-name: snappydata-server-tls
     # This is needed to make the peer-finder work properly and to help avoid
@@ -34,4 +34,4 @@ spec:
     name: snappydata
   clusterIP: None
   selector:
-    app: snappydata-server
+    type: snappydata-server

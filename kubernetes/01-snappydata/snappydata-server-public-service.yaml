@@ -15,4 +15,4 @@ spec:
     targetPort: 10334
     name: locator
   selector:
-    app: snappydata-server
+    type: snappydata-server

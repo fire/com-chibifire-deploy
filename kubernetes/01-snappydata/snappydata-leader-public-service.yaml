@@ -15,4 +15,4 @@ spec:
     targetPort: 3768
     name: zeppelin
   selector:
-    app: snappydata-leader
+    type: snappydata-leader
