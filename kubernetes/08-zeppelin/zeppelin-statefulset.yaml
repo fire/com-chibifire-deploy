@@ -16,12 +16,14 @@ spec:
           env:
           - name: ZEPPELIN_PORT
             value: "8080"
+          - name: ZEPPELIN_WAR_TEMPDIR
+            value: "/opt/zeppelin/run/webapps/"
           image: ifire/zeppelin:0.7.2p0
           command:
           - "/bin/bash"
           - "-ecx"
           - |
-            export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/zeppelin/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /opt/zeppelin/bin/zeppelin.sh
+            export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /opt/zeppelin/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && /opt/zeppelin/bin/zeppelin.sh --config /opt/zeppelin/config/
           ports:
             - containerPort: 8080
           resources:
@@ -34,6 +36,8 @@ spec:
             mountPath: /opt/zeppelin/run/
           - name: notebookdir
             mountPath: /opt/zeppelin/notebook/
+          - name: configdir
+            mountPath: /opt/zeppelin/config/
   volumeClaimTemplates:
   - metadata:
       name: logdir
@@ -55,6 +59,15 @@ spec:
           storage: 1Gi
   - metadata:
       name: notebookdir
+      annotations:
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      resources:
+        requests:
+          storage: 1Gi
+  - metadata:
+      name: configdir
       annotations:
     spec:
       accessModes:
