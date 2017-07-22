@@ -18,7 +18,8 @@ spec:
           value: "true"
         - name: SSL_SELF_SIGNED
           value: "true"
-
+        - name: GITLAB_EMAIL
+          value: "noreply@chibifire.com"
         - name: TZ
           value: UTC
         - name: GITLAB_TIMEZONE
