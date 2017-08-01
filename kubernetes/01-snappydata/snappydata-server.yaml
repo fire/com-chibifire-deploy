@@ -88,8 +88,6 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
-        - name: tlsdir
-          mountPath: /tls
         command:
           - "/bin/bash"
           - "-ecx"
@@ -108,9 +106,6 @@ spec:
       - name: datadir
         persistentVolumeClaim:
           claimName: datadir
-      - name: tlsdir
-        secret:
-          secretName: snappydata-server-tls
   volumeClaimTemplates:
   - metadata:
       name: datadir
