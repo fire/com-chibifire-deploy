@@ -26,7 +26,7 @@
       file: path=/opt/snappydata state=directory owner=snappydata group=root
     - name: download snappydata
       get_url:
-        url: https://github.com/SnappyDataInc/snappydata/releases/download/v0.9/snappydata-0.9-bin.tar.gz
+        url: https://github.com/SnappyDataInc/snappydata/releases/download/v1.0.0-rc1/snappydata-1.0.0-rc1-bin.tar.gz
         dest: /tmp/snappydata.tar.gz
         mode: 0440  
       become: yes
@@ -52,11 +52,11 @@
         url: https://github.com/SnappyDataInc/zeppelin-interpreter/releases/download/v0.7.1/snappydata-zeppelin-0.7.1.jar
         dest: /opt/snappydata/jars/snappydata-zeppelin-0.7.1.jar
         mode: 0440
-    - name: download snappydata deeplearning 4 java
-      get_url:
-        url: https://github.com/fire/snappydata-dl4j/releases/download/v0.7.0/snappydata-dl4j-0.7.0-all.jar
-        dest: /opt/snappydata/jars/snappydata-dl4j-0.7.0-all.jar
-        mode: 0440
+#    - name: download snappydata deeplearning 4 java
+#      get_url:
+#        url: https://github.com/fire/snappydata-dl4j/releases/download/v0.7.0/snappydata-dl4j-0.7.0-all.jar
+#        dest: /opt/snappydata/jars/snappydata-dl4j-0.7.0-all.jar
+#        mode: 0440
     - name: remove sudo
       yum: name=sudo state=absent
   handlers:
