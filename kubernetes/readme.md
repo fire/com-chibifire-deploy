@@ -1,4 +1,23 @@
 # SnappyData for openshift
+
+## How to start Snappydata?
+
+oc create -f 01-snappydata/
+
+## How to stop and start SnappyData?
+
+```bash
+# Stop everything
+oc scale statefulsets snappydata-leader --replicas=0
+oc scale statefulsets snappydata-server --replicas=0
+oc scale statefulsets snappydata-locator --replicas=0
+
+# Start locators. Needed to find other servers.
+oc scale statefulsets snappydata-locator --replicas=2
+oc scale statefulsets snappydata-server --replicas=1
+oc scale statefulsets snappydata-leader --replicas=2
+```
+
 ## How to create a kafka topic?
 
 ```
