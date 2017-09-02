@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: snappydata-locator
 spec:
+  updateStrategy: 
+    type: "RollingUpdate"
   serviceName: "snappydata-locator"
   replicas: 2 # Set to two on a cloud cluster
   template:

@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: snappydata-server
 spec:
+  updateStrategy: 
+    type: "RollingUpdate"
   serviceName: "snappydata-server"
   replicas: 1
   template:

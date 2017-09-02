@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: snappydata-leader
 spec:
+  updateStrategy: 
+    type: "RollingUpdate"
   serviceName: "snappydata-leader"
   replicas: 1
   template:
