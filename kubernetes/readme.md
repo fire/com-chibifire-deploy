@@ -15,7 +15,7 @@ oc scale statefulsets snappydata-locator --replicas=0
 # Start locators. Needed to find other servers.
 oc scale statefulsets snappydata-locator --replicas=2
 oc scale statefulsets snappydata-server --replicas=1
-oc scale statefulsets snappydata-leader --replicas=2
+oc scale statefulsets snappydata-leader --replicas=1
 ```
 
 ## How to create a kafka topic?
