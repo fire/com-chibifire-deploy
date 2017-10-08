@@ -25,7 +25,7 @@ spec:
         env:
         - name: ALLUXIO_MASTER_HOSTNAME
           value: alluxio-master
-        image: ifire/alluxio:1.6.0p1
+        image: ifire/alluxio:1.6.0p3
         name: alluxio-master
         ports:
         - containerPort: 19999
@@ -35,6 +35,8 @@ spec:
         volumeMounts:
           - name: datadir
             mountPath: /data
+          - name: workdir
+            mountPath: /work
           - name: confdir
             mountPath: /alluxio/conf
           - name: logdir
@@ -74,6 +76,14 @@ spec:
           storage: 1000Mi
   - metadata:
       name: confdir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 200Mi
+  - metadata:
+      name: workdir
       annotations:
     spec:
       accessModes: [ "ReadWriteOnce" ]
