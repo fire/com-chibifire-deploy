@@ -1,0 +1,90 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: alluxio-master
+spec:
+  replicas: 1
+  serviceName: alluxio-master
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      type: alluxio-master
+  template:
+    metadata:
+      labels:
+        type: alluxio-master
+        app: master
+    spec:
+      containers:
+      - command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+             export USER_ID=$(id -u) && export GROUP_ID=$(id -g) && envsubst < /alluxio/passwd > /tmp/passwd && export LD_PRELOAD=/usr/lib64/libnss_wrapper.so && export NSS_WRAPPER_PASSWD=/tmp/passwd && export NSS_WRAPPER_GROUP=/etc/group && ([[ -e "/alluxio/conf/masters" ]] && true || cp /alluxio/defaultConf/masters /alluxio/conf/masters) && ([[ -e "/alluxio/conf/workers" ]] && true || cp /alluxio/defaultConf/workers /alluxio/conf/workers) && ([[ -e "/alluxio/conf/alluxio-site.properties" ]] && true || cp /alluxio/defaultConf/alluxio-site.properties /alluxio/conf/alluxio-site.properties) && ([[ -e "/alluxio/conf/log4j.properties" ]] && true || cp /alluxio/defaultConf/log4j.properties /alluxio/conf/log4j.properties) && bash -c "/alluxio/bin/alluxio-start.sh -w local NoMount"
+        env:
+        - name: ALLUXIO_MASTER_HOSTNAME
+          value: alluxio-master
+        image: ifire/alluxio:1.6.0p1
+        name: alluxio-master
+        ports:
+        - containerPort: 19999
+        - containerPort: 19998
+        - containerPort: 30000
+        resources: {}
+        volumeMounts:
+          - name: datadir
+            mountPath: /data
+          - name: confdir
+            mountPath: /alluxio/conf
+          - name: logdir
+            mountPath:  /alluxio/logs
+          - name: journaldir
+            mountPath: /alluxio/journal
+      restartPolicy: Always
+      volumes:
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: datadir
+      - name: confdir
+        persistentVolumeClaim:
+          claimName: confdir
+      - name: logdir
+        persistentVolumeClaim:
+          claimName: logdir
+      - name: journaldir
+        persistentVolumeClaim:
+          claimName: journaldir
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2000Mi
+  - metadata:
+      name: logdir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi
+  - metadata:
+      name: confdir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 200Mi
+  - metadata:
+      name: journaldir
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1000Mi

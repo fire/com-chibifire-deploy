@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: snappydata-server
-        image: ifire/snappydata:1.0p0
+        image: ifire/snappydata:1.0p1
         imagePullPolicy: IfNotPresent
         resources:
           requests:

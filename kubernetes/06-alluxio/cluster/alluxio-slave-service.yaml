@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+    kompose.cmd: G:\com-chibifire-deploy\alluxio-cluster\kompose-windows-amd64.exe
+      convert -f .\docker-compose.yml
+    kompose.version: ""
+  creationTimestamp: null
+  labels:
+    app: alluxio-slave
+  name: alluxio-slave
+spec:
+  clusterIP: None
+  ports:
+  - name: "29998"
+    port: 29998
+    targetPort: 29998
+  - name: "29999"
+    port: 29999
+    targetPort: 29999
+  selector:
+    type: alluxio-slave
+status:
+  loadBalancer: {}

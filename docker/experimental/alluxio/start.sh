@@ -3,7 +3,26 @@
 
 env | grep ALLUXIO_ | sed 's/ALLUXIO_/export ALLUXIO_/g' > /alluxio-environment.sh
 
+if [ ! -s /alluxio/conf/workers ] ; then 
+    cp /alluxio/defaultConf/workers /alluxio/conf/workers
+fi
 
+if [ ! -s /alluxio/conf/masters ] ; then 
+    cp /alluxio/defaultConf/masters /alluxio/conf/masters
+fi
+
+if [ ! -s /alluxio/conf/alluxio-siteproperties ] ; then 
+    cp /alluxio/defaultConf/alluxio-siteproperties /alluxio/conf/alluxio-siteproperties
+fi
+
+if [ ! -s /alluxio/conf/log4j.properties ] ; then 
+    cp /alluxio/defaultConf/log4j.properties /alluxio/conf/log4j.properties
+fi
+
+ADD workers
+ADD masters /alluxio/defaultConf/
+ADD log4j.properties /alluxio/defaultConf/
+ADD alluxio-site.properties /alluxio/defaultConf/
 
 if [ "$1" == "master" ]; then
     echo "Starting alluxio master"
