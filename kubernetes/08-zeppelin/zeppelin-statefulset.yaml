@@ -18,7 +18,7 @@ spec:
             value: "8080"
           - name: ZEPPELIN_WAR_TEMPDIR
             value: "/opt/zeppelin/run/temp"
-          image: ifire/zeppelin:0.7.2p0
+          image: ifire/zeppelin:0.7.3p0
           command:
           - "/bin/bash"
           - "-ecx"

@@ -49,8 +49,8 @@
       become_user: snappydata
     - name: download snappydata zeppelin
       get_url:
-        url: https://github.com/SnappyDataInc/zeppelin-interpreter/releases/download/v0.7.2/snappydata-zeppelin-0.7.2.jar
-        dest: /opt/snappydata/jars/snappydata-zeppelin-0.7.2.jar
+        url: https://github.com/fire/zeppelin-interpreter/releases/download/v0.7.3-rc0/snappydata-zeppelin_2.11-0.7.3.jar
+        dest: /opt/snappydata/jars/snappydata-zeppelin_2.11-0.7.3.jar
         mode: 0440
     - name: download snappydata deeplearning 4 java
       get_url:

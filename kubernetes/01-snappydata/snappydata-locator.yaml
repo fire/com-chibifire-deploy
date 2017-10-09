@@ -31,7 +31,7 @@ spec:
       containers:
       - name: snappydata-locator
         # Runs the current snappydata release
-        image: ifire/snappydata:1.0p1
+        image: ifire/snappydata:1.0p2
         imagePullPolicy: IfNotPresent
         resources:
           requests:
