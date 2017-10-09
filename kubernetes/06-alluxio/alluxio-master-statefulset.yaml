@@ -25,7 +25,7 @@ spec:
         env:
         - name: ALLUXIO_MASTER_HOSTNAME
           value: alluxio-master
-        image: ifire/alluxio:1.6.0p3
+        image: ifire/alluxio:1.6.0p5
         name: alluxio-master
         ports:
         - containerPort: 19999
