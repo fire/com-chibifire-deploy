@@ -47,8 +47,8 @@
       file: path=/opt/zeppelin/interpreter/snappydata state=directory owner=zeppelin group=root
     - name: download snappydata interpreter
       get_url:
-        url: https://github.com/fire/zeppelin-interpreter/releases/download/v0.7.3-rc0/snappydata-zeppelin_2.11-0.7.3.jar
-        dest: /opt/zeppelin/interpreter/snappydata/snappydata-zeppelin_2.11-0.7.3.jar
+        url: https://github.com/fire/zeppelin-interpreter/releases/download/v0.7.3-rc0/snappydata-zeppelin-0.7.3-all.jar
+        dest: /opt/zeppelin/interpreter/snappydata/snappydata-zeppelin-0.7.3-all.jar
         mode: 0440  
       become: yes
       become_user: zeppelin
