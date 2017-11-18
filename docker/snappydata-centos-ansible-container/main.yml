@@ -1,0 +1,65 @@
+- hosts: snappydata
+  tasks:
+  - name: Add repository
+    yum_repository:
+      name: epel
+      description: EPEL YUM repo
+      baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+  - name: upgrade all packages
+    yum: name=* state=latest
+  - name: install openjdk 1.8
+    yum: name=java-1.8.0-openjdk state=latest
+  - name: install nss_wrapper
+    yum: name=nss_wrapper state=latest
+  - name: install gettext
+    yum: name=gettext state=latest
+  - name: install sudo
+    yum: name=sudo state=latest
+  - name: sudo can use tty
+    shell: "sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers"
+  - name: create snappydata directory
+    file: path=/opt/snappydata state=directory
+  - name: create snappydata user
+    user: name=snappydata group=root comment="SnappyData" home=/opt/snappydata shell=/bin/bash system=true
+  - name: change snappydata directory ownership
+    file: path=/opt/snappydata state=directory owner=snappydata group=root
+  - name: download snappydata
+    get_url:
+      url: https://github.com/SnappyDataInc/snappydata/releases/download/v1.0.0/snappydata-1.0.0-bin.tar.gz
+      dest: /tmp/snappydata.tar.gz
+      mode: 0440  
+    become: yes
+    become_user: snappydata  
+  - name: extract snappydata
+    shell: tar -xvf /tmp/snappydata.tar.gz --strip 1 -C /opt/snappydata
+    become: yes
+    become_user: snappydata
+  - name: delete archive
+    file: 
+      path: /tmp/snappydata.tar.gz
+      state: absent
+  - name: copy snappydata start config
+    template: src=start dest=/usr/local/bin/start mode=755
+  - name: copy snappydata logging config
+    template: src=log4j.properties dest=/opt/snappydata/conf/log4j.properties mode=755
+  - name: copy snappydata passwd config
+    template: src=passwd.template dest=/opt/snappydata/passwd mode=755     
+    become: yes
+    become_user: snappydata
+  - name: download snappydata zeppelin
+    get_url:
+      url: https://github.com/fire/zeppelin-interpreter/releases/download/v0.7.3-rc0/snappydata-zeppelin_2.11-0.7.3p0.jar
+      dest: /opt/snappydata/jars/snappydata-zeppelin_2.11-0.7.3p0.jar
+      mode: 0440
+  - name: download snappydata deeplearning 4 java
+    get_url:
+      url: https://github.com/fire/snappydata-dl4j/releases/download/v0.9.0/snappydata-dl4j-0.9.0-all.jar
+      dest: /opt/snappydata/jars/snappydata-dl4j-0.9.0-all.jar
+      mode: 0440
+  - name: download alluxio hadoop client
+    get_url:
+      url: https://github.com/fire/snappydata-dl4j/releases/download/v0.9.0/alluxio-1.6.0-default-client.jar
+      dest: /opt/snappydata/jars/alluxio-1.6.0-default-client.jar
+      mode: 0440
+  - name: remove sudo
+    yum: name=sudo state=absent

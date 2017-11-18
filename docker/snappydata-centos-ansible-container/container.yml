@@ -6,7 +6,8 @@ settings:
     # Python runtime for building your target containers. It should be derived
     # from the same distribution as you're building your target containers with.
     base: centos:7
-    save: yes
+    roles_path: 
+      - roles
     # roles_path:   # Specify a local path containing Ansible roles
     # volumes:      # Provide a list of volumes to mount
     # environment:  # List or mapping of environment variables
@@ -61,10 +62,8 @@ services:
   #   dev_overrides:
   #     environment:
   #       - "DEBUG=1"
-  web:
+  snappydata:
     from: "centos:7"
-    roles:
-      - base
     dev_overrides:
       environment:
         - "DEBUG=1"
