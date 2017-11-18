@@ -64,6 +64,8 @@ services:
   #       - "DEBUG=1"
   snappydata:
     from: "centos:7"
+    roles:
+     - base
     dev_overrides:
       environment:
         - "DEBUG=1"
