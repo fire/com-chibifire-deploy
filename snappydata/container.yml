@@ -53,28 +53,40 @@ services:
   leader:
     from: "centos:7"
     roles:
+     - prepare
+     - install-sudo
      - base
+     - remove-sudo
     dev_overrides:
       environment:
         - "DEBUG=1"
   locator:
     from: "centos:7"
     roles:
+     - prepare
+     - install-sudo
      - base
+     - remove-sudo
     dev_overrides:
       environment:
         - "DEBUG=1"
   server:
     from: "centos:7"
     roles:
+     - prepare
+     - install-sudo
      - base
+     - remove-sudo
     dev_overrides:
       environment:
         - "DEBUG=1"
   zeppelin:
     from: "centos:7"
     roles:
+     - prepare
+     - install-sudo
      - zeppelin
+     - remove-sudo
     dev_overrides:
       environment:
         - "DEBUG=1"

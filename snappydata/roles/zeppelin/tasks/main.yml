@@ -1,17 +1,3 @@
-- name: upgrade all packages
-  yum: name=* state=latest
-- name: upgrade all packages
-  yum: name=epel-release state=latest
-- name: install openjdk 1.8
-  yum: name=java-1.8.0-openjdk state=latest
-- name: install nss_wrapper
-  yum: name=nss_wrapper state=latest
-- name: install gettext
-  yum: name=gettext state=latest
-- name: install sudo
-  yum: name=sudo state=latest
-- name: sudo can use tty
-  shell: "sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers"
 - name: create zeppelin directory
   file: path=/opt/zeppelin state=directory
 - name: create snappydata user
@@ -46,5 +32,3 @@
     mode: 0440  
   become: yes
   become_user: zeppelin
-- name: remove sudo
-  yum: name=sudo state=absent

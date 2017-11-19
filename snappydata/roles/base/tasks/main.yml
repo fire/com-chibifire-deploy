@@ -1,17 +1,3 @@
-- name: upgrade all packages
-  yum: name=* state=latest
-- name: upgrade all packages
-  yum: name=epel-release state=latest
-- name: install openjdk 1.8
-  yum: name=java-1.8.0-openjdk state=latest
-- name: install nss_wrapper
-  yum: name=nss_wrapper state=latest
-- name: install gettext
-  yum: name=gettext state=latest
-- name: install sudo
-  yum: name=sudo state=latest
-- name: sudo can use tty
-  shell: "sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers"
 - name: create snappydata directory
   file: path=/opt/snappydata state=directory
 - name: create snappydata user
@@ -56,5 +42,3 @@
     url: https://github.com/fire/snappydata-dl4j/releases/download/v0.9.0/alluxio-1.6.0-default-client.jar
     dest: /opt/snappydata/jars/alluxio-1.6.0-default-client.jar
     mode: 0440
-- name: remove sudo
-  yum: name=sudo state=absent

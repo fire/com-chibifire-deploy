@@ -1,0 +1,10 @@
+- name: upgrade all packages
+  yum: name=* state=latest
+- name: upgrade all packages
+  yum: name=epel-release state=latest
+- name: install openjdk 1.8
+  yum: name=java-1.8.0-openjdk state=latest
+- name: install nss_wrapper
+  yum: name=nss_wrapper state=latest
+- name: install gettext
+  yum: name=gettext state=latest
