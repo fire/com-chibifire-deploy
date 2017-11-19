@@ -82,7 +82,7 @@ registries:
   docker:
     url: https://docker.io
     namespace: ifire
-    repository_prefix: ''
+    repository_prefix: 'snappydata'
 
 #registries: {}
   # Add optional registries used for deployment. For example:
