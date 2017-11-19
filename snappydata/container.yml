@@ -50,14 +50,27 @@ settings:
     display_name: snappydata
 
 services:
-  database:
+  leader:
     from: "centos:7"
     roles:
      - base
     dev_overrides:
       environment:
         - "DEBUG=1"
-    openshift:
+  locator:
+    from: "centos:7"
+    roles:
+     - base
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
+  server:
+    from: "centos:7"
+    roles:
+     - base
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
   zeppelin:
     from: "centos:7"
     roles:
