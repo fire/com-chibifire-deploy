@@ -50,7 +50,7 @@ settings:
     display_name: snappydata
 
 services:
-  snappydata:
+  database:
     from: "centos:7"
     roles:
      - base
@@ -58,7 +58,7 @@ services:
       environment:
         - "DEBUG=1"
     openshift:
-  snappydata-zeppelin:
+  zeppelin:
     from: "centos:7"
     roles:
      - zeppelin
