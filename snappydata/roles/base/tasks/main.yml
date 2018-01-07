@@ -27,16 +27,6 @@
   template: src=passwd.template dest=/opt/snappydata/passwd mode=755     
   become: yes
   become_user: snappydata
-- name: download snappydata zeppelin
-  get_url:
-    url: https://github.com/fire/zeppelin-interpreter/releases/download/v0.7.3-rc0/snappydata-zeppelin_2.11-0.7.3p0.jar
-    dest: /opt/snappydata/jars/snappydata-zeppelin_2.11-0.7.3p0.jar
-    mode: 0440
-- name: download snappydata deeplearning 4 java
-  get_url:
-    url: https://github.com/fire/snappydata-dl4j/releases/download/v0.9.0/snappydata-dl4j-0.9.0-all.jar
-    dest: /opt/snappydata/jars/snappydata-dl4j-0.9.0-all.jar
-    mode: 0440
 - name: download alluxio hadoop client
   get_url:
     url: https://github.com/fire/snappydata-dl4j/releases/download/v0.9.0/alluxio-1.6.0-default-client.jar
