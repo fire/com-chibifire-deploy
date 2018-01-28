@@ -43,9 +43,18 @@ spec:
         volumeMounts:
         - name: godata
           mountPath: /godata
+        - name: gohome
+          mountPath: /home/go
   volumeClaimTemplates:
   - metadata:
       name: godata
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+  - metadata:
+      name: gohome
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
