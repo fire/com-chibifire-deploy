@@ -20,10 +20,12 @@ spec:
         ports:
         env:
         - name: GO_SERVER_URL
-          value: "https://build.apps.chibifire.com/go"
+          value: "https://gocd-server:8154/go"
         volumeMounts:
         - name: godata
           mountPath: /godata
+        - name: gohome
+          mountPath: /home/go
   volumeClaimTemplates:
   - metadata:
       name: godata
@@ -32,3 +34,10 @@ spec:
       resources:
         requests:
           storage: 10Gi
+  - metadata:
+      name: gohome
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
