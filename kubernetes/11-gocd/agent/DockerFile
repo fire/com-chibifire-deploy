@@ -33,3 +33,5 @@ RUN yum group install -y "Development Tools"
 RUN yum install -y libX11-devel libXcursor-devel libXrandr-devel libXinerama-devel \
     libXi-devel mesa-libGL-devel alsa-lib-devel pulseaudio-libs-devel freetype-devel openssl-devel \
     libudev-devel mesa-libGLU-devel libpng-devel
+RUN yum install -y xorg-x11-server-Xvfb
+RUN yum install -y which
