@@ -13,10 +13,11 @@ spec:
       labels:
         app: gocd-agent # has to match .spec.selector.matchLabels
     spec:
-      terminationGracePeriodSeconds: 10
+      updateStrategy:
+        type: RollingUpdate
       containers:
       - name: gocd-agent
-        image: gocd/gocd-agent-centos-7:v18.1.0
+        image: ifire/gocd-agent-centos-7:v18.1.0
         ports:
         env:
         - name: GO_SERVER_URL
