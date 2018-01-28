@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gocd-server
+  labels:
+    app: gocd-server
+spec:
+  ports:
+  - port: 8154
+    name: web-ssl
+  - port: 8153
+    name: web
+  selector:
+    app: gocd-server
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: gocd-server
+spec:
+  selector:
+    matchLabels:
+      app: gocd-server # has to match .spec.template.metadata.labels
+  serviceName: "gocd-server"
+  replicas: 1 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: gocd-server # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: gocd-server
+        image: gocd/gocd-server:v18.1.0
+        env: 
+        - name:  GOCD_PLUGIN_INSTALL_google_login_authorization
+          value: https://github.com/gocd-contrib/google-oauth-authorization-plugin/releases/download/2.0.0/google-oauth-authorization-plugin-2.0.0-7.jar
+        ports:
+        - containerPort: 8154
+          name: web-ssl
+        - containerPort: 8153
+          name: web
+        volumeMounts:
+        - name: godata
+          mountPath: /godata
+  volumeClaimTemplates:
+  - metadata:
+      name: godata
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
