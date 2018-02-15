@@ -17,7 +17,7 @@ spec:
         type: RollingUpdate
       containers:
       - name: gocd-agent
-        image: ifire/gocd-agent-centos-7:v18.1.0-chibifire-0.9
+        image: ifire/gocd-agent-centos-7:v18.1.0-chibifire-0.10
         ports:
         env:
         - name: GO_SERVER_URL
