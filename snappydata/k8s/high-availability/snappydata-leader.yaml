@@ -91,6 +91,12 @@ spec:
           name: membership-0019
         - containerPort: 21020
           name: membership-0020
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8090
+          initialDelaySeconds: 5 
+          periodSeconds: 5
         volumeMounts:
         - name: datadir
           mountPath: /snappydata
