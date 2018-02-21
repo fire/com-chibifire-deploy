@@ -6,7 +6,7 @@ spec:
   updateStrategy: 
     type: "RollingUpdate"
   serviceName: "snappydata-leader"
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
