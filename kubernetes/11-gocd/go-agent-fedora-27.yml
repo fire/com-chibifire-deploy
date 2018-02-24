@@ -1,23 +1,21 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: gocd-agent
+  name: gocd-agent-fedora-27
 spec:
   selector:
     matchLabels:
-      app: gocd-agent # has to match .spec.template.metadata.labels
-  serviceName: "gocd-agent"
-  replicas: 2 # by default is 1
+      app: gocd-agent-fedora-27 # has to match .spec.template.metadata.labels
+  serviceName: "gocd-agent-fedora-27"
+  replicas: 1
   template:
     metadata:
       labels:
-        app: gocd-agent # has to match .spec.selector.matchLabels
+        app: gocd-agent-fedora-27 # has to match .spec.selector.matchLabels
     spec:
-      updateStrategy:
-        type: RollingUpdate
       containers:
-      - name: gocd-agent
-        image: ifire/gocd-agent-centos-7:v18.1.0-chibifire-0.11
+      - name: gocd-agent-fedora-27
+        image: ifire/gocd-agent-fedora-27:v18.1.0-chibifire-0.12
         ports:
         env:
         - name: GO_SERVER_URL
