@@ -1,0 +1,42 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: gocd-agent-centos-7
+spec:
+  selector:
+    matchLabels:
+      app: gocd-agent-centos7 # has to match .spec.template.metadata.labels
+  serviceName: "gocd-agent-centos7"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gocd-agent-centos7 # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: gocd-agent-centos7
+        image: ifire/gocd-agent-centos-7:v18.1.0-chibifire-0.11
+        ports:
+        env:
+        - name: GO_SERVER_URL
+          value: "https://gocd-server:8154/go"
+        volumeMounts:
+        - name: godata
+          mountPath: /godata
+        - name: gohome
+          mountPath: /home/go
+  volumeClaimTemplates:
+  - metadata:
+      name: godata
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+  - metadata:
+      name: gohome
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
