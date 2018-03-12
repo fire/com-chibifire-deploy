@@ -6,6 +6,8 @@ spec:
   updateStrategy: 
     type: "RollingUpdate"
   serviceName: "snappydata-locator"
+  # DO NOT TOUCH
+  # Do not let this be more than 2.
   replicas: 2
   template:
     metadata:
