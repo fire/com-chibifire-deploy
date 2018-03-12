@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: snappydata-server
-        image: ifire/snappydata-server:20180221002930
+        image: ifire/snappydata-server:20180312020211
         imagePullPolicy: IfNotPresent
         resources:
           requests:
