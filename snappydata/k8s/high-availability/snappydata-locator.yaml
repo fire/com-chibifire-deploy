@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: snappydata-locator
 spec:
+  podManagementPolicy: Parallel    
   updateStrategy: 
     type: "RollingUpdate"
   serviceName: "snappydata-locator"
