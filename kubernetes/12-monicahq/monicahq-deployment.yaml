@@ -1,0 +1,121 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: monicahq
+  name: monicahq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: monicahq
+    spec:
+      containers:
+      - env:
+        # - name: 2FA_ENABLED
+        #   value: "false"
+        - name: APP_DEBUG
+          value: "false"
+        - name: APP_DEFAULT_LOCALE
+          value: en
+        - name: APP_DEFAULT_TIMEZONE
+          value: US/Pacific
+        - name: APP_DISABLE_SIGNUP
+          value: "true"
+        - name: APP_EMAIL_NEW_USERS_NOTIFICATION
+          value: EmailThatWillSendNotificationsForNewUser
+        - name: APP_ENV
+          value: local
+        - name: APP_KEY
+          value: ChangeMeBy32KeyLengthOrGenerated
+        - name: APP_LOG
+          value: daily
+        - name: APP_URL
+          value: http://localhost
+        - name: AWS_BUCKET
+        - name: AWS_KEY
+        - name: AWS_REGION
+          value: us-east-1
+        - name: AWS_SECRET
+        - name: AWS_SERVER
+        - name: CACHE_DRIVER
+          value: database
+        - name: CHECK_VERSION
+          value: "true"
+        - name: DB_CONNECTION
+          value: mysql
+        - name: DB_DATABASE
+          value: monica
+        - name: DB_HOST
+          value: monicahq-mariadb
+        - name: DB_PASSWORD
+          value: secret
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_PREFIX
+        - name: DB_TEST_DATABASE
+          value: monica_test
+        - name: DB_TEST_HOST
+          value: 127.0.0.1
+        - name: DB_TEST_PASSWORD
+          value: secret
+        - name: DB_TEST_USERNAME
+          value: homestead
+        - name: DB_USERNAME
+          value: homestead
+        - name: DEFAULT_FILESYSTEM
+          value: public
+        - name: GOOGLE_ANALYTICS_APP_ID
+        - name: INTERCOM_APP_ID
+        - name: MAIL_DRIVER
+          value: smtp
+        - name: MAIL_ENCRYPTION
+          value: "null"
+        - name: MAIL_FROM_ADDRESS
+          value: ValidEmailAddress
+        - name: MAIL_FROM_NAME
+          value: '"Some Name"'
+        - name: MAIL_HOST
+          value: mailtrap.io
+        - name: MAIL_PASSWORD
+          value: "null"
+        - name: MAIL_PORT
+          value: "2525"
+        - name: MAIL_USERNAME
+          value: "null"
+        - name: PAID_PLAN_ANNUAL_FRIENDLY_NAME
+        - name: PAID_PLAN_ANNUAL_ID
+        - name: PAID_PLAN_ANNUAL_PRICE
+        - name: PAID_PLAN_MONTHLY_FRIENDLY_NAME
+        - name: PAID_PLAN_MONTHLY_ID
+        - name: PAID_PLAN_MONTHLY_PRICE
+        - name: QUEUE_DRIVER
+          value: sync
+        - name: REQUIRES_SUBSCRIPTION
+          value: "false"
+        - name: SENTRY_DSN
+        - name: SENTRY_SUPPORT
+          value: "false"
+        - name: SESSION_DRIVER
+          value: file
+        - name: STRIPE_KEY
+        - name: STRIPE_SECRET
+        image: monicahq/monicahq:v1.8.2
+        name: monicahq
+        ports:
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/www/monica/storage/app/public
+          name: monicahq-claim0
+      restartPolicy: Always
+      volumes:
+      - name: monicahq-claim0
+        persistentVolumeClaim:
+          claimName: monicahq-claim0
+status: {}
