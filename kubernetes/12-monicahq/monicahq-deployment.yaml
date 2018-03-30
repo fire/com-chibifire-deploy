@@ -72,6 +72,7 @@ spec:
           value: public
         - name: GOOGLE_ANALYTICS_APP_ID
         - name: INTERCOM_APP_ID
+        # https://sendgrid.com/docs/Integrate/Frameworks/laravel.html
         - name: MAIL_DRIVER
           value: smtp
         - name: MAIL_ENCRYPTION
