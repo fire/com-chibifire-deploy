@@ -15,22 +15,16 @@ spec:
       labels:
         type: snappydata-locator
         app: snappydata
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-            {
-                "name": "snappydata-locator-init",
-                "image": "busybox",
-                "imagePullPolicy": "IfNotPresent",
-                "command": ["sh", "-c", "mkdir -p /snappydata/locator && chmod 777 /snappydata/locator"],
-                "volumeMounts": [
-                    {
-                      "name": "datadir",
-                      "mountPath": "/snappydata"
-                    }
-                ]
-            }
-        ]'
     spec:
+      initContainers:
+      - name: "snappydata-locator-init"
+        image: "busybox"
+        imagePullPolicy: "IfNotPresent"
+        command: ["/bin/sh"]
+        args: ["-c", "mkdir -p /snappydata/locator && chmod 777 /snappydata/locator"]
+        volumeMounts:
+        - mountPath: "/snappydata"
+          name: "datadir"
       containers:
       - name: snappydata-locator
         # Runs the current snappydata release

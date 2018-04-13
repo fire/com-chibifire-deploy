@@ -12,22 +12,16 @@ spec:
       labels:
         type: snappydata-server
         app: snappydata
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-            {
-                "name": "snappydata-server-init",
-                "image": "busybox",
-                "imagePullPolicy": "IfNotPresent",
-                "command": ["sh", "-c", "mkdir -p /snappydata/server && chmod 777 /snappydata/server"],
-                "volumeMounts": [
-                    {
-                      "name": "datadir",
-                      "mountPath": "/snappydata"
-                    }
-                ]
-            }
-            ]'
     spec:
+      initContainers:
+      - name: "snappydata-server-init"
+        image: "busybox"
+        imagePullPolicy: "IfNotPresent"
+        command: ["/bin/sh"]
+        args: ["-c", "mkdir -p /snappydata/server && chmod 777 /snappydata/server"]
+        volumeMounts:
+        - mountPath: "/snappydata"
+          name: "datadir"
       containers:
       - name: snappydata-server
         image: ifire/snappydata-server:20180312020211

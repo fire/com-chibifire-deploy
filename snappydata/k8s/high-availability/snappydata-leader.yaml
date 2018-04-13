@@ -12,28 +12,16 @@ spec:
       labels:
         type: snappydata-leader
         app: snappydata
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-            {
-                "name": "snappydata-leader-init",
-                "image": "busybox",
-                "imagePullPolicy": "IfNotPresent",
-                "command": ["sh", "-c", "mkdir -p /snappydata/leader && chmod 777 /snappydata/leader"],
-                "volumeMounts": [
-                    {
-                      "name": "datadir",
-                      "mountPath": "/snappydata"
-                    }
-                ]
-            },
-            {
-                "name": "snappydata-wait-server",
-                "image": "centos:7",
-                "imagePullPolicy": "IfNotPresent",
-                "command": ["sh", "-c", "curl -s snappydata-server:1527; [ $? -eq 0 -o $? -eq 52 ] && true"]
-            }
-        ]'
     spec:
+      initContainers:
+      - name: "snappydata-leader-init"
+        image: "busybox"
+        imagePullPolicy: "IfNotPresent"
+        command: ["/bin/sh"]
+        args: ["-c", "mkdir -p /snappydata/leader && chmod 777 /snappydata/leader"]
+        volumeMounts:
+        - mountPath: "/snappydata"
+          name: "datadir"
       containers:
       - name: snappydata-leader
         image: ifire/snappydata-leader:20180312020211
