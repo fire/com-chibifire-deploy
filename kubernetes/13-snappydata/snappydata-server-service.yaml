@@ -20,6 +20,7 @@ metadata:
     prometheus.io/scrape: "true"
     prometheus.io/path: "_status/vars"
     prometheus.io/port: "8080"
+    service.alpha.openshift.io/serving-cert-secret-name: service-certs
 spec:
   ports:
   - port: 10334
