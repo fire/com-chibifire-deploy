@@ -7,6 +7,20 @@ oc project project-name
 oc create -f .
 ```
 
+## How to get certificate for Dbeaver?
+
+```
+oc project project-name
+oc cp snappydata-server-1:/var/run/secrets/java.io/keystores/keystore.jks keystore.jks
+```
+
+This is the jdbc url:
+
+```
+jdbc:snappydata://example.com:1527/;framed-transport=true;binary-protocol=true;load-balance=true;ssl=true;ssl-properties=truststore=keystore.jks,truststore-password=password,protocol=TLS,enabled-protocols=TLSv1:TLSv1.1:TLSv1.2,cipher-suites=TLS_RSA_WITH_AES_128_CBC_SHA:TLS_RSA_WITH_AES_256_CBC_SHA:TLS_RSA_WITH_AES_128_CBC_SHA256:TLS_RSA_WITH_AES_256_CBC_SHA256
+```
+
+
 ## How to stop and start SnappyData?
 
 ```bash
