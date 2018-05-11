@@ -41,7 +41,7 @@
   become: true
   become_user: perforce
 - name: change owner of ssl files
-- file:
+  file:
     path: /perforce/servers/p4-master/ssl/
     owner: perforce
     group: perforce
