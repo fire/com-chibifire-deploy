@@ -4,6 +4,14 @@
   yum: name=git state=latest
 - name: install epel-release
   yum: name=epel-release state=latest
+- name: Add perforce group
+  group:
+    name: perforce
+- name: Add perforce user
+  user:
+    name: perforce
+    group: perforce
+	system: yes
 - name: copy perforce server
   copy:
     src: templates/p4d
