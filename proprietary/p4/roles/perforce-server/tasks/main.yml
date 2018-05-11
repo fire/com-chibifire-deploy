@@ -18,14 +18,14 @@
     dest: /usr/sbin/p4d
     owner: root
     group: root
-    mode: 0644
+    mode: "u=rwx,g=xr,o=xr"
 - name: copy perforce client
   copy:
     src: templates/p4
     dest: /usr/sbin/p4
     owner: root
     group: root
-    mode: 0644
+    mode: "u=rwx,g=xr,o=xr"
 - name: create p4 tmpdir directory
   file: path=/perforce/tmp state=directory owner=perforce group=perforce
 - name: create p4 server directory
