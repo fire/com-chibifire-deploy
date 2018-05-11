@@ -4,8 +4,6 @@
   yum: name=git state=latest
 - name: install epel-release
   yum: name=epel-release state=latest
-- name: install openssh-server
-  yum: name=openssh-server state=latest
 - name: copy perforce server
   copy:
     src: templates/p4d
