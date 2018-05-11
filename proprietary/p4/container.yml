@@ -50,8 +50,8 @@ settings:
 services:
   web:
     from: "centos:7"
-	roles:
-	 - perforce-server
+    roles:
+     - perforce-server
   # Add your containers here, specifying the base image you want to build from.
   # To use this example, uncomment it and delete the curly braces after services key.
   # You may need to run `docker pull ubuntu:trusty` for this to work.
