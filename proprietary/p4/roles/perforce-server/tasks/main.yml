@@ -19,7 +19,7 @@
     group: root
     mode: 0644
 - name: create p4 tmpdir directory
-  file: path=/perforce/tmp
+  file: path=/perforce/tmp state=directory owner=perforce group=perforce
 - name: create p4 server directory
   file: path=/perforce/servers/p4-master state=directory owner=perforce group=perforce
 - name: create p4 ssl directory
