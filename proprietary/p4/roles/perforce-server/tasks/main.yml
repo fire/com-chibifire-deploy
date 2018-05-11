@@ -54,11 +54,6 @@
 # - name: waiting for server to come back
 #   wait_for_connection:
 #     timeout: 900
-- name: start perforce server
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: perforce
 - name: Checkpoint perforce server
   cron:
     name: backup-snapshot
