@@ -56,11 +56,11 @@
 #     timeout: 900
 - name: create cron directory
   file: path=/etc/cron.d/ state=directory
-- name: Checkpoint perforce server
-  cron:
-    name: backup-snapshot
-    minute: 20
-    hour: "*/12"
-    user: perforce
-    job: "/usr/bin/bash -c \"/bin/rm -rf /perforce/servers/p4-master/p4root/perforce-backup/ && mkdir -p /perforce/servers/p4-master/p4root/perforce-backup/ && export P4ROOT=/perforce/servers/p4-master/p4root/ && /sbin/p4d -jc perforce-backup/perforce-checkpoint\""
-    cron_file: perforce
+# - name: Checkpoint perforce server
+#   cron:
+#     name: backup-snapshot
+#     minute: 20
+#     hour: "*/12"
+#     user: perforce
+#     job: "/usr/bin/bash -c \"/bin/rm -rf /perforce/servers/p4-master/p4root/perforce-backup/ && mkdir -p /perforce/servers/p4-master/p4root/perforce-backup/ && export P4ROOT=/perforce/servers/p4-master/p4root/ && /sbin/p4d -jc perforce-backup/perforce-checkpoint\""
+#     cron_file: perforce
