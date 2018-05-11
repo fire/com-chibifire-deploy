@@ -11,7 +11,7 @@
   user:
     name: perforce
     group: perforce
-	system: yes
+    system: yes
 - name: copy perforce server
   copy:
     src: templates/p4d
