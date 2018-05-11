@@ -40,6 +40,13 @@
   shell: P4SSLDIR=/perforce/servers/p4-master/ssl /usr/sbin/p4d -Gc || true
   become: true
   become_user: perforce
+- name: change owner of ssl files
+- file:
+    path: /perforce/servers/p4-master/ssl/
+    owner: perforce
+    group: perforce
+    recurse: yes
+    mode: 0700
 # - name: restart server
 #   become: yes
 #   shell: sleep 2 && /sbin/shutdown -r now "System reboot"
