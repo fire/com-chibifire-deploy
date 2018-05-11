@@ -38,8 +38,6 @@
   template: src=templates/perforce.service.j2 dest=/etc/systemd/system/perforce.service
 - name: generate perforce certificate
   shell: P4SSLDIR=/perforce/servers/p4-master/ssl /usr/sbin/p4d -Gc || true
-  become: true
-  become_user: perforce
 - name: change owner of ssl files
   file:
     path: /perforce/servers/p4-master/ssl/
