@@ -1,0 +1,58 @@
+- name: upgrade all packages
+  yum: name=* state=latest
+- name: install git
+  yum: name=git state=latest
+- name: install epel-release
+  yum: name=epel-release state=latest
+- name: install openssh-server
+  yum: name=openssh-server state=latest
+- name: copy perforce server
+  copy:
+    src: templates/p4d
+    dest: /usr/sbin/p4d
+    owner: root
+    group: root
+    mode: 0644
+- name: copy perforce client
+  copy:
+    src: templates/p4
+    dest: /usr/sbin/p4
+    owner: root
+    group: root
+    mode: 0644
+- name: create p4 tmpdir directory
+  file: path=/perforce/tmp
+- name: create p4 server directory
+  file: path=/perforce/servers/p4-master state=directory owner=perforce group=perforce
+- name: create p4 ssl directory
+  file: path=/perforce/servers/p4-master/ssl state=directory owner=perforce group=perforce mode=700
+- name: create p4 root directory
+  file: path=/perforce/servers/p4-master/p4root state=directory owner=perforce group=perforce mode=700
+- name: copy p4 server template
+  template: src=templates/perforce.service.j2 dest=/etc/systemd/system/perforce.service
+- name: generate perforce certificate
+  shell: P4SSLDIR=/perforce/servers/p4-master/ssl /usr/sbin/p4d -Gc || true
+  become: true
+  become_user: perforce
+# - name: restart server
+#   become: yes
+#   shell: sleep 2 && /sbin/shutdown -r now "System reboot"
+#   #command: /usr/bin/systemd-run --on-active=10 /usr/bin/systemctl reboot
+#   async: 1
+#   poll: 0
+# - name: waiting for server to come back
+#   wait_for_connection:
+#     timeout: 900
+- name: start perforce server
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: perforce
+- name: Checkpoint perforce server
+  cron:
+    name: backup-snapshot
+    minute: 20
+    hour: "*/12"
+    user: perforce
+    job: "/usr/bin/bash -c \"/bin/rm -rf /perforce/servers/p4-master/p4root/perforce-backup/ && mkdir -p /perforce/servers/p4-master/p4root/perforce-backup/ && export P4ROOT=/perforce/servers/p4-master/p4root/ && /sbin/p4d -jc perforce-backup/perforce-checkpoint\""
+    cron_file: perforce   

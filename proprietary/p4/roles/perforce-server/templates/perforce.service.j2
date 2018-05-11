@@ -1,0 +1,20 @@
+# /etc/systemd/system/perforce.service
+
+[Unit]
+Description=Perforce source control system
+After=local-fs.target syslog.service network.target
+
+[Service]
+Environment=P4JOURNAL=/perforce/servers/p4-master/p4journal
+Environment=P4LOG=/perforce/var/log/perforce/p4err
+Environment=P4ROOT=/perforce/servers/p4-master/p4root
+Environment=P4PORT=ssl:1666
+Environment=P4SSLDIR=/perforce/servers/p4-master/ssl
+Environemnt=PATH=/bin:/usr/bin:/usr/local/bin
+Environment=P4DEBUG=0
+ExecStart=/usr/local/bin/p4d -C1
+ExecStop=/usr/local/bin/p4 admin stop
+User=perforce
+   
+[Install]
+WantedBy=multi-user.target
