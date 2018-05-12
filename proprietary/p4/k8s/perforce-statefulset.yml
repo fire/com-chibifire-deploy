@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: perforce
+spec:
+  serviceName: "perforce"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: perforce
+  template:
+    metadata:
+      labels:
+        app: perforce
+    spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: perforce
+        image: ifire/p4-web:20180512020102
+        env:
+        - name: P4SSLDIR
+          value: /perforce/servers/p4-master/ssl
+        - name: P4JOURNAL
+          value: /perforce/servers/p4-master/p4journal
+        - name: P4LOG
+          value: /perforce/var/log/perforce/p4err
+        - name: P4ROOT
+          value: /perforce/servers/p4-master/p4root
+        - name: P4PORT
+          value: "ssl:1666"
+        - name: PATH
+          value: /bin:/usr/bin:/usr/local/bin
+        - name: P4DEBUG
+          value: "0"
+        command:
+          - "/bin/bash"
+          - "-ecx"
+          - |
+            exec /bin/bash -c "mkdir -p $P4ROOT && mkdir -p /perforce/var/log/perforce && mkdir -p $P4SSLDIR && [ ! -f $P4SSLDIR/certificate.txt ] &&  /usr/sbin/p4d -Gc || true && chmod 0700 $P4SSLDIR/ && chmod 0600 $P4SSLDIR/certificate.txt && chmod 0600 $P4SSLDIR/privatekey.txt && /usr/sbin/p4d -C1"
+        ports:
+        - containerPort: 1666
+          name: perforce
+        volumeMounts:
+        - name: perforce
+          mountPath: /perforce
+  volumeClaimTemplates:
+  - metadata:
+      name: perforce
+      annotations:
+        pv.beta.kubernetes.io/gid: "2000"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 200Gi

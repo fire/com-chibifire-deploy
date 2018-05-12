@@ -38,15 +38,15 @@
   file: path=/perforce/servers/p4-master/p4root state=directory owner=perforce group=perforce mode=700
 - name: copy p4 server template
   template: src=templates/perforce.service.j2 dest=/etc/systemd/system/perforce.service
-- name: generate perforce certificate
-  shell: P4SSLDIR=/perforce/servers/p4-master/ssl /usr/sbin/p4d -Gc || true
-- name: change owner of ssl files
-  file:
-    path: /perforce/servers/p4-master/ssl/
-    owner: perforce
-    group: perforce
-    recurse: yes
-    mode: 0700
+# - name: generate perforce certificate
+#   shell: P4SSLDIR=/perforce/servers/p4-master/ssl /usr/sbin/p4d -Gc || true
+# - name: change owner of ssl files
+#   file:
+#     path: /perforce/servers/p4-master/ssl/
+#     owner: perforce
+#     group: perforce
+#     recurse: yes
+#     mode: 0700
 # - name: restart server
 #   become: yes
 #   shell: sleep 2 && /sbin/shutdown -r now "System reboot"
