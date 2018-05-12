@@ -36,7 +36,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p $P4ROOT && mkdir -p /perforce/var/log/perforce && (! [ ! -f $P4SSLDIR/certificate.txt ] || mkdir -p $P4SSLDIR && /usr/sbin/p4d -Gc) && chmod -R 700 $P4SSLDIR && /usr/sbin/p4d -C1"
+            exec /bin/bash -c "mkdir -p $P4ROOT && mkdir -p /perforce/var/log/perforce && mkdir -p $P4SSLDIR && ([ ! -f $P4SSLDIR/certificate.txt ] || /usr/sbin/p4d -Gc) && chmod -R 700 $P4SSLDIR && /usr/sbin/p4d -C1"
         ports:
         - containerPort: 1667
           name: perforce
