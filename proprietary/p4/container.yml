@@ -64,7 +64,10 @@ services:
   #   dev_overrides:
   #     environment:
   #       - "DEBUG=1"
-registries: {}
+registries:
+  docker:
+    url: https://docker.io
+    namespace: ifire
   # Add optional registries used for deployment. For example:
   #  google:
   #    url: https://gcr.io
