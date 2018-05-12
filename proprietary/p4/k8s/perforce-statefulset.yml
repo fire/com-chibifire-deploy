@@ -28,6 +28,8 @@ spec:
           value: /perforce/var/log/perforce/p4err
         - name: P4ROOT
           value: /perforce/servers/p4-master/p4root
+        - name: P4PORT
+          value: ssl:1666
         - name: PATH
           value: /bin:/usr/bin:/usr/local/bin
         - name: P4DEBUG
