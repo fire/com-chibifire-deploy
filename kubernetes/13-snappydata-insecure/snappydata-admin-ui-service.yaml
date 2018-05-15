@@ -11,5 +11,6 @@ spec:
   - port: 5050
     targetPort: 5050
     name: admin-ui
+  type: LoadBalancer
   selector:
     type: snappydata-leader
