@@ -27,6 +27,6 @@ spec:
   - port: 1527
     targetPort: 1527
     name: snappydata
-  type: ClusterIP # In a cloud switch to LoadBalancer
+  type: LoadBalancer # In a cloud switch to LoadBalancer
   selector:
     type: snappydata-server
