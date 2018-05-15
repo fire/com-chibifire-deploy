@@ -107,3 +107,11 @@ kubectl create -f https://raw.githubusercontent.com/kubernetes/heapster/master/d
 kubectl proxy
 
 http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy
+
+Provision some storage - hack! https://github.com/docker/for-win/issues/1758
+
+kubectl delete storageclass hostpath
+
+kubectl create -f https://raw.githubusercontent.com/MaZderMind/hostpath-provisioner/master/manifests/rbac.yaml
+kubectl create -f https://raw.githubusercontent.com/MaZderMind/hostpath-provisioner/master/manifests/deployment.yaml
+kubectl create -f https://raw.githubusercontent.com/MaZderMind/hostpath-provisioner/master/manifests/storageclass.yaml
