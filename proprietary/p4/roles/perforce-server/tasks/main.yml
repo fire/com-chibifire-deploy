@@ -6,11 +6,13 @@
   yum: name=epel-release state=latest
 - name: Add perforce group
   group:
+    gid: 2000
     name: perforce
 - name: Add perforce user
   user:
     name: perforce
     group: perforce
+    uid: 1000
     system: yes
 - name: copy perforce server
   copy:
