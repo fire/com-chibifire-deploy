@@ -89,3 +89,21 @@ kubectl create -f ./1-setup
 kubectl create -f ./2-services
 ```
 
+## Docker for windows kubernetes
+
+Set cpu and memory.
+
+https://www.hanselman.com/blog/HowToSetUpKubernetesOnWindows10WithDockerForWindowsAndRunASPNETCore.aspx
+
+Run insecure dashboard.
+
+kubectl apply -f
+https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml
+
+kubectl create -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml
+kubectl create -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/grafana.yaml
+
+kubectl proxy
+
+http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy
