@@ -44,7 +44,7 @@ Add to conf for locator, server, and lead
 ```
 echo "snappydata.chibifire.local -J-Djava.net.preferIPv4Stack=true \
 -heap-size=4096m  -thrift-binary-protocol=true \
-  -thrift-framed-transport=true-thrift-ssl=true \
+  -thrift-framed-transport=true -thrift-ssl=true \
   -thrift-ssl-properties=trusttore=/home/fedora/keystore-snappydata.jks,truststore-password=changeit,protocol=TLS,enabled-protocols=TLSv1:TLSv1.1:TLSv1.2,cipher-suites=TLS_RSA_WITH_AES_128_CBC_SHA:TLS_RSA_WITH_AES_256_CBC_SHA:TLS_RSA_WITH_AES_128_CBC_SHA256:TLS_RSA_WITH_AES_256_CBC_SHA256" \
   | tee -a ./snappydata-1.0.1-bin/conf/servers 
 
