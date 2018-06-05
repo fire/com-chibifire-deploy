@@ -31,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: gocd-server
-        image: gocd/gocd-server:v18.1.0
+        image: gocd/gocd-server:v18.5.0
         livenessProbe:
           httpGet:
             # when "host" is not defined, "PodIP" will be used
