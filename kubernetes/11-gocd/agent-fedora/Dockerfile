@@ -86,6 +86,7 @@ RUN yum install -y libX11-devel libXcursor-devel libXrandr-devel libXinerama-dev
 RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y which
 RUN yum install -y mingw32-filesystem
+RUN yum install -y bash
 
 #End Chibifire.com
 

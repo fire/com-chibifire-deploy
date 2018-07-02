@@ -12,7 +12,9 @@ ssh-keygen -t rsa -b 4096 -C "build-agent-0@build.apps.chibifire.com"
 eval $(ssh-agent -s)
 ssh-add /home/go/.ssh/id_rsa
 ssh-add -L
-# Copy to repo settings
+# Copy to repo settings by creating the user
+# Add the user to the service group
+# Add ssh key to the user
 ssh git@git.chibifire.com
 # Accept
 ```
