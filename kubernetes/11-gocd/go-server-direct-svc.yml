@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: gocd-server-direct
+spec:
+  ports:
+  - port: 8154
+    targetPort: 8154
+  selector:
+    app: gocd-server
+  type: LoadBalancer
