@@ -38,7 +38,7 @@ spec:
           - "/bin/bash"
           - "-ecx"
           - |
-            exec /bin/bash -c "mkdir -p $P4ROOT && mkdir -p /perforce/var/log/perforce && mkdir -p $P4SSLDIR && [ ! -f $P4SSLDIR/certificate.txt ] &&  /usr/sbin/p4d -Gc || true && chmod 0700 $P4SSLDIR/ && chmod 0600 $P4SSLDIR/certificate.txt && chmod 0600 $P4SSLDIR/privatekey.txt && /usr/sbin/p4d -C1"
+            exec /bin/bash -c "mkdir -p $P4ROOT && mkdir -p /perforce/var/log/perforce && mkdir -p $P4SSLDIR && [ ! -f $P4SSLDIR/certificate.txt ] &&  /usr/sbin/p4d -Gc || true && chmod 0700 $P4SSLDIR/ && chmod 0600 $P4SSLDIR/certificate.txt && chmod 0600 $P4SSLDIR/privatekey.txt && /usr/sbin/p4d -C1" # -C1 for case insensitivity
         ports:
         - containerPort: 1666
           name: perforce

@@ -1,7 +1,6 @@
 # How to install perforce on kubernetes
 
-
-## Perforce is licensed under it own license.
+## Perforce is licensed under its own license.
 
 ## Install Guide
 
