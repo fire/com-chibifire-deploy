@@ -27,9 +27,9 @@ command:
 - "/request-cert -namespace=${POD_NAMESPACE} -certs-dir=/cockroach-certs -type=client -user=<user> -symlink-ca-from=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
 env:
 - name: POD_NAMESPACE
-    valueFrom:
+  valueFrom:
     fieldRef:
-        fieldPath: metadata.namespace
+      fieldPath: metadata.namespace
 volumeMounts:
 - name: client-certs
-    mountPath: /cockroach-certs
+  mountPath: /cockroach-certs
