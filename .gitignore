@@ -5,3 +5,4 @@ ubuntu-xenial-16.04-cloudimg-console.log
 playbook.retry
 .vscode
 /openshift/openshift.local.config
+/google-kubernetes/cockroachdb/cert
