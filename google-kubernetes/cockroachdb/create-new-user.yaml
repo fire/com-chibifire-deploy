@@ -1,7 +1,9 @@
 # Create new cockroachdb user
 # Create a cockroachdb user
 # kubectl exec -it store-cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach-certs --host=store-cockroachdb-public
-# CREATE USER IF NOT EXISTS <user>
+# CREATE USER IF NOT EXISTS <user>;
+# CREATE DATABASE IF NOT EXISTS test;
+# GRANT ALL ON DATABASE test to <user>;
 # Change -user=<user> to your user. 
 # kubectl create -f create-new-user.yaml
 # kubectl csr get
