@@ -9,8 +9,8 @@
 # kubectl csr get
 # kybectl csr approve <certificate-request>
 # Get certificate from the /cockroach-certs directory
-# kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.crt .
-# kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.key .
+# kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.crt cert
+# kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.key cert
 
 initContainers:
 # The init-certs container sends a certificate signing request to the
