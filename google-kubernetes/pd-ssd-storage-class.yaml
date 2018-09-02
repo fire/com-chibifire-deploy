@@ -6,4 +6,5 @@ provisioner: kubernetes.io/gce-pd
 parameters:
   type: pd-ssd
 
+# kubectl patch storageclass standard -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 # kubectl patch storageclass ssd -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
