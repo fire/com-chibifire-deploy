@@ -9,8 +9,11 @@
 # kubectl csr get
 # kybectl csr approve <certificate-request>
 # Get certificate from the /cockroach-certs directory
+# kubectl cp cockroachdb-client-secure:/cockroach-certs/ca.crt cert
 # kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.crt cert
 # kubectl cp cockroachdb-client-secure:/cockroach-certs/client.root.key cert
+# For dbeaver
+# openssl pkcs8 -topk8 -inform PEM -outform DER -in client.root.key -out client.root.pk8 -nocrypt
 
 initContainers:
 # The init-certs container sends a certificate signing request to the
