@@ -17,4 +17,8 @@ ssh-add -L
 # Add ssh key to the user
 ssh git@git.chibifire.com
 # Accept
+# Hosts keep changing in Kubernetes
+vi /home/go/.ssh/config
+host *.chibifire.com
+    StrictHostKeyChecking no
 ```
