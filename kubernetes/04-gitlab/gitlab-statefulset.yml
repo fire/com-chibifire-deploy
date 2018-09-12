@@ -12,8 +12,30 @@ spec:
     spec:
       containers:
       - name: gitlab
-        image: us.gcr.io/quassel-chibifire/gitlab:9.3.9
+        resources:
+          requests:
+            cpu: 300m
+        image: sameersbn/gitlab:11.2.3
         env:
+        - name: GITLAB_BACKUP_EXPIRY
+          value: "259200"
+        - name: GCS_BACKUPS
+          value: "true"
+        - name: GCS_BACKUP_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GCS_BACKUP_ACCESS_KEY_ID
+        - name: GCS_BACKUP_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GCS_BACKUP_BUCKET
+        - name: GCS_BACKUP_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GCS_BACKUP_SECRET_ACCESS_KEY
         - name: GITLAB_HTTPS
           value: "true"
         - name: SSL_SELF_SIGNED
@@ -24,19 +46,28 @@ spec:
           value: UTC
         - name: GITLAB_TIMEZONE
           value: America/Los_Angeles
-
         - name: GITLAB_SECRETS_DB_KEY_BASE
-          value: 
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GITLAB_SECRETS_DB_KEY_BASE
         - name: GITLAB_SECRETS_SECRET_KEY_BASE
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GITLAB_SECRETS_SECRET_KEY_BASE
         - name: GITLAB_SECRETS_OTP_KEY_BASE
-          value: ***REMOVED***
-
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GITLAB_SECRETS_OTP_KEY_BASE
         - name: GITLAB_ROOT_PASSWORD
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: GITLAB_ROOT_PASSWORD
         - name: GITLAB_ROOT_EMAIL
           value: ernest.lee@chibifire.com
-
         - name: GITLAB_HOST
           value: spark.apps.chibifire.com
         - name: GITLAB_SSH_HOST
@@ -63,7 +94,10 @@ spec:
         - name: DB_USER
           value: gitlab
         - name: DB_PASS
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: DB_PASS
         - name: DB_NAME
           value: gitlab_production
 
@@ -83,7 +117,10 @@ spec:
         - name: SMTP_USER
           value: apikey
         - name: SMTP_PASS
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: SMTP_PASS
         - name: SMTP_STARTTLS
           value: "true"
         - name: SMTP_AUTHENTICATION
@@ -105,9 +142,15 @@ spec:
           value: "false"
         
         - name: OAUTH_GOOGLE_API_KEY
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: OAUTH_GOOGLE_API_KEY
         - name: OAUTH_GOOGLE_APP_SECRET
-          value: ***REMOVED***
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: OAUTH_GOOGLE_APP_SECRET
 
         - name: GITLAB_MATTERMOST_ENABLED
           value: "true"
@@ -121,18 +164,18 @@ spec:
         volumeMounts:
         - mountPath: /home/git/data
           name: data
-        livenessProbe:
-          httpGet:
-            path: /help
-            port: 80
-          initialDelaySeconds: 360
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /help
-            port: 80
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
+        # livenessProbe:
+        #   httpGet:
+        #     path: /help
+        #     port: 80
+        #   initialDelaySeconds: 360
+        #   timeoutSeconds: 5
+        # readinessProbe:
+        #   httpGet:
+        #     path: /help
+        #     port: 80
+        #   initialDelaySeconds: 5
+        #   timeoutSeconds: 1
   volumeClaimTemplates:
   - metadata:
       name: data

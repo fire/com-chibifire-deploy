@@ -6,3 +6,7 @@ playbook.retry
 .vscode
 /openshift/openshift.local.config
 /google-kubernetes/cockroachdb/cert
+
+kubernetes/04-gitlab/gitlab-secrets\.yml
+
+kubernetes/04-gitlab/secrets/gitlab-secrets\.yml
