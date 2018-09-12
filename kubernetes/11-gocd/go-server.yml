@@ -32,6 +32,9 @@ spec:
       containers:
       - name: gocd-server
         image: gocd/gocd-server:v18.9.0
+        resources:
+          requests:
+            cpu: 300m
         livenessProbe:
           httpGet:
             # when "host" is not defined, "PodIP" will be used
