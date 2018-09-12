@@ -16,6 +16,9 @@ spec:
       containers:
       - name: gocd-agent-centos7
         image: ifire/gocd-agent-centos-7:v18.9.0-chibifire-0.1
+        resources:
+          requests:
+            cpu: 1000m
         ports:
         env:
         - name: GO_SERVER_URL
