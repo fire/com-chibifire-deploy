@@ -20,11 +20,11 @@
 FROM fedora:28
 MAINTAINER GoCD <go-cd-dev@googlegroups.com>
 
-LABEL gocd.version="18.5.0" \
-  description="GoCD agent based on centos version 7" \
+LABEL gocd.version="18.9.0" \
+  description="GoCD agent based on Fedora version 28" \
   maintainer="GoCD <go-cd-dev@googlegroups.com>" \
-  gocd.full.version="18.5.0-6679" \
-  gocd.git.sha="a54c3fd44ef9ccbab1b0d856a8d735929eab97f7"
+  gocd.full.version="18.9.0-7478" \
+  gocd.git.sha="f202ea9416939d7ce356cf3939239ef953ec423b"
 
 ADD https://github.com/krallin/tini/releases/download/v0.18.0/tini-static-amd64 /usr/local/sbin/tini
 ADD https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 /usr/local/sbin/gosu
@@ -50,17 +50,15 @@ RUN \
   yum install -y java-1.8.0-openjdk-headless git mercurial subversion openssh-clients bash unzip curl && \
   yum clean all && \
 # download the zip file
-  curl --fail --location --silent --show-error "https://download.gocd.org/binaries/18.5.0-6679/generic/go-agent-18.5.0-6679.zip" > /tmp/go-agent.zip && \
+  curl --fail --location --silent --show-error "https://download.gocd.org/experimental/binaries/18.9.0-7478/generic/go-agent-18.9.0-7478.zip" > /tmp/go-agent.zip && \
 # unzip the zip file into /go-agent, after stripping the first path prefix
   unzip /tmp/go-agent.zip -d / && \
-  mv go-agent-18.5.0 /go-agent && \
+  mv go-agent-18.9.0 /go-agent && \
   rm /tmp/go-agent.zip && \
   mkdir -p /docker-entrypoint.d
 
 # ensure that logs are printed to console output
-COPY agent-bootstrapper-logback-include.xml /go-agent/config/agent-bootstrapper-logback-include.xml
-COPY agent-launcher-logback-include.xml /go-agent/config/agent-launcher-logback-include.xml
-COPY agent-logback-include.xml /go-agent/config/agent-logback-include.xml
+COPY agent-bootstrapper-logback-include.xml agent-launcher-logback-include.xml agent-logback-include.xml /go-agent/config/
 
 ADD docker-entrypoint.sh /
 
@@ -87,7 +85,6 @@ RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y which
 RUN yum install -y mingw32-filesystem
 RUN yum install -y bash
-
-#End Chibifire.com
+# End Chibifire.com
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

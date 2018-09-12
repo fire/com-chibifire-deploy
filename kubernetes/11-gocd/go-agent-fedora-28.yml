@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: gocd-agent-fedora-28
-        image: ifire/gocd-agent-fedora-28:v18.5.0-chibifire-0.4
+        image: ifire/gocd-agent-fedora-28:v18.9.0-chibifire-0.1
         ports:
         env:
         - name: GO_SERVER_URL
