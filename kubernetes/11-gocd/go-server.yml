@@ -35,6 +35,7 @@ spec:
         resources:
           requests:
             cpu: 300m
+            memory: 1Gi
         livenessProbe:
           httpGet:
             # when "host" is not defined, "PodIP" will be used
