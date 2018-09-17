@@ -22,7 +22,7 @@ spec:
         resources:
           requests:
             cpu: 800m
-            memory: 1.8G
+            memory: 1G
           limits:
             cpu: 1800m
         ports:
