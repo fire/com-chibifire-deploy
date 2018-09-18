@@ -13,3 +13,7 @@ kubectl create -f keycloak-ingress.yaml
 get secret keycloak-http -o yaml
 echo -n 1234567base64 | base64 -d
 ```
+
+Add a password policy. 
+
+Add a bearer token auth client for the godot game.
