@@ -16,4 +16,4 @@ echo -n 1234567base64 | base64 -d
 
 Add a password policy. 
 
-Add a bearer token auth client for the godot game.
+Add a public client for the godot game.
