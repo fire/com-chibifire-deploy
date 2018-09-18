@@ -9,4 +9,7 @@ kubectl create -f keycloak-ingress.yaml
         serviceName: kube-lego-nginx
         servicePort: 8080
     path: /.well-known/acme-challenge
+# Get secret
+get secret keycloak-http -o yaml
+echo -n 1234567base64 | base64 -d
 ```
