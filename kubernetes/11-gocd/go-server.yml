@@ -47,7 +47,7 @@ spec:
             httpHeaders:
             - name: X-Custom-Header
               value: Awesome
-          initialDelaySeconds: 360
+          initialDelaySeconds: 720
           timeoutSeconds: 1
         env: 
         - name:  GOCD_PLUGIN_INSTALL_google_login_authorization
