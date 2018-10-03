@@ -22,3 +22,12 @@ vi /home/go/.ssh/config
 host *.chibifire.com
     StrictHostKeyChecking no
 ```
+
+3 files 
+# Base64 encoded 
+# Use echo -n 'secret_text' | base64 -w 0
+# cat id_rsa | base64 -w 0
+* /home/go/.ssh/id_rsa
+* /home/go/.ssh/id_rsa.pub
+* /home/go/.ssh/config
+

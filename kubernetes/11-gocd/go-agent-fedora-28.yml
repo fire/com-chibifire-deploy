@@ -16,6 +16,15 @@ spec:
       tolerations:
       - key: "gke-preemptible"
         operator: "Exists"
+      initContainers:
+      - name: copy-ssh
+        image: busybox
+        command: ['/bin/sh', '-c', 'rm -rf /home/go/.ssh/ && cp -rf /root/gocd_ssh /home/go/.ssh/ && chown -R 1000:1000 /home/go/.ssh/']
+        volumeMounts:
+        - name: gohome
+          mountPath: /home/go
+        - name: gocd-agent-secret
+          mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-agent-fedora-28
         image: ifire/gocd-agent-fedora-28:v18.9.0-chibifire-0.1
@@ -34,6 +43,11 @@ spec:
           mountPath: /godata
         - name: gohome
           mountPath: /home/go
+      volumes:
+      - name: gocd-agent-secret
+        secret:
+          secretName: gocd-agent-secret
+          defaultMode: 256
   volumeClaimTemplates:
   - metadata:
       name: godata
@@ -41,7 +55,7 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 10Gi
+          storage: 20Gi
   - metadata:
       name: gohome
     spec:
