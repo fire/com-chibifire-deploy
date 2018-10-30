@@ -161,6 +161,10 @@ spec:
           containerPort: 80
         - name: ssh
           containerPort: 22
+		resources:
+          requests:
+            cpu: 600m
+            memory: 600Mi
         volumeMounts:
         - mountPath: /home/git/data
           name: data
