@@ -1,33 +1,29 @@
+# README.md
 
+# Setup 
 Create a private key.
 
 Login: `kubectl exec -it gocd-agent-centos-7-0 bash`
 
 ```
-# For any number of agents.
-mkdir -p /home/go/.ssh/
-chown -R go:go /home/go/.ssh
-su go
+# Add kubernetes secret
 ssh-keygen -t rsa -b 4096 -C "build-agent-0@build.apps.chibifire.com"
+# Get fingerprint
 eval $(ssh-agent -s)
-ssh-add /home/go/.ssh/id_rsa
+ssh-add ~/.ssh/id_rsa
 ssh-add -L
-# Copy to repo settings by creating the user
-# Add the user to the service group
-# Add ssh key to the user
-ssh git@git.chibifire.com
-# Accept
-# Hosts keep changing in Kubernetes
+# Copy to .ssh/config
 vi /home/go/.ssh/config
 host *.chibifire.com
     StrictHostKeyChecking no
-```
 
-3 files 
+# 3 Files
 # Base64 encoded 
-# Use echo -n 'secret_text' | base64 -w 0
 # cat id_rsa | base64 -w 0
-* /home/go/.ssh/id_rsa
-* /home/go/.ssh/id_rsa.pub
-* /home/go/.ssh/config
+# cat id_rsa.pub | base64 -w 0
+# cat config | base64 -w 0
+# Copy these base64 text to the secrets template.
 
+# To convert base64 text back
+# echo -n 'secret_text' | base64 -w 0
+```
