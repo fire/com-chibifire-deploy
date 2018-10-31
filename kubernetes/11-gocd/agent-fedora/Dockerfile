@@ -17,14 +17,14 @@
 # Please file any issues or PRs at https://github.com/gocd/docker-gocd-agent
 ###############################################################################################
 
-FROM fedora:28
+FROM fedora:29
 MAINTAINER GoCD <go-cd-dev@googlegroups.com>
 
-LABEL gocd.version="18.9.0" \
-  description="GoCD agent based on Fedora version 28" \
+LABEL gocd.version="18.10.0" \
+  description="GoCD agent based on Fedora version 29" \
   maintainer="GoCD <go-cd-dev@googlegroups.com>" \
-  gocd.full.version="18.9.0-7478" \
-  gocd.git.sha="f202ea9416939d7ce356cf3939239ef953ec423b"
+  gocd.full.version="18.10.0-7703" \
+  gocd.git.sha="42d1cbe661161b5400289ead86c0447c84af8c0a"
 
 ADD https://github.com/krallin/tini/releases/download/v0.18.0/tini-static-amd64 /usr/local/sbin/tini
 ADD https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 /usr/local/sbin/gosu
@@ -50,10 +50,10 @@ RUN \
   yum install -y java-1.8.0-openjdk-headless git mercurial subversion openssh-clients bash unzip curl && \
   yum clean all && \
 # download the zip file
-  curl --fail --location --silent --show-error "https://download.gocd.org/experimental/binaries/18.9.0-7478/generic/go-agent-18.9.0-7478.zip" > /tmp/go-agent.zip && \
+  curl --fail --location --silent --show-error "https://download.gocd.org/binaries/18.10.0-7703/generic/go-agent-18.10.0-7703.zip" > /tmp/go-agent.zip && \
 # unzip the zip file into /go-agent, after stripping the first path prefix
   unzip /tmp/go-agent.zip -d / && \
-  mv go-agent-18.9.0 /go-agent && \
+  mv go-agent-18.10.0 /go-agent && \
   rm /tmp/go-agent.zip && \
   mkdir -p /docker-entrypoint.d
 
@@ -63,9 +63,9 @@ COPY agent-bootstrapper-logback-include.xml agent-launcher-logback-include.xml a
 ADD docker-entrypoint.sh /
 
 # Chibifire.com
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
 RUN yum install -y git-lfs
 RUN git lfs install
+RUN yum install -y wine
 RUN yum install -y scons
 RUN yum upgrade -y
 RUN yum install -y clang
@@ -85,6 +85,7 @@ RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y which
 RUN yum install -y mingw32-filesystem
 RUN yum install -y bash
+RUN yum -y clean all
 # End Chibifire.com
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
