@@ -68,6 +68,7 @@ RUN yum install -y git-lfs
 RUN git lfs install
 RUN yum install -y yasm
 RUN yum install -y wine
+RUN yum install -y mono-devel
 RUN yum install -y cmake
 RUN yum install -y scons
 RUN yum install -y clang
