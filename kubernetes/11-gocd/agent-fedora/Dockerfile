@@ -90,6 +90,7 @@ RUN yum install -y which
 RUN dnf group install -y "Java Development"
 RUN yum install -y mingw32-filesystem
 RUN yum install -y bash
+RUN alternatives --set ld /usr/bin/ld.gold
 RUN yum -y clean all
 # End Chibifire.com
 
