@@ -72,7 +72,7 @@ RUN yum install -y mono-devel
 RUN yum install -y cmake
 RUN yum install -y scons
 RUN yum install -y clang
-RUN yum install -y mingw64-gcc-c++
+RUN yum install -y mingw64-gcc-c++ mingw32-gcc
 RUN yum install -y python3-pip
 RUN pip3 install -U setuptools
 RUN pip3 install -U wheel
