@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gocd/gocd-agent-centos-7:v18.9.0
+FROM gocd/gocd-agent-centos-7:v18.10.0
 MAINTAINER GoCD <go-cd-dev@googlegroups.com>
 
 # Chibifire.com
