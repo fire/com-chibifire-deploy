@@ -1,17 +1,17 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: gocd-agent-fedora-28
+  name: gocd-agent-fedora-29
 spec:
   selector:
     matchLabels:
-      app: gocd-agent-fedora-28 # has to match .spec.template.metadata.labels
-  serviceName: "gocd-agent-fedora-28"
+      app: gocd-agent-fedora-29 # has to match .spec.template.metadata.labels
+  serviceName: "gocd-agent-fedora-29"
   replicas: 1
   template:
     metadata:
       labels:
-        app: gocd-agent-fedora-28 # has to match .spec.selector.matchLabels
+        app: gocd-agent-fedora-29 # has to match .spec.selector.matchLabels
     spec:
       tolerations:
       - key: "gke-preemptible"
@@ -26,8 +26,8 @@ spec:
         - name: gocd-agent-secret
           mountPath: /root/gocd_ssh/
       containers:
-      - name: gocd-agent-fedora-28
-        image: ifire/gocd-agent-fedora-28:v18.9.0-chibifire-0.1
+      - name: gocd-agent-fedora-29
+        image: ifire/gocd-agent-fedora-29:v18.10.0-chibifire-0.1
         resources:
           requests:
             cpu: 800m
