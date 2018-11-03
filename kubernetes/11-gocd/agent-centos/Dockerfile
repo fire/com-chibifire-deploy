@@ -29,10 +29,10 @@ RUN yum install -y scons
 RUN yum install -y clang
 RUN yum install -y glibc-devel.i686 libgcc.i686 libstdc++.i686
 RUN yum install -y mingw64-gcc-c++ mingw32-gcc mingw32-gcc-c++
-RUN yum install -y python3-pip
-RUN pip3 install -U setuptools
-RUN pip3 install -U wheel
-RUN pip3 install scons
+RUN yum install -y python-pip
+RUN pip install -U setuptools
+RUN pip install -U wheel
+RUN pip install scons
 RUN yum install -y mingw64-winpthreads mingw32-winpthreads
 RUN yum install -y mingw64-winpthreads-static mingw32-winpthreads-static
 RUN yum install -y mingw64-filesystem mingw32-filesystem
