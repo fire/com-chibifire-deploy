@@ -19,7 +19,6 @@ MAINTAINER GoCD <go-cd-dev@googlegroups.com>
 # Chibifire.com
 RUN yum upgrade -y
 RUN yum install -y epel-release
-RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash
 RUN yum install -y git-lfs
 RUN git lfs install
 RUN yum install -y yasm
