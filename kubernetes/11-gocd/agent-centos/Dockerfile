@@ -42,7 +42,7 @@ RUN yum install -y libX11-devel libXcursor-devel libXrandr-devel libXinerama-dev
     libudev-devel mesa-libGLU-devel libpng-devel
 RUN yum install -y xorg-x11-server-Xvfb
 RUN yum install -y which
-RUN dnf group install -y "Java Development"
+RUN yum install -y java-devel
 RUN yum install -y mingw32-filesystem
 RUN yum install -y bash
 RUN alternatives --set ld /usr/bin/ld.gold
