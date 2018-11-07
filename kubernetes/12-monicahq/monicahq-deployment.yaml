@@ -115,7 +115,7 @@ spec:
         - mountPath: /var/www/monica/storage/app/public
           name: monicahq-claim0
         - mountPath: /var/www/monica/storage/logs/
-          name: monicahq-claim0
+          name: monicahq-claim1
       restartPolicy: Always
       volumes:
       - name: monicahq-claim0
