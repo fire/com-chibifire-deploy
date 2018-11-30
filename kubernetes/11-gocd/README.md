@@ -27,3 +27,7 @@ host *.chibifire.com
 # To convert base64 text back
 # echo -n 'secret_text' | base64 -w 0
 ```
+
+Add github authorization.
+
+Create a pipeline and look at the xml to generate the encrypted value.

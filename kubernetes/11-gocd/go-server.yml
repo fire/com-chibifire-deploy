@@ -29,6 +29,15 @@ spec:
         app: gocd-server # has to match .spec.selector.matchLabels
     spec:
       terminationGracePeriodSeconds: 10
+      initContainers:
+      - name: copy-ssh
+        image: busybox
+        command: ['/bin/sh', '-c', 'rm -rf /home/go/.ssh/ && cp -rf /root/gocd_ssh /home/go/.ssh/ && chown -R 1000:1000 /home/go/.ssh/']
+        volumeMounts:
+        - name: gohome
+          mountPath: /home/go
+        - name: gocd-agent-secret
+          mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-server
         image: gocd/gocd-server:v18.9.0
@@ -62,6 +71,10 @@ spec:
           mountPath: /godata
         - name: gohome
           mountPath: /home/go
+      volumes:
+        - name: gocd-agent-secret
+          secret:
+            secretName: gocd-agent-secret
   volumeClaimTemplates:
   - metadata:
       name: godata
