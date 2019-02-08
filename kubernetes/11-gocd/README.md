@@ -1,9 +1,13 @@
 # README.md
 
+# Required
+
+Kubernetes cluster with storage.
+
+Login kubernetes dashboard.
+
 # Setup 
 Create a private key.
-
-Login: `kubectl exec -it gocd-agent-centos-7-0 bash`
 
 ```
 # Add kubernetes secret
