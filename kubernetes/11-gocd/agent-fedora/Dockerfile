@@ -31,5 +31,5 @@ RUN yum install -y bash
 RUN alternatives --set ld /usr/bin/ld.gold
 RUN yum groupinstall -y "Development Libraries"
 RUN yum install -y libstdc++-static
-RUN yum install -y xar-devel 
+RUN yum install -y xar-devel llvm-devel
 RUN yum -y clean all
