@@ -40,7 +40,7 @@ spec:
           mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-server
-        image: gocd/gocd-server:v19.1.0
+        image: gocd/gocd-server:v19.2.0
         resources:
           requests:
             cpu: 300m
@@ -59,8 +59,8 @@ spec:
           initialDelaySeconds: 720
           timeoutSeconds: 1
         env: 
-        - name:  GOCD_PLUGIN_INSTALL_google_login_authorization
-          value: https://github.com/gocd-contrib/google-oauth-authorization-plugin/releases/download/2.0.0/google-oauth-authorization-plugin-2.0.0-7.jar
+        - name:  GOCD_PLUGIN_INSTALL_github-oauth-authorization-plugin
+          value: https://github.com/gocd-contrib/github-oauth-authorization-plugin/releases/download/2.2.0-exp/github-oauth-authorization-plugin-2.2.0.jar
         - name: "GO_SERVER_SYSTEM_PROPERTIES"
           value: "-Dmail.smtp.starttls.enable=true"
         ports:
