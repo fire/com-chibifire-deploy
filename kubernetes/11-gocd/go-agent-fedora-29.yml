@@ -24,7 +24,14 @@ spec:
         - name: gohome
           mountPath: /home/go
         - name: gocd-agent-secret
-          mountPath: /root/gocd_ssh/
+          mountPath: /home/go/.ssh/config
+          subPath: config
+        - name: gocd-agent-secret
+          mountPath: /home/go/.ssh/id_rsa
+          subPath: id_rsa
+        - name: gocd-agent-secret
+          mountPath: /home/go/.ssh/id_rsa.pub
+          subPath: id_rsa.pub
       containers:
       - name: gocd-agent-fedora-29
         image: ifire/gocd-agent-fedora-29:v18.10.0-chibifire-0.2
