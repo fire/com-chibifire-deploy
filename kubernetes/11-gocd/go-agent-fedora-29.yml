@@ -23,13 +23,13 @@ spec:
         volumeMounts:
         - name: gohome
           mountPath: /home/go
-        - name: gocd-agent-secret
+        - name: gocd-agent-secret-config
           mountPath: /home/go/.ssh/config
           subPath: config
-        - name: gocd-agent-secret
+        - name: gocd-agent-secret-id-rsa
           mountPath: /home/go/.ssh/id_rsa
           subPath: id_rsa
-        - name: gocd-agent-secret
+        - name: gocd-agent-secret-id-rsa-pub
           mountPath: /home/go/.ssh/id_rsa.pub
           subPath: id_rsa.pub
       containers:
