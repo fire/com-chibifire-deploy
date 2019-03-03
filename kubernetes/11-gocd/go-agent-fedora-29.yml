@@ -47,7 +47,7 @@ spec:
       - name: gocd-agent-secret
         secret:
           secretName: gocd-agent-secret
-          defaultMode: 256
+          defaultMode: 0400
   volumeClaimTemplates:
   - metadata:
       name: godata

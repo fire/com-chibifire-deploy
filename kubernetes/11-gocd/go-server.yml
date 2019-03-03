@@ -40,7 +40,7 @@ spec:
           mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-server
-        image: gocd/gocd-server:v19.2.0
+        image: gocd/gocd-server:v19.1.0
         resources:
           requests:
             cpu: 300m
@@ -77,6 +77,7 @@ spec:
         - name: gocd-agent-secret
           secret:
             secretName: gocd-agent-secret
+            defaultMode: 0400
   volumeClaimTemplates:
   - metadata:
       name: godata
