@@ -21,6 +21,8 @@ spec:
   selector:
     matchLabels:
       app: gocd-server # has to match .spec.template.metadata.labels
+  updateStrategy:
+    type: RollingUpdate
   serviceName: "gocd-server"
   replicas: 1 # by default is 1
   template:

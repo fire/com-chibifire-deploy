@@ -6,6 +6,8 @@ spec:
   selector:
     matchLabels:
       app: gocd-agent-fedora-29 # has to match .spec.template.metadata.labels
+  updateStrategy:
+    type: RollingUpdate
   serviceName: "gocd-agent-fedora-29"
   replicas: 3
   template:
