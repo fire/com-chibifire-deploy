@@ -27,7 +27,7 @@ spec:
           mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-agent-fedora-29
-        image: ifire/gocd-agent-fedora-29:v19.1.0-chibifire-0.1
+        image: ifire/gocd-agent-fedora-29:v19.2.0-chibifire-0.1
         resources:
           requests:
             cpu: 800m
