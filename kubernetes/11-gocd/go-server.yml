@@ -61,8 +61,8 @@ spec:
           initialDelaySeconds: 720
           timeoutSeconds: 1
         env: 
-        - name:  GOCD_PLUGIN_INSTALL_github-oauth-authorization-plugin
-          value: https://github.com/gocd-contrib/github-oauth-authorization-plugin/releases/download/2.2.0-exp/github-oauth-authorization-plugin-2.2.0.jar
+        - name:  GOCD_PLUGIN_INSTALL_gitlab-oauth-authorization-plugin
+          value: https://github.com/gocd-contrib/gitlab-oauth-authorization-plugin/releases/download/2.0.0-24-exp/gitlab-oauth-authorization-plugin-2.0.0-24.jar
         - name: "GO_SERVER_SYSTEM_PROPERTIES"
           value: "-Dmail.smtp.starttls.enable=true"
         ports:
