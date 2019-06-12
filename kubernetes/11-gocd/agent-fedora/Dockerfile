@@ -1,4 +1,4 @@
-FROM gocd/gocd-agent-fedora-29:v19.2.0
+FROM gocd/gocd-agent-fedora-29:v19.5.0
 
 # Chibifire.com
 RUN yum upgrade -y
