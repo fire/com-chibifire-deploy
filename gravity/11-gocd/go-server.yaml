@@ -42,7 +42,7 @@ spec:
           mountPath: /root/gocd_ssh/
       containers:
       - name: gocd-server
-        image: gocd/gocd-server:v19.2.0
+        image: gocd/gocd-server:v19.5.0
         resources:
           requests:
             cpu: 300m
