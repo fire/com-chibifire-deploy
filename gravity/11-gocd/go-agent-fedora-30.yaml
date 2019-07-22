@@ -38,8 +38,6 @@ spec:
             cpu: 1800m
         ports:
         env:
-        - name: GO_USE_TOKEN_AUTH
-          value: "true"
         - name: GO_SERVER_URL
           value: "https://gocd-server:8154/go"
         volumeMounts:
