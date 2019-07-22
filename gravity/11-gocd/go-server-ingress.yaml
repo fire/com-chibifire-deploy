@@ -20,4 +20,4 @@ spec:
       - path: /
         backend:
           serviceName: gocd-server
-          servicePort: 8154
+          servicePort: 8153
