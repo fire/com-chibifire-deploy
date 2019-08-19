@@ -21,7 +21,7 @@ spec:
       initContainers:
       - name: copy-ssh
         image: busybox
-        command: ['/bin/sh', '-c', 'rm -rf /home/go/.ssh/ && cp -rf /root/gocd_ssh /home/go/.ssh/ && chown -R 1000:1000 /home/go/.ssh/']
+        command: ['/bin/sh', '-c', 'rm -rf /home/go/.ssh/ && cp -rf /root/gocd_ssh /home/go/.ssh/ && chown -R 1000:1000 /home/go/.ssh/ && rm -f /home/go/.git-credentials && cp /root/gocd_ssh/.git-credentials /home/go/.git-credentials && chown -R 1000:1000 /home/go/.git-credentials && cp /root/gocd_ssh/.gitconfig /home/go/.gitconfig && chown -R 1000:1000 /home/go/.gitconfig']
         volumeMounts:
         - name: gohome
           mountPath: /home/go
