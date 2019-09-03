@@ -30,6 +30,8 @@ spec:
       labels:
         app: gocd-server # has to match .spec.selector.matchLabels
     spec:
+      securityContext:
+        runAsUser: 1000
       terminationGracePeriodSeconds: 10
       initContainers:
       - name: copy-ssh
