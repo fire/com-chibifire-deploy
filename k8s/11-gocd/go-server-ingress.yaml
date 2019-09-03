@@ -11,10 +11,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - build.apps.do.chibifire.com
+    - build.apps.chibifire.com
     secretName: gocd-tls
   rules:
-  - host: build.apps.do.chibifire.com
+  - host: build.apps.chibifire.com
     http:
       paths:
       - path: /
