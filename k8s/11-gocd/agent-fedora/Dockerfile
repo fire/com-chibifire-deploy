@@ -1,4 +1,6 @@
-FROM gocd/gocd-agent-fedora-29:v19.5.0
+FROM gocd/gocd-agent-fedora-30:v19.9.0
+
+USER root
 
 # Chibifire.com
 RUN yum upgrade -y
@@ -32,4 +34,8 @@ RUN alternatives --set ld /usr/bin/ld.gold
 RUN yum groupinstall -y "Development Libraries"
 RUN yum install -y libstdc++-static
 RUN yum install -y xar-devel llvm-devel
+RUN yum install clang llvm-devel libxml2-devel libuuid-devel openssl-devel bash patch libstdc++-static make
 RUN yum -y clean all
+RUN mkdir -p /opt/osxcross/target
+COPY target /opt/osxcross/target
+USER go
