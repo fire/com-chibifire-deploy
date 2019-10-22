@@ -48,7 +48,7 @@ RUN git clone https://github.com/emscripten-core/emsdk /opt/emsdk
 RUN /opt/emsdk/emsdk install latest
 # Get the emsdk env variables via /opt/emsdk/emsdk_env.sh 
 # or /opt/emsdk/emsdk activate latest
-USER root
+
 # Mono glue
 RUN yum install -y scons xorg-x11-server-Xvfb pkgconfig libX11-devel libXcursor-devel libXrandr-devel libXinerama-devel libXi-devel mesa-libGL-devel alsa-lib-devel pulseaudio-libs-devel freetype-devel openssl-devel libudev-devel mesa-libGLU-devel mesa-dri-drivers
 # Android
