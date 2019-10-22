@@ -36,6 +36,30 @@ RUN yum install -y libstdc++-static
 RUN yum install -y xar-devel llvm-devel
 RUN yum install clang llvm-devel libxml2-devel libuuid-devel openssl-devel bash patch libstdc++-static make
 RUN yum -y clean all
+
+# OSXCross
+# Build osxcross with sdk
+# Copy target
 RUN mkdir -p /opt/osxcross/target
 COPY target /opt/osxcross/target
+
+RUN yum -y install scons git bzip2 xz java-openjdk yasm
+RUN git clone https://github.com/emscripten-core/emsdk /opt/emsdk
+RUN /opt/emsdk/emsdk install latest
+# Get the emsdk env variables via /opt/emsdk/emsdk_env.sh 
+# or /opt/emsdk/emsdk activate latest
+USER root
+# Mono glue
+RUN yum install -y scons xorg-x11-server-Xvfb pkgconfig libX11-devel libXcursor-devel libXrandr-devel libXinerama-devel libXi-devel mesa-libGL-devel alsa-lib-devel pulseaudio-libs-devel freetype-devel openssl-devel libudev-devel mesa-libGLU-devel mesa-dri-drivers
+# Android
+RUN yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip which gcc gcc-c++ && \
+    curl -LO https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
+    unzip sdk-tools-linux-4333796.zip -d /opt/android && \
+    rm sdk-tools-linux-4333796.zip && \
+    yes | /opt/android/tools/bin/sdkmanager --licenses && \
+    /opt/android/tools/bin/sdkmanager ndk-bundle 'platforms;android-23' 'build-tools;19.1.0' 'build-tools;28.0.3' 'platforms;android-28' 
+# ENV ANDROID_HOME=/opt/android
+# ENV ANDROID_NDK_ROOT=/opt/android/ndk-bundle/
+RUN yum clean all
+RUN rm -rf /var/cache/yum
 USER go

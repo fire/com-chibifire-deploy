@@ -10,3 +10,5 @@ playbook.retry
 kubernetes/04-gitlab/gitlab-secrets\.yml
 
 kubernetes/04-gitlab/secrets/gitlab-secrets\.yml
+
+k8s/11-gocd/agent-fedora/target/
