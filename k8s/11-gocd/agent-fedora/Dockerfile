@@ -60,6 +60,7 @@ RUN yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip whic
     /opt/android/tools/bin/sdkmanager ndk-bundle 'platforms;android-23' 'build-tools;19.1.0' 'build-tools;28.0.3' 'platforms;android-28' 
 # ENV ANDROID_HOME=/opt/android
 # ENV ANDROID_NDK_ROOT=/opt/android/ndk-bundle/
+RUN chown -R go /opt/android
 RUN yum clean all
 RUN rm -rf /var/cache/yum
 USER go
