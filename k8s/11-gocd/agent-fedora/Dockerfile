@@ -62,6 +62,7 @@ RUN yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip whic
 # ENV ANDROID_NDK_ROOT=/opt/android/ndk-bundle/
 RUN chown -R go /opt/android
 RUN yum install -y mono-complete nuget
+RUN mozroots --import --sync
 RUN yum clean all
 RUN rm -rf /var/cache/yum
 USER go
