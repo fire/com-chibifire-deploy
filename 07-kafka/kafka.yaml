@@ -1,0 +1,74 @@
+# https://github.com/Yolean/kubernetes-kafka/blob/master/50kafka.yml
+# A headless service to create DNS records
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-public
+spec:
+  ports:
+  - port: 9092
+  selector:
+    app: kafka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: broker
+spec:
+  ports:
+  - port: 9092
+  # [podname].broker.kafka.svc.cluster.local
+  clusterIP: None
+  selector:
+    app: kafka
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: kafka
+spec:
+  serviceName: "broker"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: kafka
+      annotations:
+        pod.beta.kubernetes.io/init-containers: '[
+        ]'
+    spec:
+      containers:
+      - name: broker
+        image: solsson/kafka-persistent:0.10.1.0
+        ports:
+        - containerPort: 9092
+        command:
+        - sh
+        - -c
+        - "./bin/kafka-server-start.sh config/server.properties --override broker.id=$(hostname | awk -F'-' '{print $2}') --override zookeeper.connect=zk:2181"
+        volumeMounts:
+        - name: datadir
+          mountPath: /opt/kafka/data
+        - name: logdir
+          mountPath: /opt/kafka/logs
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      namespace: kafka
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi
+  - metadata:
+      name: logdir
+      namespace: kafka
+      annotations:
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 100Mi

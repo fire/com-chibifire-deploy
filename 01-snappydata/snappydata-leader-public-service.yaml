@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # This service is meant to be used by clients of the database. It exposes a ClusterIP that will
+  # automatically load balance connections to the different database pods.
+  name: snappydata-leader-public
+  labels:
+    app: snappydata
+spec:
+  ports:
+  - port: 5050
+    targetPort: 5050
+    name: spark-ui
+  - port: 3768
+    targetPort: 3768
+    name: zeppelin
+  selector:
+    type: snappydata-leader

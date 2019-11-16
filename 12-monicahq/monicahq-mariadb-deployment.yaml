@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: monicahq-mariadb
+  name: monicahq-mariadb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: monicahq-mariadb
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: monica
+        - name: MYSQL_PASSWORD
+          value: secret
+        - name: MYSQL_ROOT_PASSWORD
+          value: sekret_root_password
+        - name: MYSQL_USER
+          value: homestead
+        image: mariadb:10.1.31
+        name: mysql
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: monicahq-mysql-claim0
+      restartPolicy: Always
+      volumes:
+      - name: monicahq-mysql-claim0
+        persistentVolumeClaim:
+          claimName: monicahq-mysql-claim0
+status: {}

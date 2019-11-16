@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  generation: 6
+  name: accent
+  namespace: default
+spec:
+  rules:
+  - host: accent.apps.chibifire.com
+    http:
+      paths:
+      - backend:
+          serviceName: accent
+          servicePort: 80
+        path: /
+  tls:
+  - hosts:
+    - accent.apps.chibifire.com
+    secretName: accent-tls

@@ -1,0 +1,48 @@
+# https://github.com/gtaylor/nginx-for-drone
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-for-gitlab
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-for-gitlab
+    spec:
+      containers:
+      - name: nginx-for-gitlab
+        image: us.gcr.io/quassel-chibifire/nginx-for-drone:p0
+        ports:
+        - containerPort: 22
+        - containerPort: 443
+        - containerPort: 80
+        env:
+        - name: EMAIL
+          value: "ernest.lee@chibifire.com"
+        - name: DOMAIN
+          value: "spark.apps.chibifire.com;mattermost.apps.chibifire.com"
+        - name: UPSTREAM
+          value: "gitlab:80;gitlab:80"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-for-gitlab
+  labels:
+    name: nginx-for-gitlab
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+    - name: ssh
+      port: 22
+      targetPort: 22
+  selector:
+    name: nginx-for-gitlab
