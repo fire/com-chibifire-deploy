@@ -1,7 +1,0 @@
-.git/
-*~
-*.orig
-*.rej
-ansible-deployment/
-*.retry
-.DS_Store
