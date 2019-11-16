@@ -1,1 +1,0 @@
-docker exec snappydata /opt/snappydata/sbin/snappy-stop-all.sh

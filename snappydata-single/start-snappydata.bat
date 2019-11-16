@@ -1,2 +1,0 @@
-docker rm -f snappydata
-docker run -v D:/snappydata-work:/opt/snappydata/work -d --name=snappydata -p 5050:5050 -p 1527:1527 -p 1528:1528 snappydatainc/snappydata start all -thrift-binary-protocol=true -thrift-framed-transport=true -J-Dgemfirexd.hostname-for-clients=127.0.0.1
