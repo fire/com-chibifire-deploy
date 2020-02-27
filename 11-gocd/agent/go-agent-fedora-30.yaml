@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: gocd-agent-fedora-30
@@ -36,7 +36,6 @@ spec:
             memory: 1.8G
           limits:
             cpu: 1800m
-        ports:
         env:
         - name: GO_SERVER_URL
           value: "https://gocd-server:8154/go"
