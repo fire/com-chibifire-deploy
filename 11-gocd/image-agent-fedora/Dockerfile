@@ -2,7 +2,7 @@ FROM gocd/gocd-agent-fedora-30:v19.9.0
 
 USER root
 
-# Use `podman build .`
+# Use `podman build . -t ifire/gocd-agent-fedora-30:v19.9.0-chibifire-0.1`
 
 # Chibifire.com
 RUN yum upgrade -y
