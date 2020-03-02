@@ -70,12 +70,14 @@ chown -R go:go ~/.ssh/
 chmod 700 ~/.ssh/
 chmod 600 ~/.ssh/*
 exit
-systemctl start go-server
-
 
 curl https://download.gocd.org/gocd.repo -o /etc/yum.repos.d/gocd.repo
 yum install -y go-agent
 systemctl start go-agent
+
+curl -L https://github.com/gocd-contrib/gitlab-oauth-authorization-plugin/releases/download/v2.0.1-52-exp/gitlab-oauth-authorization-plugin-2.0.1-52.jar /var/lib/go-server/plugins/external/gitlab-oauth-authorization-plugin-2.0.1-52.jar
+
+systemctl start go-server
 ```
 
 
