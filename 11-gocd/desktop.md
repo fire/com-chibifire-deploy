@@ -31,7 +31,7 @@ alternatives --set ld /usr/bin/ld.gold
 yum groupinstall -y "Development Libraries"
 yum install -y libstdc++-static
 yum install -y xar-devel llvm-devel
-yum install clang llvm-devel libxml2-devel libuuid-devel openssl-devel bash patch libstdc++-static make
+yum install clang llvm-devel libxml2-devel libuuid-devel openssl-devel bash patch libstdc++-static make -y
 
 yum -y install scons git bzip2 xz java-openjdk yasm
 git clone https://github.com/emscripten-core/emsdk /opt/emsdk
