@@ -2,7 +2,7 @@ FROM gocd/gocd-agent-fedora-30:v19.9.0
 
 USER root
 
-# Use `podman build . -t ifire/gocd-agent-fedora-30:v19.9.0-chibifire-0.1`
+# Use `podman build . --squash --format docker -t ifire/gocd-agent-fedora-30:v19.9.0-chibifire-0.2`
 
 # Chibifire.com
 RUN yum upgrade -y
@@ -39,12 +39,6 @@ RUN yum install -y xar-devel llvm-devel
 RUN yum install clang llvm-devel libxml2-devel libuuid-devel openssl-devel bash patch libstdc++-static make
 RUN yum -y clean all
 
-# OSXCross
-# Build osxcross with sdk
-# Copy target
-RUN mkdir -p /opt/osxcross/target
-COPY target /opt/osxcross/target
-
 RUN yum -y install scons git bzip2 xz java-openjdk yasm
 RUN git clone https://github.com/emscripten-core/emsdk /opt/emsdk
 RUN /opt/emsdk/emsdk install latest
@@ -60,6 +54,7 @@ RUN yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip whic
     rm sdk-tools-linux-4333796.zip && \
     yes | /opt/android/tools/bin/sdkmanager --licenses && \
     /opt/android/tools/bin/sdkmanager ndk-bundle 'platforms;android-23' 'build-tools;19.1.0' 'build-tools;28.0.3' 'platforms;android-28' 
+
 # ENV ANDROID_HOME=/opt/android
 # ENV ANDROID_NDK_ROOT=/opt/android/ndk-bundle/
 # WIP Mono
@@ -69,6 +64,14 @@ RUN yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip whic
 # RUN yum remove -y mono-complete mono-devel
 # RUN yum install -y msbuild nuget mono-complete mono-devel
 # END WIP Mono
+
 RUN yum clean all
 RUN rm -rf /var/cache/yum
-USER go
+
+# OSXCross
+# Build osxcross with sdk
+# Copy target
+RUN mkdir -p /opt/osxcross/target
+COPY target /opt/osxcross/target
+
+USER gocd
