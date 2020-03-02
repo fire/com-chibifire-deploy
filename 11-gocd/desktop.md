@@ -55,19 +55,27 @@ yum -y install scons java-1.8.0-openjdk-devel ncurses-compat-libs unzip which gc
 curl https://download.gocd.org/gocd.repo -o /etc/yum.repos.d/gocd.repo
 yum install -y go-server
 
-# cd /root
-# ssh-keygen -t rsa -b 4096 -C "build-agent-2@spark.chibifire.com" -f gocd-server-ssh -P ''
-# ssh-keyscan spark.chibifire.com > gocd_known_hosts
-# cp gocd-server-ssh /home/gocd/.ssh/id_rsa
-# cp gocd-server-ssh.pub /home/gocd/.ssh/id_rsa.pub
-# cp gocd_known_hosts /home/gocd/.ssh/known_hosts
-# chown -R gocd:gocd /home/gocd/.ssh/
-
-cd /root
-ssh-keygen -t rsa -b 4096 -C "user@example.com" -f gocd-server-ssh -P ''
+mkdir -p /var/go/
+chown -R go:go /var/go
+sudo su - go
+cd ~/
+ssh-keygen -t rsa -b 4096 -C "cicd-builder-02@example.com" -f gocd-server-ssh -P ''
 ssh-keyscan example.com > gocd_known_hosts
-cp gocd-server-ssh /home/gocd/.ssh/id_rsa
-cp gocd-server-ssh.pub /home/gocd/.ssh/id_rsa.pub
-cp gocd_known_hosts /home/gocd/.ssh/known_hosts
-chown -R gocd:gocd /home/gocd/.ssh/
+mkdir -p ~/.ssh
+cp gocd-server-ssh ~/.ssh/id_rsa
+cp gocd-server-ssh.pub ~/.ssh/id_rsa.pub
+cp gocd_known_hosts ~/.ssh/known_hosts
+rm gocd_known_hosts gocd-server-ssh.pub gocd-server-ssh
+chown -R go:go ~/.ssh/
+chmod 700 ~/.ssh/
+chmod 600 ~/.ssh/*
+exit
+systemctl start go-server
+
+
+curl https://download.gocd.org/gocd.repo -o /etc/yum.repos.d/gocd.repo
+yum install -y go-agent
+systemctl start go-agent
 ```
+
+
